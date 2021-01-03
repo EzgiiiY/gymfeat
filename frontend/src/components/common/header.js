@@ -14,8 +14,8 @@ class HeaderMain extends Component {
     const { Search } = Input;
 
     const calendarViewLink = (
-      <Link to='/calendar' className='item'>
-          <Button>View Calendar</Button>
+      <Link to='/main-page' className='item'>
+          <Button>View Schedule</Button>
       </Link> 
     );
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CalendarComponent from '../src/components/calendar-component'
+import MainPage from './components/main-page/main-page'
 import HeaderMain from '../src/components/common/header'
 import { Provider } from 'react-redux';
 import store from './store';
@@ -29,8 +29,8 @@ class App extends Component {
 
           <Content >
             <Switch>
-            <Route path='/calendar'>
-                <CalendarComponent/>
+            <Route path='/main-page'>
+                <MainPage/>
             </Route>      
            {/* <Route path='/home'>
                 <HomePage/>
