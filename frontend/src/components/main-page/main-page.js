@@ -10,18 +10,21 @@ class MainPage extends Component {
         this.state={
             visible: false,
             selectedDate: "",
+            drawerContent:"",
         }
     }
 
-    showDrawer = () => {
+    showDrawer = value => {
         this.setState({
             visible: true,
+            drawerContent:value
         });
     };
 
     onClose = () => {
         this.setState({
             visible: false,
+            drawerContent:""
         });
     };
 
@@ -49,7 +52,7 @@ class MainPage extends Component {
                     getContainer={true}
                     style={{ position: 'absolute' }}
                 >
-                    <p>Some contents...</p>
+                    <p>{this.state.drawerContent}</p>
                     {drawerButton}
                 </Drawer>
             </div>
