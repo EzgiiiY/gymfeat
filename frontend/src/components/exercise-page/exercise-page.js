@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import '../../reducers/workout';
 import { startWorkout, endWorkout } from '../../actions/workout';
 
+import './webcam-page.css';
+
 class ExercisePage extends React.Component{
 
     constructor(props){
@@ -24,7 +26,7 @@ class ExercisePage extends React.Component{
     render(){
         const {isWorkoutStarted} = this.state;
         return(
-            <div>
+            <div className='webcam-container'>
                 {!isWorkoutStarted && <StartExercisePopup startWorkout={this.startWorkout}/> }
                 <WebcamPosenetComponent isWorkoutStarted={isWorkoutStarted}></WebcamPosenetComponent>
             </div>

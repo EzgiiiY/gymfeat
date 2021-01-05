@@ -5,9 +5,6 @@ import React from 'react';
 import { drawKeypoints, drawSkeleton } from "./utils";
 import { connect } from 'react-redux';
 
-
-import './webcam-page.css';
-
 class WebcamPosenetComponent extends React.Component{
 
     constructor(props){
@@ -70,7 +67,7 @@ class WebcamPosenetComponent extends React.Component{
     render(){
         console.log('hello');
         return(
-            <div className='webcam-container'>
+            <div>
                 <Webcam
                 ref={this.webcamRef}
                 style={{
