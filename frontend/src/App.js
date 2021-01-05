@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import CalendarComponent from '../src/components/calendar-component'
+import MainPage from './components/main-page/main-page'
 import HeaderMain from '../src/components/common/header'
 import { Provider } from 'react-redux';
 import store from './store';
 import { Router, Route, Switch, Link, Redirect } from 'react-router-dom'; // added
-import PoseNet from './components/webcam-posenet-page'
+import ExercisePage from './components/exercise-page/exercise-page'
+import WelcomePage from './components/welcome-page'
 
 import history from './history'; // added
 
@@ -24,18 +25,18 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router history={history}>
-
           <Header> <HeaderMain /> </Header>
-
           <Content >
             <Switch>
-            <Route path='/calendar'>
-            <PoseNet></PoseNet>
-            </Route>      
-           {/* <Route path='/home'>
-                <HomePage/>
-            </Route> */
-          }
+              <Route path='/main-page'>
+                  <MainPage/>
+              </Route>      
+              <Route path='/welcome-page'>
+                  <WelcomePage/>
+              </Route>
+              <Route path='/exercise-page'>
+                  <ExercisePage/>
+              </Route>  
             </Switch>
           </Content>
           <Footer className='App-footer' style={{ textAlign: 'center'}}>

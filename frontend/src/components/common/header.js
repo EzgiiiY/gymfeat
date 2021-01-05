@@ -6,16 +6,14 @@ import { connect } from 'react-redux'; // added
 import { Menu, Dropdown, Row, Col, Card,Button } from 'antd';
 import { Input } from 'antd';
 
-//import "./Layout.css";
-
 class HeaderMain extends Component {
   render() {
     //const { user, isAuthenticated } = this.props.auth; // added
     const { Search } = Input;
 
     const calendarViewLink = (
-      <Link to='/calendar' className='item'>
-          <Button>View Calendar</Button>
+      <Link to='/main-page' className='item'>
+          <Button>View Schedule</Button>
       </Link> 
     );
 
@@ -41,8 +39,8 @@ class HeaderMain extends Component {
       </Link>
     );
 
-    const homePage = (
-      <Link to='/home' className='item'>
+    const welcomePage = (
+      <Link to='/welcome-page' className='item'>
           <Button>Home</Button>
       </Link>
     );
@@ -64,15 +62,8 @@ class HeaderMain extends Component {
     // updated
     return (
       <div className='ui inverted menu' style={{ borderRadius: '5' }}>
-          
-        {calendarViewLink
-        }
-        {homePage}
-        
-
-        <div className='search-button-container'>
-            {searchButton}          
-        </div>
+        {welcomePage}
+        {calendarViewLink}
       </div>
     );
   }
@@ -80,7 +71,7 @@ class HeaderMain extends Component {
 
 // added
 const mapStateToProps = state => ({
-  //auth: state.auth
+  
 });
 
 // updated

@@ -3,6 +3,8 @@ import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
 import React from 'react';
 import { drawKeypoints, drawSkeleton } from "./utils";
+import { connect } from 'react-redux';
+
 
 import './webcam-page.css';
 
@@ -10,9 +12,6 @@ class WebcamPosenetComponent extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = { 
-            isWorkoutStarted: true,
-        };
         this.webcamRef = React.createRef();
         this.canvasRef = React.createRef();
         this.runPosenet = this.runPosenet.bind(this);
@@ -20,9 +19,10 @@ class WebcamPosenetComponent extends React.Component{
         this.drawResult = this.drawResult.bind(this);
     }
 
-    componentDidMount(){
-        if(this.state.isWorkoutStarted)
+    componentDidUpdate(prevProps) {
+        if (this.props.isWorkoutStarted) {
             this.runPosenet();
+        }
     }
 
     detectWebcamFeed = async (posenet_model) => {
@@ -58,11 +58,13 @@ class WebcamPosenetComponent extends React.Component{
     };
 
     drawResult = (pose, video, videoWidth, videoHeight, canvas) => {
-        const ctx = canvas.current.getContext("2d");
-        canvas.current.width = videoWidth;
-        canvas.current.height = videoHeight;
-        drawKeypoints(pose["keypoints"], 0.6, ctx);
-        drawSkeleton(pose["keypoints"], 0.7, ctx);
+        if(canvas && canvas.current){
+            const ctx = canvas.current.getContext("2d");
+            canvas.current.width = videoWidth;
+            canvas.current.height = videoHeight;
+            drawKeypoints(pose["keypoints"], 0.6, ctx);
+            drawSkeleton(pose["keypoints"], 0.7, ctx);
+        }
     };
 
     render(){
@@ -102,4 +104,4 @@ class WebcamPosenetComponent extends React.Component{
     }
 }
 
-export default (WebcamPosenetComponent);
+export default WebcamPosenetComponent;
