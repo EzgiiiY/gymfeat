@@ -4,7 +4,7 @@ import HeaderMain from '../src/components/common/header'
 import { Provider } from 'react-redux';
 import store from './store';
 import { Router, Route, Switch, Link, Redirect } from 'react-router-dom'; // added
-
+import PoseNet from './components/webcam-posenet-page'
 
 import history from './history'; // added
 
@@ -30,7 +30,7 @@ class App extends Component {
           <Content >
             <Switch>
             <Route path='/calendar'>
-                <CalendarComponent/>
+            <PoseNet></PoseNet>
             </Route>      
            {/* <Route path='/home'>
                 <HomePage/>
