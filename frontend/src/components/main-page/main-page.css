@@ -1,0 +1,13 @@
+.site-calendar-customize-header-wrapper {
+    border: 1px solid #f0f0f0;
+    border-radius: 2px;
+    padding: 20px;
+}
+
+.site-calendar {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    background-color: #f2f2f2;
+    min-width: 80%;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { List, Typography, Card, Button } from 'antd';
 import welcomeImage from '../icons/welcome.png';
+import {Link} from 'react-router-dom';
 
 import './welcome-page.css'
 
@@ -18,7 +19,9 @@ export default class WelcomePage extends Component {
                     <Title level={3}>Welcome to GymFeat</Title>
                 </List.Item>
                 <List.Item>
-                    <Button>Start Your Journey!</Button>
+                    <Link to='/body-form-page' className='item'>
+                        <Button>Start Your Journey!</Button>
+                    </Link>
                 </List.Item>
             </List>
         </div>

@@ -6,6 +6,7 @@ import store from './store';
 import { Router, Route, Switch, Link, Redirect } from 'react-router-dom'; // added
 import ExercisePage from './components/exercise-page/exercise-page'
 import WelcomePage from './components/welcome-page'
+import BodyFormPage from './components/body-form-page'
 
 import history from './history'; // added
 
@@ -36,7 +37,10 @@ class App extends Component {
               </Route>
               <Route path='/exercise-page'>
                   <ExercisePage/>
-              </Route>  
+              </Route> 
+              <Route path='/body-form-page'>
+                  <BodyFormPage/>
+              </Route> 
             </Switch>
           </Content>
           <Footer className='App-footer' style={{ textAlign: 'center'}}>

@@ -33,9 +33,9 @@ class HeaderMain extends Component {
       </Link>
     );
 
-    const homePageEmployeeLink = (
-      <Link to='/home_employee' className='item'>
-          <Button>Home</Button>
+    const startTodaysWorkout = (
+      <Link to='/exercise-page' className='item'>
+          <Button>Start Today's Workout</Button>
       </Link>
     );
 
@@ -64,6 +64,7 @@ class HeaderMain extends Component {
       <div className='ui inverted menu' style={{ borderRadius: '5' }}>
         {welcomePage}
         {calendarViewLink}
+        {startTodaysWorkout}
       </div>
     );
   }
