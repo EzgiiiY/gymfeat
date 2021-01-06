@@ -1,0 +1,28 @@
+.post-job-form-container {
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+  }
+
+.job-form-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    min-width: 70%;
+}
+
+
+.job-form {
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    padding: 20px;
+    justify-content: center;
+    min-width: 80%;
+}
+
+.date-picker{
+}
+
+.checkbox{
+}

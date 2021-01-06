@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'; // added
 import { connect } from 'react-redux'; // added
-import { Menu, Dropdown, Row, Col, Card, Button,Drawer } from 'antd';
+
+import { Menu, Dropdown, Row, Col, Card, Button, Drawer, Typography } from 'antd';
 import CalendarComponent from './calendar-component';
+
+import './main-page.css'
+
 
 class MainPage extends Component {
     constructor(props){
@@ -64,9 +68,10 @@ class MainPage extends Component {
 
         // updated
         return (
-            <div>
-                
-                <Col>
+
+            <div className='site-calendar-customize-header-wrapper'>
+                <Typography.Title level={4}>Your Calendar</Typography.Title>
+                <Col className='site-calendar'>
                 <CalendarComponent
                     onClick={this.showDrawer}
                     getDate={this.setDrawerHeader}
