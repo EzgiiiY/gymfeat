@@ -28,6 +28,7 @@ class App extends Component {
         <Router history={history}>
           <Header> <HeaderMain /> </Header>
           <Content style={{ padding: '0 24px', minHeight: 680 }} >
+          
             <Switch>
               <Route path='/main-page'>
                   <MainPage/>
