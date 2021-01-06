@@ -35,7 +35,7 @@ class App extends Component {
            {/* <Route path='/home'>
                 <HomePage/>
             </Route> */
-          }
+          }    
             </Switch>
           </Content>
           <Footer className='App-footer' style={{ textAlign: 'center'}}>
