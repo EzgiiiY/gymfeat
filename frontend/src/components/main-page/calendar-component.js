@@ -8,11 +8,7 @@ function getListData(value) {
   switch (value.date()) {
     case 8:
       listData = [
-        { type: 'warning', label: 'This is warning event.', 
-        content:[
-        
-      ] },
-        { type: 'success', label: 'This is usual event.', 
+        { type: 'warning', label: 'Individual Workout', 
         content:[
         
       ] },
@@ -20,23 +16,27 @@ function getListData(value) {
       break;
     case 10:
       listData = [
-        { type: 'warning', label: 'This is warning event.', 
+        { type: 'success', label: 'Scheduled and Completed Workout', 
         content:[
         
       ] },
-        { type: 'success', label: 'This is usual event.', 
-        content:[
-        
-      ] },
-        { type: 'error', label: 'This is error event.', 
+      { type: 'error', label: 'Missed Workout Session',  
         content:[
         
       ] },
       ];
       break;
+      case 12:
+        listData = [
+          { type: 'error', label: 'Missed Workout Session', 
+          content:[
+          
+        ] },
+        ];
+      break;
     case 15:
       listData = [
-        { type: 'warning', label: 'Today\'s Exercise', 
+        { type: 'success', label: 'Today\'s Exercise', 
             content:["windmill skater 30 secs",
             "REST 5 secs"
             
