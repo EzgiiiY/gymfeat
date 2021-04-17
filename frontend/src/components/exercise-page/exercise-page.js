@@ -1,10 +1,9 @@
 import WebcamPosenetComponent from './webcam-posenet-page';
 import React from 'react';
-import StartExercisePopup from './start-exercise-popup';
 import { connect } from 'react-redux';
 import '../../reducers/workout';
 import { startWorkout, endWorkout } from '../../actions/workout';
-import Speech from './speech'
+import SpeechRecognizerPopup from './speech'
 import './webcam-page.css';
 
 class ExercisePage extends React.Component{
@@ -27,7 +26,7 @@ class ExercisePage extends React.Component{
         const {isWorkoutStarted} = this.state;
         return(
             <div className='webcam-container'>
-                {!isWorkoutStarted && <Speech startWorkout={this.startWorkout}/> }
+                {!isWorkoutStarted && <SpeechRecognizerPopup startWorkout={this.startWorkout}/> }
                 <WebcamPosenetComponent isWorkoutStarted={isWorkoutStarted}></WebcamPosenetComponent>
             </div>
         );

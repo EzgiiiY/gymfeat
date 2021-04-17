@@ -3,21 +3,30 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import {Button, Form, Typography} from 'antd';
 import {Link, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import './pop-up.css';
+import Speech from 'react-speech'
 
-const Speech = (props) => {
-  const { transcript, resetTranscript } = useSpeechRecognition()
+
+const handleClickStart = () => {
+  SpeechRecognition.startListening({continuous: true });
+}
+
+const SpeechRecognizerPopup = (props) => {
+  const { finalTranscript, transcript, resetTranscript } = useSpeechRecognition()
+ 
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
     return null
   }
 
-  if(transcript == "yes"){
+  var words = finalTranscript.split(" ");
+  var word = words[words.length - 1];
+  if(word == "yes"){
     props.startWorkout();
-  } else if(transcript == "no"){
+  } else if(word == "no"){
     return <Redirect to='/main-page'/>;
-  }
+  } 
+
   
   return (
     <div className="modal">
@@ -29,18 +38,23 @@ const Speech = (props) => {
                 <Typography.Title level={5}>If you say, NO, then you will be back to main page.</Typography.Title>
             </Form.Item>
             <Form.Item>
-                <Button onClick={SpeechRecognition.startListening}>
-                    Start
+                <Button onClick={handleClickStart}>
+                  <Speech textAsButton={true} displayText="Start" text="Say yes, if you are ready" voice="Google UK English Female"/>
                 </Button>
             </Form.Item>
             <Form.Item>
                 <Link to='/main-page'>
-                    <Button onClick={resetTranscript}>No, go back to Main Page!</Button>
+                    <Button onClick={resetTranscript}>
+                      <Speech textAsButton={true} displayText="Go back to Main" text="Come back when you are ready" voice="Google UK English Female"/>
+                    </Button>
                 </Link> 
+            </Form.Item>
+            <Form.Item>
             </Form.Item>
           </Form>
       </div>
     </div>
   )
 }
-export default Speech
+
+export default SpeechRecognizerPopup
