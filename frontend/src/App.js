@@ -11,9 +11,27 @@ import BodyFormPage from './components/body-form-page'
 import history from './history'; // added
 
 import './App.css';
-import { Layout, Menu, Breadcrumb, Button } from 'antd';
+import './styles/css/main.css';
+import { Layout, Menu, Breadcrumb, Button, Tabs } from 'antd';
+
+const { TabPane } = Tabs;
 
 const { Header, Content, Footer } = Layout;
+
+const calendarViewLink = (
+  <TabPane tab ={<Link to='/main-page'>Calendar</Link>}
+     key = "calendar"></TabPane> 
+);
+
+const startTodaysWorkout = (
+    <TabPane tab ={<Link to='/exercise-page' className='tabs'>Start Workout</Link>}
+    key = "exercise"></TabPane>
+);
+
+const welcomePage = (
+    <TabPane tab = {<Link to='/welcome-page' className='tabs'>Home</Link>} 
+    key = "home" centered= "true"></TabPane>
+);
 
 class App extends Component {
   
@@ -27,8 +45,12 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Header> <HeaderMain /> </Header>
+          <Tabs defaultActiveKey="home">
+            {welcomePage}
+            {calendarViewLink}
+            {startTodaysWorkout}
+          </Tabs>
           <Content style={{ padding: '0 24px', minHeight: 680 }} >
-          
             <Switch>
               <Route path='/main-page'>
                   <MainPage/>

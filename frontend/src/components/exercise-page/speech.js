@@ -6,6 +6,26 @@ import { connect } from 'react-redux';
 import './pop-up.css';
 import Speech from 'react-speech'
 
+const styleSpeech = {
+  backgroundColor: "gainsboro",
+  color:"black",
+};
+
+const styleSpeech2 = {
+  play: {
+    button: {
+      width: '28',
+      height: '28',
+      cursor: 'pointer',
+      pointerEvents: 'none',
+      outline: 'none',
+      backgroundColor: 'yellow',
+      border: 'solid 1px rgba(255,255,255,1)',
+      borderRadius: 6
+    },
+  }
+};
+
 
 const handleClickStart = () => {
   SpeechRecognition.startListening({continuous: true });
@@ -38,14 +58,15 @@ const SpeechRecognizerPopup = (props) => {
                 <Typography.Title level={5}>If you say, NO, then you will be back to main page.</Typography.Title>
             </Form.Item>
             <Form.Item>
-                <Button onClick={handleClickStart}>
+                <Button onClick={handleClickStart} style={styleSpeech}>
                   <Speech textAsButton={true} displayText="Start" text="Say yes, if you are ready" voice="Google UK English Female"/>
                 </Button>
             </Form.Item>
             <Form.Item>
                 <Link to='/main-page'>
-                    <Button onClick={resetTranscript}>
-                      <Speech textAsButton={true} displayText="Go back to Main" text="Come back when you are ready" voice="Google UK English Female"/>
+                    <Button onClick={resetTranscript} style={styleSpeech}>
+                      <Speech textAsButton={true} 
+                      displayText="Go back to Main" text="Come back when you are ready" voice="Google UK English Female"/>
                     </Button>
                 </Link> 
             </Form.Item>

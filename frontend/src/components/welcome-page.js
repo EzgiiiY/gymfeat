@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { List, Typography, Card, Button } from 'antd';
 import welcomeImage from '../icons/welcome.png';
+import background from '../icons/landing.jpg'
+import background2 from '../icons/landing2.jpg'
 import {Link} from 'react-router-dom';
 
 import './welcome-page.css'
@@ -11,7 +13,7 @@ export default class WelcomePage extends Component {
     
     render(){
       return(
-        <div className='container'>
+        <div className='container' style={{ backgroundImage: `url(${background2})` }}>
             <List
                 itemLayout="horizontal"
             >
@@ -20,7 +22,7 @@ export default class WelcomePage extends Component {
                 </List.Item>
                 <List.Item>
                     <Link to='/body-form-page' className='item'>
-                        <Button>Start Your Journey!</Button>
+                        <Button>START YOUR JOURNEY</Button>
                     </Link>
                 </List.Item>
             </List>

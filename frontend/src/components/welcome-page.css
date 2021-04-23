@@ -3,6 +3,7 @@
     padding: 20px;
     display: flex;
     justify-content: center;
+    min-height: 800px;
 }
 
 .image-container{
@@ -10,4 +11,8 @@
   justify-content: center;
   align-items: center;
   display: flex;
+}
+
+.ant-list-item{
+  color:white;
 }
