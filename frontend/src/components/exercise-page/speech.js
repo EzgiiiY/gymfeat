@@ -11,22 +11,6 @@ const styleSpeech = {
   color:"black",
 };
 
-const styleSpeech2 = {
-  play: {
-    button: {
-      width: '28',
-      height: '28',
-      cursor: 'pointer',
-      pointerEvents: 'none',
-      outline: 'none',
-      backgroundColor: 'yellow',
-      border: 'solid 1px rgba(255,255,255,1)',
-      borderRadius: 6
-    },
-  }
-};
-
-
 const handleClickStart = () => {
   SpeechRecognition.startListening({continuous: true });
 }

@@ -9,6 +9,11 @@ import './welcome-page.css'
 
 const { Title } = Typography;
 
+const buttonStyle = {
+    backgroundColor: "rgba(0, 0, 0, 0.212)",
+    color:"orange",
+  };
+
 export default class WelcomePage extends Component { 
     
     render(){
@@ -22,7 +27,12 @@ export default class WelcomePage extends Component {
                 </List.Item>
                 <List.Item>
                     <Link to='/body-form-page' className='item'>
-                        <Button>START YOUR JOURNEY</Button>
+                        <Button style={buttonStyle}>Start Your Journey</Button>
+                    </Link>
+                </List.Item>
+                <List.Item>
+                    <Link to='/about-us' className='item'>
+                        <Button style={buttonStyle}>About Us</Button>
                     </Link>
                 </List.Item>
             </List>

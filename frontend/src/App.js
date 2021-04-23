@@ -7,6 +7,7 @@ import { Router, Route, Switch, Link, Redirect } from 'react-router-dom'; // add
 import ExercisePage from './components/exercise-page/exercise-page'
 import WelcomePage from './components/welcome-page'
 import BodyFormPage from './components/body-form-page'
+import AboutUsPage from './components/about-us-page'
 
 import history from './history'; // added
 
@@ -64,10 +65,12 @@ class App extends Component {
               <Route path='/body-form-page'>
                   <BodyFormPage/>
               </Route> 
+              <Route path='/about-us'>
+                  <AboutUsPage/>
+              </Route> 
             </Switch>
           </Content>
-          <Footer className='App-footer' style={{ textAlign: 'center'}}>
-            
+          <Footer className='App-footer' style={{ textAlign: 'center'}}>   
           </Footer>
         </Router>
       </Provider>
