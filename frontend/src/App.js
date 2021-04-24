@@ -8,68 +8,31 @@ import ExerciseWithSiderPage from './components/exercise-page/exercise-with-side
 import WelcomePage from './components/welcome-page'
 import BodyFormPage from './components/body-form-page'
 import AboutUsPage from './components/about-us-page'
+import CustomTabs from './components/common/CustomTabs'
+import ProfilePage from './components/profile-page/ProfilePage'
 
 import history from './history'; // added
 
 import './App.css';
 import './styles/css/main.css';
-import { Layout, Menu, Breadcrumb, Button, Tabs } from 'antd';
+import { Layout, Menu, Breadcrumb, Button,  Dropdown } from 'antd';
 
-const { TabPane } = Tabs;
 
 const { Header, Content, Footer } = Layout;
-
-const calendarViewLink = (
-  <TabPane className='tabs' 
-    tab ="Calendar"
-    centered= "true"
-    key = "calendar"/>
-);
-
-const startTodaysWorkout = (
-  <TabPane className='tabs' 
-    tab ="Start Workout" 
-    centered= "true"
-    key = "exercise"/>
-
-);
-
-const welcomePage = (
-    <TabPane tab = "Home"
-    key = "home" 
-    centered= "true"
-    
-    />
-);
 
 class App extends Component {
   
 
   componentDidMount() {
-    //store.dispatch(loadUser());
+    //store.dispatch(loadUser()); //uncomment when auth actions is ready
   }
-  tabClick(key){
-    if(key=="home")
-      history.push("/welcome-page")
-    else if(key == "exercise")
-      history.push("/exercise-page")
-    else if( key=="calendar")
-      history.push("/main-page")
-  }
-
+  
   render() {
     return (
       <Provider store={store}>
         <Router history={history}>
           <Header> <HeaderMain /> </Header>
-          <Tabs defaultActiveKey="home"
-            onTabClick={this.tabClick}
-            className='tabs' 
-            >
-            {welcomePage}
-            {calendarViewLink}
-            {startTodaysWorkout}
-          </Tabs>
+            <CustomTabs/>
           <Content style={{ padding: '0 24px', minHeight: 680 }} >
             <Switch>
             <Route path='/welcome-page'>
@@ -86,7 +49,11 @@ class App extends Component {
               </Route> 
               <Route path='/about-us'>
                   <AboutUsPage/>
-              </Route> 
+              </Route>
+              <Route path="/profile">
+                  <ProfilePage/>
+              </Route>
+              <Redirect to="/welcome-page"/>
             </Switch>
           </Content>
           <Footer className='App-footer' style={{ textAlign: 'center'}}>   
