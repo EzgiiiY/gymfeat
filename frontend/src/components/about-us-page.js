@@ -79,7 +79,7 @@ export default class AboutUsPage extends Component {
                     actions={[
                         <Button href='https://github.com/EzgiiiY' 
                         icon={<GithubOutlined/>}/>,
-                        <Button href='https://linkcoedin.m/in/ezgi-yavuz-024b89b6/' 
+                        <Button href='https://linkedin.com/in/ezgi-yavuz-024b89b6/' 
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
