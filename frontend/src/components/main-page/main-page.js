@@ -52,7 +52,7 @@ class MainPage extends Component {
                     onClose={this.onClose}
                     visible={this.state.visible}
                     getContainer={true}
-                    style={{ position: 'absolute' }}
+                    destroyOnClose={true}
                 >
                     <p>{this.state.drawerContent}</p>
                     {drawerButton}
