@@ -62,7 +62,7 @@ export default class ExerciseWithSiderPage extends React.Component {
                 </SubMenu>
               </Menu>
             </Sider>
-            <ExercisePage>
+            <ExercisePage voice = 'Google UK English Male'>
             </ExercisePage>
             </Layout>
         );
