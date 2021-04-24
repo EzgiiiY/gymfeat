@@ -3,15 +3,14 @@ import MainPage from './components/main-page/main-page'
 import HeaderMain from '../src/components/common/header'
 import { Provider } from 'react-redux';
 import store from './store';
-import { Router, Route, Switch, Link, Redirect } from 'react-router-dom'; // added
+import { Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 import ExerciseWithSiderPage from './components/exercise-page/exercise-with-sider-page'
 import WelcomePage from './components/welcome-page'
 import BodyFormPage from './components/body-form-page'
 import AboutUsPage from './components/about-us-page'
 import CustomTabs from './components/common/CustomTabs'
 import ProfilePage from './components/profile-page/ProfilePage'
-
-import history from './history'; // added
+import history from './history';
 
 import './App.css';
 import './styles/css/main.css';

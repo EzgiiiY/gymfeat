@@ -33,24 +33,12 @@ const welcomePage = (
     />
 );
 
-const menu = (
-    <Menu>
-        <Menu.Item key="0">
-            <Button ghost type="text" onClick={() => history.push("/profile")}><UserOutlined />Profile</Button>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="1">
-            <Button ghost type="text" onClick={() => history.push("/settings")}><SettingOutlined />Settings</Button>
-        </Menu.Item>
-    </Menu>
-);
-
-const userInfo = <Dropdown style={{minWidt:"fit-content"}}overlay={menu} trigger={['click']}>
-    <Button style={{ marginRight: "10px" }}>
-        user
-            <DownOutlined />
+const userInfo = 
+    <Button style={{ marginRight: "10px" }} onClick={()=>history.push("/profile")}>
+        <UserOutlined/>
+        user 
     </Button>
-</Dropdown>
+
 
 class CustomTabs extends Component {
     tabClick(key) {
