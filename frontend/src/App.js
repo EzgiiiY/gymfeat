@@ -20,18 +20,26 @@ const { TabPane } = Tabs;
 const { Header, Content, Footer } = Layout;
 
 const calendarViewLink = (
-  <TabPane tab ={<Link to='/main-page'>Calendar</Link>}
-     key = "calendar"></TabPane> 
+  <TabPane className='tabs' 
+    tab ="Calendar"
+    centered= "true"
+    key = "calendar"/>
 );
 
 const startTodaysWorkout = (
-    <TabPane tab ={<Link to='/exercise-page' className='tabs'>Start Workout</Link>}
-    key = "exercise"></TabPane>
+  <TabPane className='tabs' 
+    tab ="Start Workout" 
+    centered= "true"
+    key = "exercise"/>
+
 );
 
 const welcomePage = (
-    <TabPane tab = {<Link to='/welcome-page' className='tabs'>Home</Link>} 
-    key = "home" centered= "true"></TabPane>
+    <TabPane tab = "Home"
+    key = "home" 
+    centered= "true"
+    
+    />
 );
 
 class App extends Component {
@@ -40,25 +48,36 @@ class App extends Component {
   componentDidMount() {
     //store.dispatch(loadUser());
   }
+  tabClick(key){
+    if(key=="home")
+      history.push("/welcome-page")
+    else if(key == "exercise")
+      history.push("/exercise-page")
+    else if( key=="calendar")
+      history.push("/main-page")
+  }
 
   render() {
     return (
       <Provider store={store}>
         <Router history={history}>
           <Header> <HeaderMain /> </Header>
-          <Tabs defaultActiveKey="home">
+          <Tabs defaultActiveKey="home"
+            onTabClick={this.tabClick}
+            className='tabs' 
+            >
             {welcomePage}
             {calendarViewLink}
             {startTodaysWorkout}
           </Tabs>
           <Content style={{ padding: '0 24px', minHeight: 680 }} >
             <Switch>
+            <Route path='/welcome-page'>
+                  <WelcomePage/>
+              </Route>
               <Route path='/main-page'>
                   <MainPage/>
               </Route>      
-              <Route path='/welcome-page'>
-                  <WelcomePage/>
-              </Route>
               <Route path='/exercise-page'>
                   <ExercisePage/>
               </Route> 
