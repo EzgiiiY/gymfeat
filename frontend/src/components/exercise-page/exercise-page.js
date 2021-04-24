@@ -28,7 +28,6 @@ class ExercisePage extends React.Component{
             playing: true,
         });
         this.playerRef.current.seekTo(43);
-
         console.log(window.speechSynthesis.getVoices());
     };
 
@@ -126,19 +125,22 @@ class ExercisePage extends React.Component{
 
     render(){
         const {isWorkoutStarted, playing} = this.state;
+        const {muted, warningsOn} = this.props;
         const {voice} = this.props;
         return(
             <div className='webcam-container'>
-                {!isWorkoutStarted &&<SpeechRecognizerPopup 
+                {!isWorkoutStarted && <SpeechRecognizerPopup 
                 startWorkout={this.startWorkout}
-                voice = {voice}/> 
+                voice = {voice}
+                warningsOn = {warningsOn}/> 
                 }
-                <WebcamPosenetComponent isWorkoutStarted={isWorkoutStarted}></WebcamPosenetComponent>
+                {isWorkoutStarted && <WebcamPosenetComponent></WebcamPosenetComponent>}
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'
                 playing={playing}
-                width='33%'
-                height='33%'
+                width='28%'
+                height='28%'
+                muted = {muted}
                 onReady={() => console.log('onReady')}
                 onStart={() => console.log('onStart')}
                 onPlay={this.handlePlay}

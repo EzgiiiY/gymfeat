@@ -22,9 +22,7 @@ class WebcamPosenetComponent extends React.Component{
     }
 
     componentDidMount(prevProps) {
-        if (this.props.isWorkoutStarted) {
-            this.runPosenet();
-        }
+        this.runPosenet(); 
     }
 
     detectWebcamFeed = async (posenet_model) => {
