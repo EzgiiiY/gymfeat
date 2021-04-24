@@ -58,7 +58,6 @@ const tailFormItemLayout = {
 };
 
 
-
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
@@ -103,10 +102,10 @@ export class ProfilePage extends Component {
 
 
   render() {
-    const {isAuthenticated, user} = this.props;
-    if (!isAuthenticated) {
-      return <Redirect to='/' />;
-    }
+    //const {isAuthenticated, user} = this.props;
+    /*if (!isAuthenticated) {
+      return <Redirect to='/welcome-page' />;
+    }*/
 
     const uploadButton = (
         <div>
@@ -116,7 +115,7 @@ export class ProfilePage extends Component {
       );
     return (
       <div>
-      <h1 className='title'>Profile</h1>
+      <h1 >Profile</h1>
       
       <Col className='pp'>
       
@@ -131,6 +130,8 @@ export class ProfilePage extends Component {
            name="profilepic"
            label="Upload/Change Profile Photo"
           >
+            <br></br>
+            <br></br>
             <Upload
               name="avatar"
               listType="picture-card"
@@ -156,17 +157,13 @@ export class ProfilePage extends Component {
           >
             <Input/>
           </Form.Item>
-          <Form.Item
-            name="company"
-            label="Update Company Name"
-          >
-            <Input placeholder={user.company}/>
-          </Form.Item>
+          
           <Form.Item
             name="email"
             label="Change E-mail Address"
           >
-            <Input placeholder={user.email}/>
+            <Input placeholder="mail"/> {//{user.email}/>
+            }
           </Form.Item>
     
           <Form.Item
@@ -206,7 +203,8 @@ export class ProfilePage extends Component {
               </span>
             }
           >
-            <Input placeholder={user.username}/>
+            <Input placeholder="username"/>{//{user.username}/>
+            }
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
@@ -220,9 +218,9 @@ export class ProfilePage extends Component {
    }
 }
 
-const mapStateToProps = state => ({
+/*const mapStateToProps = state => ({
     user: state.auth.user,
     isAuthenticated: state.auth.isAuthenticated,
-});
+});*/
   
-export default connect(mapStateToProps)(ProfilePage);
+export default ProfilePage;//connect(mapStateToProps)(ProfilePage);
