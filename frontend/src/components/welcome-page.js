@@ -34,28 +34,18 @@ class WelcomePage extends Component {
                         <Title level={3}>Welcome to GymFeat</Title>
                     </List.Item>
                     <List.Item style={{ color: "whitesmoke" }}>
+                        Want to join us?
+                        <Link to='/signUp' className='item'>
+                            <Button style={buttonStyle}>Sign Up</Button>
+                        </Link>
+                    </List.Item>
+                    <List.Item style={{ color: "whitesmoke" }}>
                         Already a user?
                     <Link to='/signIn' className='item'>
                             <Button style={buttonStyle}>Sign In</Button>
                         </Link>
                     </List.Item>
-                    <List.Item style={{ color: "whitesmoke" }}>
-                        Want to sign up?
-                    <Link to='/signUp' className='item'>
-                            <Button style={buttonStyle}>Sign Up</Button>
-                        </Link>
-                    </List.Item>
-                    <List.Item style={{ marginRight: "2%", color: "whitesmoke" }}>
-                        Want to be an anonymous user?
-                    <Link to='/body-form-page' className='item'>
-                            <Button style={buttonStyle}>Start Your Journey</Button>
-                        </Link>
-                        <br></br>
-                        <br></br>
-
-                    </List.Item>
-
-                    <List.Item>
+                    <List.Item >
                         <Link to='/about-us' className='item'>
                             <Button style={buttonStyle}>About Us</Button>
                         </Link>

@@ -1,7 +1,7 @@
 import { Calendar, Alert,Badge } from 'antd';
 import moment from 'moment';
 import React from 'react';
-import 'antd/dist/antd.css';
+import './calendar.css';
 
 function getListData(value) {
   let listData;
@@ -50,8 +50,6 @@ function getListData(value) {
 
 class CalendarComponent extends React.Component {
   state = {
-    value: moment('2017-01-25'),
-    selectedValue: moment('2017-01-25'),
     currentContent: "",
     dateValues:[]
   };
@@ -90,7 +88,10 @@ class CalendarComponent extends React.Component {
     const { value, selectedValue } = this.state;
     return (
       <div>
-        <Calendar dateCellRender={this.dateCellRender} style={{height:"100%"}} fullscreen={false} value={value} onSelect={this.onSelect} onPanelChange={this.onPanelChange} />
+        <Calendar dateCellRender={this.dateCellRender}  
+        value={value} 
+        onSelect={this.onSelect} 
+        onPanelChange={this.onPanelChange} />
       </div>
     );
   }

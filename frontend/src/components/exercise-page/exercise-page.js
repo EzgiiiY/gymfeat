@@ -7,8 +7,6 @@ import { startWorkout, endWorkout } from '../../actions/workout';
 import SpeechRecognizerPopup from './speech'
 import ReactPlayer from "react-player"
 import './webcam-page.css';
-import ExerciseWithSiderPage from './exercise-with-sider-page';
-
 
 class ExercisePage extends React.Component{
 
