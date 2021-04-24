@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@tensorflow-models/posenet": "^2.2.1",
     "@tensorflow/tfjs": "^2.8.2",
     "@tensorflow/tfjs-converter": "^1.7.4",
@@ -11,6 +12,7 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "antd": "^4.9.4",
+    "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-player": "^2.9.0",

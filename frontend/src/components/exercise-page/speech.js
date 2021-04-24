@@ -17,7 +17,7 @@ const handleClickStart = () => {
 
 const SpeechRecognizerPopup = (props) => {
   const { finalTranscript, transcript, resetTranscript } = useSpeechRecognition()
- 
+  const {voice} = props;
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
     return null
@@ -43,7 +43,7 @@ const SpeechRecognizerPopup = (props) => {
             </Form.Item>
             <Form.Item>
                 <Button onClick={handleClickStart} style={styleSpeech}>
-                  <Speech textAsButton={true} displayText="Start" text="Say yes, if you are ready" voice="Google UK English Female"/>
+                  <Speech textAsButton={true} displayText="Start" text="Say yes, if you are ready" voice={voice}/>
                 </Button>
             </Form.Item>
             <Form.Item>

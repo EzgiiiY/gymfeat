@@ -1,11 +1,13 @@
 import WebcamPosenetComponent from './webcam-posenet-page';
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import '../../reducers/workout';
 import { startWorkout, endWorkout } from '../../actions/workout';
 import SpeechRecognizerPopup from './speech'
 import ReactPlayer from "react-player"
 import './webcam-page.css';
+import ExerciseWithSiderPage from './exercise-with-sider-page';
 
 
 class ExercisePage extends React.Component{
@@ -28,6 +30,8 @@ class ExercisePage extends React.Component{
             playing: true,
         });
         this.playerRef.current.seekTo(43);
+
+        console.log(window.speechSynthesis.getVoices());
     };
 
     handlePlayPause = () => {
@@ -124,11 +128,14 @@ class ExercisePage extends React.Component{
 
     render(){
         const {isWorkoutStarted, playing} = this.state;
+        const {voice} = this.props;
         return(
             <div className='webcam-container'>
-                {!isWorkoutStarted &&<SpeechRecognizerPopup startWorkout={this.startWorkout}/> 
+                {!isWorkoutStarted &&<SpeechRecognizerPopup 
+                startWorkout={this.startWorkout}
+                voice = {voice}/> 
                 }
-                <WebcamPosenetComponent isWorkoutStarted={false}></WebcamPosenetComponent>
+                <WebcamPosenetComponent isWorkoutStarted={isWorkoutStarted}></WebcamPosenetComponent>
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'
                 playing={playing}
@@ -167,3 +174,11 @@ ExercisePage = connect(
     {startWorkout},
   )(ExercisePage);
 export default connect(mapStateToProps)(ExercisePage);
+
+ExercisePage.propTypes = {
+  voice: PropTypes.string
+}
+
+ExercisePage.defaultProps = {
+  voice: 'Google UK English Female'
+};

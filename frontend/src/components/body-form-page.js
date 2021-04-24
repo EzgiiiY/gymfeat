@@ -3,6 +3,7 @@ import {DatePicker, Input, Button, Form, message} from 'antd';
 import {Checkbox, Select} from 'antd';
 import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
+import { DownOutlined} from '@ant-design/icons';
 
 import './body-form-page.css'
 
