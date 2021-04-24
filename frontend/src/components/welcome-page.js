@@ -23,7 +23,7 @@ class WelcomePage extends Component {
     render() {
         /*const { user, isAuthenticated } = this.props.auth; // added
         if (isAuthenticated) {
-            return <Redirect to='/home' />;
+            return <Redirect to='/main-page' />;
         }*/
         return (
             <div className='container' style={{ backgroundImage: `url(${background2})` }}>

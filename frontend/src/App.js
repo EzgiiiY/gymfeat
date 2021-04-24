@@ -10,6 +10,7 @@ import BodyFormPage from './components/body-form-page'
 import AboutUsPage from './components/about-us-page'
 import CustomTabs from './components/common/CustomTabs'
 import ProfilePage from './components/profile-page/ProfilePage'
+import SignUp from './components/registeration/SignUp'
 import history from './history';
 
 import './App.css';
@@ -51,6 +52,9 @@ class App extends Component {
               </Route>
               <Route path="/profile">
                   <ProfilePage/>
+              </Route>
+              <Route path="/signUp">
+                  <SignUp/>
               </Route>
               <Redirect to="/welcome-page"/>
             </Switch>

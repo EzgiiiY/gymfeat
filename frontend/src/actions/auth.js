@@ -12,7 +12,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
-} from '../actions /types';
+} from '../actions/types';
 
 const backend = "http://127.0.0.1:8000"
 // LOGOUT USER
