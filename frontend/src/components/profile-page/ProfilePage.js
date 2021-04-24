@@ -6,18 +6,19 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import {
-    Form,
-    Input,
-    Tooltip,
-    Cascader,
-    Select,
-    Row,
-    Col,
-    Checkbox,
-    Button,
-    AutoComplete,
-  } from 'antd';
-  
+  Form,
+  Input,
+  Tooltip,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete,
+  DatePicker
+} from 'antd';
+
 
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
@@ -77,9 +78,9 @@ function beforeUpload(file) {
 }
 
 export class ProfilePage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       loading: false
     }
   }
@@ -108,119 +109,172 @@ export class ProfilePage extends Component {
     }*/
 
     const uploadButton = (
-        <div>
-          {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-          <div style={{ marginTop: 8 }}>Upload</div>
-        </div>
-      );
+      <div>
+        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div style={{ marginTop: 8 }}>Upload</div>
+      </div>
+    );
     return (
       <div>
-      <h1 >Profile</h1>
-      
-      <Col className='pp'>
-      
-        <Form
-          style={{ marginRight:"10vh", padding:"5vh 5vh 5vh 5vh" }}
-          {...formItemLayout}
-          name="profile"
-          onFinish={values => this.onSubmit(values)}
-          scrollToFirstError
-        >
-          <Form.Item
-           name="profilepic"
-           label="Upload/Change Profile Photo"
-          >
-            <br></br>
-            <br></br>
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              beforeUpload={beforeUpload}
-              onChange={this.handleChange}
-            >
-              {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>
+        <h1 >Profile</h1>
 
-          </Form.Item>
-          <Form.Item
-            name="first_name"
-            label="Update Name"
+        <Col className='pp'>
+
+          <Form
+            style={{ marginRight: "10vh", padding: "5vh 5vh 5vh 5vh" }}
+            {...formItemLayout}
+            name="profile"
+            onFinish={values => this.onSubmit(values)}
+            scrollToFirstError
           >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            name="last_name"
-            label="Update Last Name"
-          >
-            <Input/>
-          </Form.Item>
-          
-          <Form.Item
-            name="email"
-            label="Change E-mail Address"
-          >
-            <Input placeholder="mail"/> {//{user.email}/>
-            }
-          </Form.Item>
-    
-          <Form.Item
-            name="password"
-            label="Change Password"
-            hasFeedback
-          >
-            <Input.Password />
-          </Form.Item>
-    
-          <Form.Item
-            name="confirm"
-            label="Confirm Password"
-            dependencies={['password']}
-            hasFeedback
-            rules={[
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject('The two passwords that you entered do not match!');
-                },
-              }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            name="username"
-            label={
-              <span>
-                Change Username&nbsp;
-                <Tooltip title="What do you want to be called as?">
-                  <QuestionCircleOutlined />
-                </Tooltip>
-              </span>
-            }
-          >
-            <Input placeholder="username"/>{//{user.username}/>
-            }
-          </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-              Update Profile
+            <Form.Item
+              name="profilepic"
+              label="Upload/Change Profile Photo"
+            >
+              <br></br>
+              <br></br>
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={this.handleChange}
+              >
+                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+              </Upload>
+
+            </Form.Item>
+
+            <Form.Item className='job-item'
+              label="Enter your nickname:"
+              name="name"
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              label="Change E-mail Address"
+            >
+              <Input placeholder="mail" /> {//{user.email}/>
+              }
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label="Change Password"
+              hasFeedback
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              name="confirm"
+              label="Confirm Password"
+              dependencies={['password']}
+              hasFeedback
+              rules={[
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject('The two passwords that you entered do not match!');
+                  },
+                }),
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+            <Form.Item className='job-item'
+              label="Enter your weight:"
+              name="weight"
+            >
+              <Input.Group compact>
+                <Select defaultValue="kg" style={{ width: '20%' }}>
+                  <Option value="kg">kg</Option>
+                  <Option value="lb">lb</Option>
+                </Select>
+                <Input
+                  style={{ width: '70%' }}
+                  placeholder="Weight"
+                />
+              </Input.Group>
+            </Form.Item>
+            <Form.Item className='job-item'
+              label="Enter your height:"
+              name="height"
+            >
+              <Input.Group compact>
+                <Select defaultValue="m" style={{ width: '20%' }}>
+                  <Option value="m">m</Option>
+                  <Option value="ft">ft</Option>
+                </Select>
+                <Input
+                  style={{ width: '70%' }}
+                  placeholder="Height"
+                />
+              </Input.Group>
+            </Form.Item>
+            <Form.Item className='job-item' label="Enter your gender:">
+              <Select>
+                <Option value="male">Male</Option>
+                <Option value="female">Female</Option>
+                <Option value="none">I choose not to disclose.</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item className="date-picker-checkbox" label="Enter your birthday:">
+              <DatePicker onChange={this.handleChange} />
+            </Form.Item>
+            <Form.Item>
+              <Select
+                placeholder='Choose Your Workout Goal'
+                onChange={this.handleWorkoutGoalSelect}>
+                <Option value="lose weight">Lose Weight</Option>
+                <Option value="strengthen">Strengthen</Option>
+                <Option value="none">Buluruz daha</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item>
+              <Select
+                placeholder='How often do you exercise (until now)?'
+                onChange={this.handlePastWorkoutFreqSelect}>
+                <Option value="almost zero">0 - 1 times a week</Option>
+                <Option value="two three">2 - 3 times a week</Option>
+                <Option value="four five">4 - 5 times a week</Option>
+                <Option value="six or more">6+ times a week</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item>
+              <Select
+                placeholder='How often do you want to exercise?'
+                onChange={this.handleCurWorkoutFreqSelect}>
+                <Option value="almost zero">1 time a week</Option>
+                <Option value="two three">2 - 3 times a week</Option>
+                <Option value="four five">4 - 5 times a week</Option>
+                <Option value="six or more">6+ times a week</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item className="checkbox">
+              <Checkbox>Would you like to get e-mails from us?</Checkbox>
+            </Form.Item>
+       
+           
+            <Form.Item {...tailFormItemLayout}>
+              <Button type="primary" htmlType="submit">
+                Update Profile
             </Button>
-          </Form.Item>
-        </Form>
+            </Form.Item>
+          </Form>
         </Col>
-        </div>
-      );
-   }
+      </div>
+    );
+  }
 }
 
 /*const mapStateToProps = state => ({
     user: state.auth.user,
     isAuthenticated: state.auth.isAuthenticated,
 });*/
-  
+
 export default ProfilePage;//connect(mapStateToProps)(ProfilePage);
