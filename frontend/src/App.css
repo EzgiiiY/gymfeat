@@ -14,7 +14,6 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +34,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.ant-tabs-nav{
+  width:100%;
+
+}
+
+.ant-tabs-bar {
+  border: none;
+  width: 90%;
+  z-index: 3;
+
+}
+
+.ant-tabs-nav-list{
+  width: 100%;
+}
+
+.ant-tabs-nav .ant-tabs-tab{
+  width:25%;
+  text-transform: capitalize;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }

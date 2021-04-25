@@ -14,12 +14,15 @@ class WebcamPosenetComponent extends React.Component{
         this.runPosenet = this.runPosenet.bind(this);
         this.detectWebcamFeed = this.detectWebcamFeed.bind(this);
         this.drawResult = this.drawResult.bind(this);
+        this.websocket = new WebSocket("ws://127.0.0.1:5678/"); // this guy should be in the format 'ws://HOST:PORT'. host and the port is specified in the python file.
+        this.websocket.onmessage = (e) => { // run this function every time socket receives something from the python file
+            var server_message = e.data;
+            console.log("received from server: ", server_message);
+         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.isWorkoutStarted) {
-            this.runPosenet();
-        }
+    componentDidMount(prevProps) {
+        this.runPosenet(); 
     }
 
     detectWebcamFeed = async (posenet_model) => {
@@ -37,7 +40,13 @@ class WebcamPosenetComponent extends React.Component{
           this.webcamRef.current.video.height = videoHeight;
 
           // Make Estimation
-          const pose = await posenet_model.estimateSinglePose(video);
+          const pose = await posenet_model.estimateSinglePose(video,0.5,false,16);
+          console.log("pose: ", pose);
+          if (this.websocket.readyState === WebSocket.OPEN) {
+            // if websocket is ready to send, turn the pose object into string and send the corresponding string to the python file
+            pose["type"] = 0
+            this.websocket.send(JSON.stringify(pose)); 
+          }
           this.drawResult(pose, video, videoWidth, videoHeight, this.canvasRef);
         
         }
@@ -46,10 +55,7 @@ class WebcamPosenetComponent extends React.Component{
     runPosenet = async () => {
         const posenet_model = await posenet.load({
             architecture: 'MobileNetV1',
-            outputStride: 16,
-            inputResolution: { width: 640, height: 480 },
-            scale: 0.8,
-            multiplier: 0.75
+            //inputResolution: { width: 640, height: 480 },
 
         });
         //

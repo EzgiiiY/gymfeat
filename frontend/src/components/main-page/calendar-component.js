@@ -1,18 +1,14 @@
 import { Calendar, Alert,Badge } from 'antd';
 import moment from 'moment';
 import React from 'react';
-import 'antd/dist/antd.css';
+import './calendar.css';
 
 function getListData(value) {
   let listData;
   switch (value.date()) {
     case 8:
       listData = [
-        { type: 'warning', label: 'This is warning event.', 
-        content:[
-        
-      ] },
-        { type: 'success', label: 'This is usual event.', 
+        { type: 'warning', label: 'Individual Workout', 
         content:[
         
       ] },
@@ -20,23 +16,27 @@ function getListData(value) {
       break;
     case 10:
       listData = [
-        { type: 'warning', label: 'This is warning event.', 
+        { type: 'success', label: 'Scheduled and Completed Workout', 
         content:[
         
       ] },
-        { type: 'success', label: 'This is usual event.', 
-        content:[
-        
-      ] },
-        { type: 'error', label: 'This is error event.', 
+      { type: 'error', label: 'Missed Workout Session',  
         content:[
         
       ] },
       ];
       break;
+      case 12:
+        listData = [
+          { type: 'error', label: 'Missed Workout Session', 
+          content:[
+          
+        ] },
+        ];
+      break;
     case 15:
       listData = [
-        { type: 'warning', label: 'Today\'s Exercise', 
+        { type: 'success', label: 'Today\'s Exercise', 
             content:["windmill skater 30 secs",
             "REST 5 secs"
             
@@ -50,8 +50,6 @@ function getListData(value) {
 
 class CalendarComponent extends React.Component {
   state = {
-    value: moment('2017-01-25'),
-    selectedValue: moment('2017-01-25'),
     currentContent: "",
     dateValues:[]
   };
@@ -90,7 +88,10 @@ class CalendarComponent extends React.Component {
     const { value, selectedValue } = this.state;
     return (
       <div>
-        <Calendar dateCellRender={this.dateCellRender} style={{height:"100%"}} fullscreen={false} value={value} onSelect={this.onSelect} onPanelChange={this.onPanelChange} />
+        <Calendar dateCellRender={this.dateCellRender}  
+        value={value} 
+        onSelect={this.onSelect} 
+        onPanelChange={this.onPanelChange} />
       </div>
     );
   }
