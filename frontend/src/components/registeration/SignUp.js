@@ -105,8 +105,12 @@ class SignUp extends Component {
   onSubmit = async formValues => {
     // this.props.register(formValues, "employee");  
     console.log("formvalues onsubmit: ", formValues);
-    await this.signUp({username: formValues.username, password: formValues.password, email: formValues.email});
-    this.setState({username: formValues.username, confirmationRequired: true})
+    try {
+      await this.signUp({username: formValues.username, password: formValues.password, email: formValues.email});
+      this.setState({username: formValues.username, confirmationRequired: true});
+    } catch (error) {
+      console.log('error signing up:', error);
+    }
     // history.push('/body-form-page')
   };
 
@@ -121,19 +125,15 @@ class SignUp extends Component {
   }
 
   async signUp({username, password, email}) {
-    try {
-        const { user } = await Auth.signUp({
-            username,
-            password,
-            attributes: {
-              email
-            }
-        });
-        console.log(user);
-        return user;
-    } catch (error) {
-        console.log('error signing up:', error);
-    }
+      const { user } = await Auth.signUp({
+          username,
+          password,
+          attributes: {
+            email
+          }
+      });
+      console.log(user);
+      return user;
   }
 
   async confirmSignUp({username, code}) {
