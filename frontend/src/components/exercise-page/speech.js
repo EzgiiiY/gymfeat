@@ -40,8 +40,6 @@ const SpeechRecognizerPopup = (props) => {
         <Form>
             <Form.Item>
                 <Typography.Title level={4}>If you are ready, click on 'Start' and go to your position</Typography.Title>
-                <Typography.Title level={5}>Then say YES!</Typography.Title>
-                <Typography.Title level={5}>If you say, NO, then you will be back to main page.</Typography.Title>
             </Form.Item>
             <Form.Item>
                   {warningsOn && 
