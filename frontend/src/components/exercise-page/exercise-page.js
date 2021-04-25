@@ -71,17 +71,8 @@ class ExercisePage extends React.Component{
       }
     
       handlePlay = () => {
-        this.setState({ playing: true })
-      }
-    
-      handleEnablePIP = () => {
-        console.log('onEnablePIP')
-        this.setState({ pip: true })
-      }
-    
-      handleDisablePIP = () => {
-        console.log('onDisablePIP')
-        this.setState({ pip: false })
+        this.setState({ playing: true,
+        workoutPaused: false })
       }
     
       handlePause = () => {
@@ -123,9 +114,9 @@ class ExercisePage extends React.Component{
     
 
     render(){
-        const {isWorkoutStarted, playing} = this.state;
+        const {isWorkoutStarted, playing, workoutPaused} = this.state;
         const {muted, warningsOn} = this.props;
-        const {voice, url} = this.props;
+        const {voice, url, handleExit} = this.props;
         return(
             <div className='webcam-container'>
                 {!isWorkoutStarted && <SpeechRecognizerPopup 
@@ -133,14 +124,16 @@ class ExercisePage extends React.Component{
                 voice = {voice}
                 warningsOn = {warningsOn}/> 
                 }
-                {isWorkoutStarted && 
+                {isWorkoutStarted &&  
                   <TopExercisePanel exerciseName = {"Sample Exercise"}
                   repetitionCount = {0}
                   isPlaying = {playing}
                   handlePause = {this.handlePause}
                   handlePlay = {this.handlePlay}
+                  handleExit = {handleExit}
                   ></TopExercisePanel>}
-                {isWorkoutStarted && <WebcamPosenetComponent></WebcamPosenetComponent>}
+                {isWorkoutStarted &&
+                <WebcamPosenetComponent></WebcamPosenetComponent>}
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'
                 playing={playing}
@@ -150,8 +143,6 @@ class ExercisePage extends React.Component{
                 onReady={() => console.log('onReady')}
                 onStart={() => console.log('onStart')}
                 onPlay={this.handlePlay}
-                onEnablePIP={this.handleEnablePIP}
-                onDisablePIP={this.handleDisablePIP}
                 onPause={this.handlePause}
                 onBuffer={() => console.log('onBuffer')}
                 onSeek={e => console.log('onSeek', e)}
