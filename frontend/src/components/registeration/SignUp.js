@@ -84,6 +84,7 @@ class SignUp extends Component {
       confirmationRequired: false,
       username: ""
     }
+
   }
 
   handleChange = info => {
@@ -101,6 +102,13 @@ class SignUp extends Component {
       );
     }
   };
+
+  temp = async () => {
+    // const usr = await Auth.signIn("talha", "123456");
+    // console.log(await Auth.currentSession());
+    // console.log("userinfo: ", await Auth.currentUserInfo());
+    // console.log("temp ", usr);
+  }
 
   onSubmit = async formValues => {
     // this.props.register(formValues, "employee");  
@@ -279,6 +287,9 @@ class SignUp extends Component {
           </Form>}
           
         </Col>
+        <Button style={{float:"right"}} type="primary" onClick={(e) => {this.temp()}}>
+                  temp
+            </Button>
       </div>
     );
   }
