@@ -16,9 +16,16 @@ import history from './history';
 import './App.css';
 import './styles/css/main.css';
 import { Layout, Menu, Breadcrumb, Button,  Dropdown } from 'antd';
-
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
 const { Header, Content, Footer } = Layout;
+
+
+
+// signUp()
+// confirmSignUp()
 
 class App extends Component {
   
