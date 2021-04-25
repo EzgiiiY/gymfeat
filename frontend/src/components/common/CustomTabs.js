@@ -36,7 +36,7 @@ const welcomePage = (
 const userInfo = 
     <Button style={{ marginRight: "10px" }} onClick={()=>history.push("/profile")}>
         <UserOutlined/>
-        user 
+        User 
     </Button>
 
 

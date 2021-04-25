@@ -6,6 +6,7 @@ import '../../reducers/workout';
 import { startWorkout, endWorkout } from '../../actions/workout';
 import SpeechRecognizerPopup from './speech'
 import ReactPlayer from "react-player"
+import TopExercisePanel from "./top-exercise-panel"
 import './webcam-page.css';
 
 class ExercisePage extends React.Component{
@@ -16,6 +17,8 @@ class ExercisePage extends React.Component{
             isWorkoutStarted: false,
             playing: false,
             startingFrom: 43, //starting from 43rd
+            workoutPaused: false,
+            workoutStopped: false,
         };
         this.startWorkout = this.startWorkout.bind(this);
         this.playerRef = React.createRef();
@@ -28,8 +31,7 @@ class ExercisePage extends React.Component{
             playing: true,
         });
         this.playerRef.current.seekTo(43);
-
-        console.log(window.speechSynthesis.getVoices());
+        //console.log(window.speechSynthesis.getVoices());
     };
 
     handlePlayPause = () => {
@@ -68,12 +70,7 @@ class ExercisePage extends React.Component{
         this.setState({ playbackRate: parseFloat(e.target.value) })
       }
     
-      handleTogglePIP = () => {
-        this.setState({ pip: !this.state.pip })
-      }
-    
       handlePlay = () => {
-        console.log('onPlay')
         this.setState({ playing: true })
       }
     
@@ -89,7 +86,8 @@ class ExercisePage extends React.Component{
     
       handlePause = () => {
         console.log('onPause')
-        this.setState({ playing: false })
+        this.setState({ playing: false,
+        workoutPaused: true })
       }
     
       handleSeekMouseDown = e => {
@@ -106,7 +104,7 @@ class ExercisePage extends React.Component{
       }
     
       handleProgress = state => {
-        console.log('onProgress', state)
+        //console.log('onProgress', state)
         // We only want to update time slider if we are not currently seeking
         if (!this.state.seeking) {
           this.setState(state)
@@ -126,19 +124,29 @@ class ExercisePage extends React.Component{
 
     render(){
         const {isWorkoutStarted, playing} = this.state;
-        const {voice} = this.props;
+        const {muted, warningsOn} = this.props;
+        const {voice, url} = this.props;
         return(
             <div className='webcam-container'>
-                {!isWorkoutStarted &&<SpeechRecognizerPopup 
+                {!isWorkoutStarted && <SpeechRecognizerPopup 
                 startWorkout={this.startWorkout}
-                voice = {voice}/> 
+                voice = {voice}
+                warningsOn = {warningsOn}/> 
                 }
-                <WebcamPosenetComponent isWorkoutStarted={isWorkoutStarted}></WebcamPosenetComponent>
+                {isWorkoutStarted && 
+                  <TopExercisePanel exerciseName = {"Sample Exercise"}
+                  repetitionCount = {0}
+                  isPlaying = {playing}
+                  handlePause = {this.handlePause}
+                  handlePlay = {this.handlePlay}
+                  ></TopExercisePanel>}
+                {isWorkoutStarted && <WebcamPosenetComponent></WebcamPosenetComponent>}
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'
                 playing={playing}
-                width='33%'
-                height='33%'
+                width='28%'
+                height='28%'
+                muted = {muted}
                 onReady={() => console.log('onReady')}
                 onStart={() => console.log('onStart')}
                 onPlay={this.handlePlay}
@@ -152,16 +160,11 @@ class ExercisePage extends React.Component{
                 onProgress={this.handleProgress}
                 onDuration={this.handleDuration}
                 controls={false}
-                url="https://www.youtube.com/watch?v=2pLT-olgUJs"/>  
+                url={url}/>  
             </div>
         );
     }
-
-    //{!isWorkoutStarted && <SpeechRecognizerPopup startWorkout={this.startWorkout}/> }
 }
-
-/*
-*/
 
 const mapStateToProps = state => ({
     //isWorkoutStarted: state.isWorkoutStarted,
@@ -174,9 +177,11 @@ ExercisePage = connect(
 export default connect(mapStateToProps)(ExercisePage);
 
 ExercisePage.propTypes = {
-  voice: PropTypes.string
+  voice: PropTypes.string, 
+  url: PropTypes.string
 }
 
 ExercisePage.defaultProps = {
-  voice: 'Google UK English Female'
+  voice: 'Google UK English Female',
+  url: "https://www.youtube.com/watch?v=2pLT-olgUJs"
 };
