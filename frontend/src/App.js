@@ -23,10 +23,6 @@ Amplify.configure(awsconfig);
 const { Header, Content, Footer } = Layout;
 
 
-
-// signUp()
-// confirmSignUp()
-
 class App extends Component {
   
 

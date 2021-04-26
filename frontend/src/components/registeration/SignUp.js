@@ -18,11 +18,12 @@ import {
   AutoComplete,
 } from 'antd';
 import history from '../../history'; // added
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
 import { register } from '../../actions/auth';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import './register.css'
+import * as Mutation from '../../graphql/mutations';
 
 
 const formItemLayout = {
@@ -142,6 +143,30 @@ class SignUp extends Component {
       await Auth.confirmSignUp(username, code);
     } catch (error) {
         console.log('error confirming sign up', error);
+    }
+  }
+
+  async login(e) {
+    const user = await Auth.signIn("talha", "123456");
+    console.log("user: ", user);
+  }
+
+  async amILogged(e) {
+    const user = await Auth.currentUserInfo();
+    console.log("user: ", user);
+  }
+
+  async signOut(e) {
+    const user = await Auth.signOut();
+    console.log("user: ", user);
+  }
+
+  async addtoDB() {
+    const todo = { name: "My first todo", description: "Hello world!" };
+    try {
+      await API.graphql(graphqlOperation(Mutation.createTodo, {input: todo}));
+    } catch (e) {
+      console.log("error adding to db: ", e);
     }
   }
 
@@ -279,6 +304,21 @@ class SignUp extends Component {
 
           </Form>}
           
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.login()}>
+                login
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.signOut()}>
+                signout
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.amILogged()}>
+                am i logged?
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.addtoDB()}>
+                add sth to db
+          </Button>
         </Col>
       </div>
     );
