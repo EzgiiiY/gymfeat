@@ -5,6 +5,7 @@ import datetime
 import random
 import websockets
 import json
+
 import numpy as np
 from scipy import signal
 import math
@@ -64,11 +65,13 @@ def threePoint(angle):
         Config.status = 2
         
 
+
 async def time(websocket, path):
     count = 0
     while True:
         message = await websocket.recv() # receive the message e.g. the pose data (as string)
         pose = json.loads(message) # conver the pose string to a pose object
+
         #print(pose["keypoints"][0]) # prints the score of pose
         
         Config.exercise_type = 1   #pose["type"]
@@ -111,6 +114,7 @@ async def time(websocket, path):
 start_server = websockets.serve(time, '127.0.0.1', 5678)
 
 asyncio.get_event_loop().run_until_complete(start_server)
+
 asyncio.get_event_loop().run_forever()
 
 '''
