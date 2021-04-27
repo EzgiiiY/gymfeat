@@ -40,11 +40,12 @@ class WebcamPosenetComponent extends React.Component{
           this.webcamRef.current.video.height = videoHeight;
 
           // Make Estimation
-          const pose = await posenet_model.estimateSinglePose(video,0.5,false,16);
+          const pose = await posenet_model.estimateSinglePose(video);
           console.log("pose: ", pose);
           if (this.websocket.readyState === WebSocket.OPEN) {
             // if websocket is ready to send, turn the pose object into string and send the corresponding string to the python file
             pose["type"] = 0
+            pose["repetition"] = 15
             this.websocket.send(JSON.stringify(pose)); 
           }
           this.drawResult(pose, video, videoWidth, videoHeight, this.canvasRef);
@@ -54,14 +55,17 @@ class WebcamPosenetComponent extends React.Component{
 
     runPosenet = async () => {
         const posenet_model = await posenet.load({
-            architecture: 'MobileNetV1',
-            //inputResolution: { width: 640, height: 480 },
+            architecture: 'ResNet50',
+            outputStride: 32,
+            inputResolution: 250,
+            multiplier: 1,
+            quantBytes: 2
 
         });
         //
         setInterval(() => {
           this.detectWebcamFeed(posenet_model);
-        }, 100);
+        }, 300);
     };
 
     drawResult = (pose, video, videoWidth, videoHeight, canvas) => {
