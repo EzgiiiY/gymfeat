@@ -36,6 +36,10 @@ export default class TopExercisePanel extends React.Component{
                 </Button>
                 <Divider type="vertical"></Divider>
                 {"Repetition Count: "}{repetitionCount}
+                <Divider type="vertical"></Divider>
+                <Button onClick={this.props.handleExit}>
+                    Exit
+                </Button>
               </div>
             </div>
           );

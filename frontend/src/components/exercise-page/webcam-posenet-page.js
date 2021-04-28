@@ -42,11 +42,18 @@ class WebcamPosenetComponent extends React.Component{
           // Make Estimation
           const pose = await posenet_model.estimateSinglePose(video);
           console.log("pose: ", pose);
+          //this is just a random number
+          var curRepetitionCount = 1;
+          //avoid calling the set repetition method all the time
+          if(this.props.prevRepetitionCount != curRepetitionCount){
+            this.props.setRepetitionCount(curRepetitionCount);
+          }
           if (this.websocket.readyState === WebSocket.OPEN) {
             // if websocket is ready to send, turn the pose object into string and send the corresponding string to the python file
 
             pose["type"] = 0
             pose["repetition"] = 15
+
 
             this.websocket.send(JSON.stringify(pose)); 
           }

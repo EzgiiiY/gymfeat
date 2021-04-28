@@ -17,11 +17,29 @@ class ExercisePage extends React.Component{
             isWorkoutStarted: false,
             playing: false,
             startingFrom: 43, //starting from 43rd
-            workoutPaused: false,
             workoutStopped: false,
+            repetitionCount: 0,
+            voiceObject: null,
         };
         this.startWorkout = this.startWorkout.bind(this);
         this.playerRef = React.createRef();
+    }
+
+    getVoiceByName = (name) => {
+      var voices = window.speechSynthesis.getVoices();
+      for(var i  = 0; i < voices.length; i++){
+        if(voices[i].name == name)
+          return voices[i];
+      }
+      return voices[0];
+    };
+    
+    componentDidMount(){
+      setTimeout(() => {
+        this.setState({
+          voiceObject: this.getVoiceByName(this.props.voice),
+        });
+      }, 50);
     }
 
 
@@ -31,7 +49,18 @@ class ExercisePage extends React.Component{
             playing: true,
         });
         this.playerRef.current.seekTo(43);
-        //console.log(window.speechSynthesis.getVoices());
+    };
+
+    setRepetitionCount = (repetition) => {
+        this.setState({
+          repetitionCount:repetition,
+        });
+        if(this.props.warningsOn){
+          var synth = window.speechSynthesis;
+          var utterThis = new SpeechSynthesisUtterance(repetition.toString());
+          utterThis.voice = this.state.voiceObject;
+          synth.speak(utterThis);
+        }
     };
 
     handlePlayPause = () => {
@@ -71,17 +100,8 @@ class ExercisePage extends React.Component{
       }
     
       handlePlay = () => {
-        this.setState({ playing: true })
-      }
-    
-      handleEnablePIP = () => {
-        console.log('onEnablePIP')
-        this.setState({ pip: true })
-      }
-    
-      handleDisablePIP = () => {
-        console.log('onDisablePIP')
-        this.setState({ pip: false })
+        this.setState({ playing: true,
+        workoutPaused: false })
       }
     
       handlePause = () => {
@@ -123,9 +143,9 @@ class ExercisePage extends React.Component{
     
 
     render(){
-        const {isWorkoutStarted, playing} = this.state;
+        const {isWorkoutStarted, playing, repetitionCount} = this.state;
         const {muted, warningsOn} = this.props;
-        const {voice, url} = this.props;
+        const {voice, url, handleExit} = this.props;
         return(
             <div className='webcam-container'>
                 {!isWorkoutStarted && <SpeechRecognizerPopup 
@@ -133,14 +153,19 @@ class ExercisePage extends React.Component{
                 voice = {voice}
                 warningsOn = {warningsOn}/> 
                 }
-                {isWorkoutStarted && 
+                {isWorkoutStarted &&  
                   <TopExercisePanel exerciseName = {"Sample Exercise"}
-                  repetitionCount = {0}
+                  repetitionCount = {repetitionCount}
                   isPlaying = {playing}
                   handlePause = {this.handlePause}
                   handlePlay = {this.handlePlay}
+                  handleExit = {handleExit}
                   ></TopExercisePanel>}
-                {isWorkoutStarted && <WebcamPosenetComponent></WebcamPosenetComponent>}
+                {isWorkoutStarted &&
+                <WebcamPosenetComponent 
+                prevRepetitionCount={repetitionCount}
+                setRepetitionCount={this.setRepetitionCount}
+                ></WebcamPosenetComponent>}
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'
                 playing={playing}
@@ -150,8 +175,6 @@ class ExercisePage extends React.Component{
                 onReady={() => console.log('onReady')}
                 onStart={() => console.log('onStart')}
                 onPlay={this.handlePlay}
-                onEnablePIP={this.handleEnablePIP}
-                onDisablePIP={this.handleDisablePIP}
                 onPause={this.handlePause}
                 onBuffer={() => console.log('onBuffer')}
                 onSeek={e => console.log('onSeek', e)}
