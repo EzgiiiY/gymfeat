@@ -10,13 +10,15 @@ import {
   } from '@ant-design/icons';
 import { Select } from 'antd';
 import workouts from '../../data/workouts.json'
-import './workout-list-page.css'
+import './workout-list-page.css';
+import {chooseWorkout} from '../../actions/workout'
 
 const { Option } = Select;
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default class WorkoutListPage extends React.Component {
+
+class WorkoutListPage extends React.Component {
 
     constructor(props){
         super(props);
@@ -29,7 +31,13 @@ export default class WorkoutListPage extends React.Component {
         this.setState({ 
           isHidden: isHidden });
     };
-
+    handleClick(e,item){
+      e.preventDefault();
+     
+      console.log(item);
+      this.props.chooseWorkout(item);
+      //console.log(this.props);
+    }
     onSwitchWarning = warningsOn =>{
       this.setState({ 
         warningsOn: warningsOn });
@@ -48,6 +56,8 @@ export default class WorkoutListPage extends React.Component {
     }
 
     render() {
+      
+      console.log(this.props)
         const { isHidden } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
@@ -73,6 +83,7 @@ export default class WorkoutListPage extends React.Component {
                   renderItem={item => (
                     <List.Item key={item.id}>
                       <Card title={item.workoutName}>
+                  <Button onClick={(e)=>this.handleClick(e,item)}>{item.workoutName}</Button>
                       <List
                       dataSource={item.exerciseList} 
                       renderItem={exercise => (
@@ -95,3 +106,19 @@ export default class WorkoutListPage extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps=dispatch=>{
+  console.log('IN mapDispatchToProps')
+  return {
+    chooseWorkout: (item) => dispatch(chooseWorkout(item))
+  }
+}
+const mapStateToProps =state=>{
+  return{
+    workout: state.workout
+  };
+}
+WorkoutListPage = connect(
+  mapStateToProps,mapDispatchToProps,
+)(WorkoutListPage);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutListPage)

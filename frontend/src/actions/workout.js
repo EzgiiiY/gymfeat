@@ -1,6 +1,8 @@
 import {
     WORKOUT_START_SUCCESS,
     WORKOUT_END_SUCCESS,
+    WORKOUT_CHOOSE_FAIL,
+    WORKOUT_CHOOSE_SUCCESS
 } from './types';
 
 export const startWorkout =() => async (dispatch) => {
@@ -13,4 +15,12 @@ export const endWorkout =() => async (dispatch) => {
     dispatch({
       type: WORKOUT_END_SUCCESS
     });
+}
+
+export const chooseWorkout =(workout) => async (dispatch) => {
+  console.log(workout);
+  dispatch({
+    type: WORKOUT_CHOOSE_SUCCESS,
+    payload: workout
+  });
 }
