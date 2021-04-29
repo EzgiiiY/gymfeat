@@ -13,7 +13,7 @@ import {
 import { Select } from 'antd';
 import exercises from '../../data/exercises.json'
 import './single-exercise-list-page.css'
-import {chooseExercise} from '../../actions/exercise'
+import {chooseExercise} from '../../actions/workout'
 
 const { Option } = Select;
 const { Sider } = Layout;
