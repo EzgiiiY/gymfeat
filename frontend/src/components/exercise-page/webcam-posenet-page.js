@@ -23,10 +23,11 @@ class WebcamPosenetComponent extends React.Component{
 
     componentDidMount(prevProps) {
         this.runPosenet(); 
+        console.log(this.webcamRef);
     }
 
-    componentWillUnmount() {
-        
+    componentDidUnmount() {
+        this.webcamRef.stream.active = false;
     }
 
     detectWebcamFeed = async (posenet_model) => {
