@@ -1,0 +1,12 @@
+.container {
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 800px;
+}
+
+
+  .ant-list-item {
+      min-width: 300px;
+  }

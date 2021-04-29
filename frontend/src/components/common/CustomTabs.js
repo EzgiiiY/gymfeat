@@ -6,6 +6,7 @@ import '../../App.css'
 import '../../styles/css/main.css';
 import { Layout, Menu, Breadcrumb, Button, Tabs, Dropdown } from 'antd';
 import { DownOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
+import workout from '../../reducers/workout';
 
 
 const { TabPane } = Tabs;
@@ -33,6 +34,13 @@ const welcomePage = (
     />
 );
 
+const workoutList = (
+    <TabPane tab="Workouts"
+        key="workoutList"
+        centered="true"
+    />
+);
+
 const userInfo = 
     <Button style={{ marginRight: "10px" }} onClick={()=>history.push("/profile")}>
         <UserOutlined/>
@@ -48,6 +56,8 @@ class CustomTabs extends Component {
             history.push("/exercise-page")
         else if (key == "calendar")
             history.push("/main-page")
+        else if(key == "workoutList")
+            history.push("/workoutList")
     }
 
     render() {
@@ -60,6 +70,7 @@ class CustomTabs extends Component {
                 {welcomePage}
                 {calendarViewLink}
                 {startTodaysWorkout}
+                {workoutList}
             </Tabs>
         )
     }
