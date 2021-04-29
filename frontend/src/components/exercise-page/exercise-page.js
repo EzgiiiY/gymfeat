@@ -20,6 +20,7 @@ class ExercisePage extends React.Component{
             repetitionCount: 0,
             voiceObject: null,
             curExercise: 0,
+            curSet: 0,
         };
         this.startWorkout = this.startWorkout.bind(this);
         this.playerRef = React.createRef();
@@ -134,7 +135,6 @@ class ExercisePage extends React.Component{
         console.log('played seconds', state)
         if(this.props.workout.workout.exerciseList[this.state.curExercise].Start + 5 < state.playedSeconds){
           this.setState({ playing: false } )
-          
         }
 
  /* 
@@ -174,7 +174,7 @@ class ExercisePage extends React.Component{
       }
 
       handleGoForward = () => {
-        const {curExercise} = this.state;
+        const {curExercise, curSet} = this.state;
         if(curExercise < this.props.workout.workout.length - 1){
           this.setState ({
             curExercise: curExercise + 1,
@@ -182,14 +182,29 @@ class ExercisePage extends React.Component{
             this.playerRef.current.seekTo(
               this.props.workout.workout.exerciseList[this.state.curExercise].Start);
           })
+        } else if(curSet + 1 < this.props.totSetCount){
+          this.setState ({
+            curExercise: 0,
+            curSet: curSet + 1,
+          })
+          this.playerRef.current.seekTo(
+            this.props.workout.workout.exerciseList[this.state.curExercise].Start);
+            if(this.props.warningsOn){
+              var synth = window.speechSynthesis;
+              var utterThis = new SpeechSynthesisUtterance("set ", (this.state.curSet + 1));
+              utterThis.voice = this.state.voiceObject;
+              synth.speak(utterThis);
+            }
+        } else{
+          this.props.exit();
         }
       }
 
     render(){
-        const {isWorkoutStarted, playing, repetitionCount, curExercise} = this.state;
+        const {isWorkoutStarted, playing, repetitionCount, curExercise, curSet} = this.state;
         const {muted, warningsOn} = this.props;
         const {workout} = this.props.workout;
-        const {voice, url, handleExit, setCount, totRepetitionCount} = this.props;
+        const {voice, url, handleExit, totSetCount, totRepetitionCount} = this.props;
         console.log(workout)
         return(
             <div className='webcam-container'>
@@ -201,6 +216,7 @@ class ExercisePage extends React.Component{
                 {isWorkoutStarted &&  
                   <TopExercisePanel exerciseName = {workout.workoutName}
                   repetitionCount = {repetitionCount}
+                  setCount = {curSet}
                   isPlaying = {playing}
                   handlePause = {this.handlePause}
                   handlePlay = {this.handlePlay}
@@ -214,6 +230,7 @@ class ExercisePage extends React.Component{
                 setRepetitionCount={this.setRepetitionCount}
                 totalRepetitionCount={totRepetitionCount}
                 type={workout.exerciseList[curExercise].Label}
+                goForward={this.handleGoForward}
                 ></WebcamPosenetComponent>}
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'

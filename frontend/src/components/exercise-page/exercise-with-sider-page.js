@@ -26,8 +26,8 @@ class ExerciseWithSiderPage extends React.Component {
            muted: false,
            warningsOn: true,
            isExited: false,
-           setCount: 1,
-           repetitionCount: 10,
+           totSetCount: 1,
+           totRepetitionCount: 10,
         };
     }
 
@@ -55,10 +55,20 @@ class ExerciseWithSiderPage extends React.Component {
 
     handleSetCountChange = (value) => {
       console.log(`selected ${value}`);
+      this.setState({
+        totSetCount: value,
+      });
     }
 
+    handleRepetitionCountChange = (value) => {
+      this.setState({
+        totRepetitionCount: value,
+      });
+    }
+    
+
     render() {
-        const { isHidden, muted, warningsOn, isExited, setCount, repetitionCount } = this.state;
+        const { isHidden, muted, warningsOn, isExited, totSetCount, totRepetitionCount } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={isHidden} onCollapse={this.onHide}>
@@ -108,8 +118,9 @@ class ExerciseWithSiderPage extends React.Component {
               muted={muted}
               warningsOn={warningsOn}
               handleExit={this.handleExit}
-              setCount={setCount}
-              totRepetitionCount={repetitionCount}
+              totSetCount={totSetCount}
+              totRepetitionCount={totRepetitionCount}
+              exit={this.handleExit}
               >
               </ExercisePage>}
               {isExited &&

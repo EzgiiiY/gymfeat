@@ -15,7 +15,7 @@ export default class TopExercisePanel extends React.Component{
 
     render(){
         const {exerciseName, repetitionCount, handlePause, isPlaying, handlePlay,
-        handleGoForward, handleGoBack} = this.props;
+        handleGoForward, handleGoBack, setCount} = this.props;
         return (
             <div className="modal">
               <div className="modal_content">
@@ -36,7 +36,9 @@ export default class TopExercisePanel extends React.Component{
                     <StepForwardOutlined></StepForwardOutlined>
                 </Button>
                 <Divider type="vertical"></Divider>
-                {"Repetition Count: "}{repetitionCount}
+                {"Set: "}{setCount + 1}
+                <Divider type="vertical"></Divider>
+                {"Repetition: "}{repetitionCount}
                 <Divider type="vertical"></Divider>
                 <Button onClick={this.props.handleExit}>
                     Exit
