@@ -14,13 +14,14 @@ export default class TopExercisePanel extends React.Component{
     }
 
     render(){
-        const {exerciseName, repetitionCount, handlePause, isPlaying, handlePlay} = this.props;
+        const {exerciseName, repetitionCount, handlePause, isPlaying, handlePlay,
+        handleGoForward, handleGoBack} = this.props;
         return (
             <div className="modal">
               <div className="modal_content">
                 {exerciseName}
                 <Divider type="vertical"></Divider>
-                <Button>
+                <Button onClick={handleGoBack}>
                     <StepBackwardOutlined></StepBackwardOutlined>
                 </Button>
                 {isPlaying && 
@@ -31,7 +32,7 @@ export default class TopExercisePanel extends React.Component{
                 <Button onClick={handlePlay}>
                     <PlaySquareOutlined></PlaySquareOutlined>
                 </Button>}
-                <Button>
+                <Button onClick={handleGoForward}>
                     <StepForwardOutlined></StepForwardOutlined>
                 </Button>
                 <Divider type="vertical"></Divider>

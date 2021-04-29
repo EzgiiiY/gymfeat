@@ -127,11 +127,27 @@ class ExercisePage extends React.Component{
       }
     
       handleProgress = state => {
-        //console.log('onProgress', state)
         // We only want to update time slider if we are not currently seeking
         if (!this.state.seeking) {
           this.setState(state)
         }
+        console.log('played seconds', state)
+        if(this.props.workout.workout.exerciseList[this.state.curExercise].Start + 5 < state.playedSeconds){
+          this.setState({ playing: false } )
+          
+        }
+
+ /* 
+ function() { 
+              if(this.props.warningsOn){
+                var synth = window.speechSynthesis;
+                var utterThis = new SpeechSynthesisUtterance("It's your turn.");
+                utterThis.voice = this.state.voiceObject;
+                synth.speak(utterThis);
+              }
+             }
+ */
+
       }
     
       handleEnded = () => {
@@ -144,6 +160,30 @@ class ExercisePage extends React.Component{
         this.setState({ duration })
       }
     
+      handleGoBack = () => {
+        const {curExercise} = this.state;
+        if(curExercise > 0){
+          this.setState({
+            curExercise: curExercise - 1,
+          }, function(){
+            this.playerRef.current.seekTo(
+              this.props.workout.workout.exerciseList[this.state.curExercise].Start);
+          })
+          
+        }
+      }
+
+      handleGoForward = () => {
+        const {curExercise} = this.state;
+        if(curExercise < this.props.workout.workout.length - 1){
+          this.setState ({
+            curExercise: curExercise + 1,
+          }, function(){
+            this.playerRef.current.seekTo(
+              this.props.workout.workout.exerciseList[this.state.curExercise].Start);
+          })
+        }
+      }
 
     render(){
         const {isWorkoutStarted, playing, repetitionCount, curExercise} = this.state;
@@ -165,6 +205,8 @@ class ExercisePage extends React.Component{
                   handlePause = {this.handlePause}
                   handlePlay = {this.handlePlay}
                   handleExit = {handleExit}
+                  handleGoBack = {this.handleGoBack}
+                  handleGoForward = {this.handleGoForward}
                   ></TopExercisePanel>}
                 {isWorkoutStarted &&
                 <WebcamPosenetComponent 
