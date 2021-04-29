@@ -69,6 +69,7 @@ export default class WorkoutListPage extends React.Component {
             <div className='container'>
               <List
                   dataSource={workouts}
+                  grid={{ gutter: 16, column: 3 }}
                   renderItem={item => (
                     <List.Item key={item.id}>
                       <Card title={item.workoutName}>

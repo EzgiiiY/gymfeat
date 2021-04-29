@@ -4,9 +4,5 @@
     display: flex;
     justify-content: center;
     min-height: 800px;
+    min-width: 500px;
 }
-
-
-  .ant-list-item {
-      min-width: 300px;
-  }
