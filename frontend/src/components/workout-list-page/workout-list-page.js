@@ -51,15 +51,15 @@ export default class WorkoutListPage extends React.Component {
         const { isHidden } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={isHidden} onCollapse={this.onHide}>
+            <Sider>
               <div className="logo" />
               <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                <Menu.Item key="1" icon={<WarningOutlined />}>
+                <Menu.Item key="1">
                   <NavLink to='/workoutList'>
                     Workouts
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item key="2" icon={<AudioMutedOutlined />}>
+                <Menu.Item key="2" >
                   <NavLink to='/exerciseList'>
                     Single Exercises
                   </NavLink>
