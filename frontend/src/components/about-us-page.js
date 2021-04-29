@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Col, Row, Button, List } from 'antd';
 import {GithubOutlined, LinkedinOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom'
+import gonca from '../icons/our_pics/IMG_2224.png'
 import './about-us-page.css'
 
 export default class AboutUsPage extends Component {
@@ -12,26 +13,7 @@ export default class AboutUsPage extends Component {
             <List>
                 <List.Item>
                 <Row justify="space-around">
-                <Col span={4}>
-                    <Card title="Ravan Aliyev" cover={
-                    <img
-                        alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                    />
-                    }
-                    actions={[
-                        <Button href='https://github.com/talhaburakc' 
-                        icon={<GithubOutlined/>}/>,
-                        <Button href='https://www.linkedin.com/in/mcagrigungor/' 
-                        icon={<LinkedinOutlined/>}/>,
-                    ]}
-                    bordered={false}>
-                    Hello! I took part in .... 
-                    I love ...
-                    You can add me on Github, or Linkedin.
-                    </Card>
-                </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Talha Burak Çuhadar" cover={
                     <img
                         alt="example"
@@ -50,7 +32,7 @@ export default class AboutUsPage extends Component {
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Mustafa Çağrı Güngör" cover={
                     <img
                         alt="example"
@@ -69,7 +51,7 @@ export default class AboutUsPage extends Component {
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Ezgi Yavuz" cover={
                     <img
                         alt="example"
@@ -88,11 +70,11 @@ export default class AboutUsPage extends Component {
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Gonca Yılmaz" cover={
                     <img
                         alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        src={gonca}
                     />
                     }
                     actions={[
@@ -102,8 +84,8 @@ export default class AboutUsPage extends Component {
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
-                    Hello! I took part in .... 
-                    I love ...
+                    Hi! I took part in the frontend and ML part of the project.
+                    I love coding.
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
