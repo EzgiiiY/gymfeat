@@ -82,7 +82,6 @@ class WorkoutListPage extends React.Component {
                   grid={{ gutter: 16, column: 3 }}
                   renderItem={item => (
                     <List.Item key={item.id}>
-                      <Card title={item.workoutName}>
                   <Button onClick={(e)=>this.handleClick(e,item)}>{item.workoutName}</Button>
                       <List
                       dataSource={item.exerciseList} 
@@ -95,7 +94,6 @@ class WorkoutListPage extends React.Component {
                       )}
                       >
                       </List>
-                      </Card>
                     </List.Item>
                   )}
                 >

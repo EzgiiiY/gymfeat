@@ -16,10 +16,10 @@ class ExercisePage extends React.Component{
         this.state = {
             isWorkoutStarted: false,
             playing: false,
-            startingFrom: 43, //starting from 43rd
             workoutStopped: false,
             repetitionCount: 0,
             voiceObject: null,
+            curExercise: 0,
         };
         this.startWorkout = this.startWorkout.bind(this);
         this.playerRef = React.createRef();
@@ -48,7 +48,10 @@ class ExercisePage extends React.Component{
             isWorkoutStarted: true,
             playing: true,
         });
-        this.playerRef.current.seekTo(43);
+        console.log("Cur exercise: ")
+        console.log(this.props.workout.workout.exerciseList[this.state.curExercise])
+        this.playerRef.current.seekTo(
+          this.props.workout.workout.exerciseList[this.state.curExercise].Start);
     };
 
     setRepetitionCount = (repetition) => {
@@ -143,9 +146,11 @@ class ExercisePage extends React.Component{
     
 
     render(){
-        const {isWorkoutStarted, playing, repetitionCount} = this.state;
+        const {isWorkoutStarted, playing, repetitionCount, curExercise} = this.state;
         const {muted, warningsOn} = this.props;
-        const {voice, url, handleExit} = this.props;
+        const {workout} = this.props.workout;
+        const {voice, url, handleExit, setCount, totRepetitionCount} = this.props;
+        console.log(workout)
         return(
             <div className='webcam-container'>
                 {!isWorkoutStarted && <SpeechRecognizerPopup 
@@ -154,7 +159,7 @@ class ExercisePage extends React.Component{
                 warningsOn = {warningsOn}/> 
                 }
                 {isWorkoutStarted &&  
-                  <TopExercisePanel exerciseName = {"Sample Exercise"}
+                  <TopExercisePanel exerciseName = {workout.workoutName}
                   repetitionCount = {repetitionCount}
                   isPlaying = {playing}
                   handlePause = {this.handlePause}
@@ -165,6 +170,8 @@ class ExercisePage extends React.Component{
                 <WebcamPosenetComponent 
                 prevRepetitionCount={repetitionCount}
                 setRepetitionCount={this.setRepetitionCount}
+                totalRepetitionCount={totRepetitionCount}
+                type={workout.exerciseList[curExercise].Label}
                 ></WebcamPosenetComponent>}
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'
@@ -183,19 +190,21 @@ class ExercisePage extends React.Component{
                 onProgress={this.handleProgress}
                 onDuration={this.handleDuration}
                 controls={false}
-                url={url}/>  
+                url={workout.exerciseList[curExercise].Link}/>  
             </div>
         );
     }
 }
 
-const mapStateToProps = state => ({
-    //isWorkoutStarted: state.isWorkoutStarted,
-});
+
+const mapStateToProps =state=>{
+  return{
+    workout: state.workout
+  };
+}
 
 ExercisePage = connect(
     mapStateToProps,
-    {startWorkout},
   )(ExercisePage);
 export default connect(mapStateToProps)(ExercisePage);
 
