@@ -18,7 +18,7 @@ import {
   AutoComplete,
 } from 'antd';
 import history from '../../history'; // added
-
+import Amplify, { Auth } from 'aws-amplify';
 import { register } from '../../actions/auth';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
@@ -80,8 +80,11 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      confirmationRequired: false,
+      username: ""
     }
+
   }
 
   handleChange = info => {
@@ -99,12 +102,48 @@ class SignUp extends Component {
       );
     }
   };
-
-  onSubmit = formValues => {
-    this.props.register(formValues, "employee");
+  
+  onSubmit = async formValues => {
+    // this.props.register(formValues, "employee");  
+    console.log("formvalues onsubmit: ", formValues);
+    try {
+      await this.signUp({username: formValues.username, password: formValues.password, email: formValues.email});
+      this.setState({username: formValues.username, confirmationRequired: true});
+    } catch (error) {
+      console.log('error signing up:', error);
+    }
+    // history.push('/body-form-page')
   };
 
+  onConfirmSignUp = async formValues => {
+    console.log("formvalues onconfirm: ", formValues);
+    try {
+      await Auth.confirmSignUp(this.state.username, formValues.code);
+      history.push('/body-form-page')
+    } catch (error) {
+      console.log('error confirming sign up', error);
+    }
+  }
 
+  async signUp({username, password, email}) {
+      const { user } = await Auth.signUp({
+          username,
+          password,
+          attributes: {
+            email
+          }
+      });
+      console.log(user);
+      return user;
+  }
+
+  async confirmSignUp({username, code}) {
+    try {
+      await Auth.confirmSignUp(username, code);
+    } catch (error) {
+        console.log('error confirming sign up', error);
+    }
+  }
 
   render() {
     /*if (this.props.isAuthenticated) {
@@ -126,7 +165,7 @@ class SignUp extends Component {
             style={{ marginRight: "10vh", padding: "5vh 5vh 5vh 5vh" }}
             {...formItemLayout}
             name="register"
-            onFinish={values => this.onSubmit(values)}
+            onFinish={values => this.onSubmit(values)} 
             scrollToFirstError
           >
             <Form.Item
@@ -160,6 +199,14 @@ class SignUp extends Component {
                   message: 'Please input your E-mail!',
                 },
               ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[{ required: true, message: 'Please input your username!' }]}
             >
               <Input />
             </Form.Item>
@@ -203,11 +250,35 @@ class SignUp extends Component {
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>
-              <Button style={{float:"right"}} type="primary" htmlType="submit" onClick={()=>history.push('/body-form-page')}>
+              <Button style={{float:"right"}} type="primary" htmlType="submit">
                   Continue
               </Button>
             </Form.Item>
           </Form>
+
+          {this.state.confirmationRequired && <Form
+            style={{ marginRight: "10vh", padding: "5vh 5vh 5vh 5vh" }}
+            {...formItemLayout}
+            name="confirmation"
+            onFinish={values => this.onConfirmSignUp(values)} 
+            scrollToFirstError
+          >
+            <Form.Item
+              name="code"
+              label="Confirmation Code"
+              rules={[{ required: true, message: 'Please input your confirmation code!' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item {...tailFormItemLayout}>
+              <Button style={{float:"right"}} type="primary" htmlType="submit">
+                  Confirm
+              </Button>
+            </Form.Item>
+
+          </Form>}
+          
         </Col>
       </div>
     );
