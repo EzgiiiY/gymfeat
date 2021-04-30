@@ -18,12 +18,22 @@ class WebcamPosenetComponent extends React.Component{
         this.websocket.onmessage = (e) => { // run this function every time socket receives something from the python file
             var server_message = e.data;
             console.log("received from server: ", server_message);
+            if(parseInt(server_message) < 0)
+            {
+                var score = -parseInt(server_message) // bittiğinde gösterilecek score
+                var message = this.props.exerciseName + " score: " + score + "\n";
+                this.props.addMessage(message);
+                this.props.goForward();
+            }
+            else
+            {
+            this.props.setRepetitionCount(parseInt(server_message));
+            }
          }
     }
 
     componentDidMount(prevProps) {
         this.runPosenet(); 
-        console.log(this.webcamRef);
     }
 
     componentDidUnmount() {
@@ -48,16 +58,16 @@ class WebcamPosenetComponent extends React.Component{
           const pose = await posenet_model.estimateSinglePose(video);
           console.log("pose: ", pose);
           //this is just a random number
-          var curRepetitionCount = 1;
+          //var curRepetitionCount = 1;
           //avoid calling the set repetition method all the time
-          if(this.props.prevRepetitionCount != curRepetitionCount){
-            this.props.setRepetitionCount(curRepetitionCount);
-          }
+          //if(this.props.prevRepetitionCount != curRepetitionCount){
+          //  this.props.setRepetitionCount(curRepetitionCount);
+          //}
           if (this.websocket.readyState === WebSocket.OPEN) {
             // if websocket is ready to send, turn the pose object into string and send the corresponding string to the python file
 
-            pose["type"] = 0
-            pose["repetition"] = 15
+            pose["type"] = this.props.type
+            pose["repetition"] = this.props.totalRepetitionCount
 
 
             this.websocket.send(JSON.stringify(pose)); 

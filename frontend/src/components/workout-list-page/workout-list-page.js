@@ -12,6 +12,7 @@ import { Select } from 'antd';
 import workouts from '../../data/workouts.json'
 import './workout-list-page.css';
 import {chooseWorkout} from '../../actions/workout'
+import WorkoutListPopup from './workout-list-popup'
 
 const { Option } = Select;
 const { Sider } = Layout;
@@ -24,6 +25,7 @@ class WorkoutListPage extends React.Component {
         super(props);
         this.state = {
           isHidden : false,
+          isPopupVisible: false,
        };
     }
 
@@ -31,13 +33,22 @@ class WorkoutListPage extends React.Component {
         this.setState({ 
           isHidden: isHidden });
     };
+
     handleClick(e,item){
       e.preventDefault();
      
       console.log(item);
       this.props.chooseWorkout(item);
       //console.log(this.props);
+      this.setState({ 
+        isPopupVisible: true });
     }
+
+    handleClose = () => {
+      this.setState({ 
+        isPopupVisible: false });
+    }
+
     onSwitchWarning = warningsOn =>{
       this.setState({ 
         warningsOn: warningsOn });
@@ -58,9 +69,13 @@ class WorkoutListPage extends React.Component {
     render() {
       
       console.log(this.props)
-        const { isHidden } = this.state;
+        const { isHidden, isPopupVisible } = this.state;
+
         return (
             <Layout style={{ minHeight: '100vh' }}>
+            {isPopupVisible && 
+            <WorkoutListPopup handleClose={this.handleClose}>
+            </WorkoutListPopup>}
             <Sider>
               <div className="logo" />
               <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
@@ -82,7 +97,6 @@ class WorkoutListPage extends React.Component {
                   grid={{ gutter: 16, column: 3 }}
                   renderItem={item => (
                     <List.Item key={item.id}>
-                      <Card title={item.workoutName}>
                   <Button onClick={(e)=>this.handleClick(e,item)}>{item.workoutName}</Button>
                       <List
                       dataSource={item.exerciseList} 
@@ -95,7 +109,6 @@ class WorkoutListPage extends React.Component {
                       )}
                       >
                       </List>
-                      </Card>
                     </List.Item>
                   )}
                 >

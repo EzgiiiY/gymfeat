@@ -69,8 +69,9 @@ class CustomTabs extends Component {
             >
                 {welcomePage}
                 {calendarViewLink}
-                {startTodaysWorkout}
                 {workoutList}
+                {startTodaysWorkout}
+                
             </Tabs>
         )
     }

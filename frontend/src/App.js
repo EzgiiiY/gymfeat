@@ -13,6 +13,8 @@ import ProfilePage from './components/profile-page/ProfilePage'
 import SignUp from './components/registeration/SignUp'
 import SingleExerciseListPage from './components/workout-list-page/single-exercise-list-page'
 import WorkoutListPage from './components/workout-list-page/workout-list-page'
+import LoginForm from './components/registeration/Login'
+
 import history from './history';
 
 import './App.css';
@@ -64,6 +66,9 @@ class App extends Component {
               </Route>
               <Route path="/signUp">
                   <SignUp/>
+              </Route>
+              <Route path="/login">
+                  <LoginForm/>
               </Route>
               <Route path="/exerciseList">
                 <SingleExerciseListPage/>
