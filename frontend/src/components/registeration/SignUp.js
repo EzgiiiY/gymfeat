@@ -105,31 +105,20 @@ class SignUp extends Component {
     } catch (error) {
       console.log('error signing up:', error);
     }
-    // history.push('/body-form-page')
   };
 
   onConfirmSignUp = async formValues => {
-    console.log("formvalues onconfirm: ", formValues);
-    console.log(this.state);
     try {
       await this.props.validate(this.state.username, formValues.code)
     } catch (error) {
       console.log('error confirming sign up', error);
     }
+    history.push('/welcome-page')
   }
 
   async signUp(username,password,values) {
     const user = this.props.register(username, password, values)
     return user;
-  }
-
-  async confirmSignUp(username,code) {
-    console.log(username)
-    try {
-      await this.props.validate(username, code)
-    } catch (error) {
-      console.log('error confirming sign up', error);
-    }
   }
 
   setDate(value) {
