@@ -14,7 +14,7 @@ class WebcamPosenetComponent extends React.Component{
         this.runPosenet = this.runPosenet.bind(this);
         this.detectWebcamFeed = this.detectWebcamFeed.bind(this);
         this.drawResult = this.drawResult.bind(this);
-        this.websocket = new WebSocket("ws://127.0.0.1:5678/"); // this guy should be in the format 'ws://HOST:PORT'. host and the port is specified in the python file.
+        this.websocket = new WebSocket("ws://127.0.0.1:5679/"); // this guy should be in the format 'ws://HOST:PORT'. host and the port is specified in the python file.
         this.websocket.onmessage = (e) => { // run this function every time socket receives something from the python file
             var server_message = e.data;
             console.log("received from server: ", server_message);

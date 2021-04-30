@@ -170,6 +170,8 @@ class ExercisePage extends React.Component{
         if(curExercise > 0){
           this.setState({
             curExercise: curExercise - 1,
+            playing: true,
+            repetitionCount: 0,
           }, function(){
             this.playerRef.current.seekTo(
               this.props.workout.workout.exerciseList[this.state.curExercise].Start);
@@ -183,6 +185,8 @@ class ExercisePage extends React.Component{
         if(curExercise < this.props.workout.workout.length - 1){
           this.setState ({
             curExercise: curExercise + 1,
+            playing:true,
+            repetitionCount: 0,
           }, function(){
             this.playerRef.current.seekTo(
               this.props.workout.workout.exerciseList[this.state.curExercise].Start);
@@ -191,6 +195,8 @@ class ExercisePage extends React.Component{
           this.setState ({
             curExercise: 0,
             curSet: curSet + 1,
+            playing: true,
+            repetitionCount: 0,
           })
           this.playerRef.current.seekTo(
             this.props.workout.workout.exerciseList[this.state.curExercise].Start);
