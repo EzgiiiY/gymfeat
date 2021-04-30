@@ -41,7 +41,7 @@ class WelcomePage extends Component {
                     </List.Item>
                     <List.Item style={{ color: "whitesmoke" }}>
                         Already a user?
-                    <Link to='/signIn' className='item'>
+                    <Link to='/login' className='item'>
                             <Button style={buttonStyle}>Sign In</Button>
                         </Link>
                     </List.Item>

@@ -12,6 +12,7 @@ import {
     SettingOutlined,
   } from '@ant-design/icons';
 import { Select } from 'antd';
+import workout from '../../reducers/workout';
 
 const { Option } = Select;
 const { Sider } = Layout;
@@ -74,6 +75,9 @@ class ExerciseWithSiderPage extends React.Component {
             <Sider collapsible collapsed={isHidden} onCollapse={this.onHide}>
               <div className="logo" />
               <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                <Menu.Item key="0">
+                  {this.props.workout.workout.workoutName}
+                </Menu.Item>
                 <Menu.Item key="1" icon={<WarningOutlined />}>
                     AI Warnings 
                     <Divider type="vertical" />
