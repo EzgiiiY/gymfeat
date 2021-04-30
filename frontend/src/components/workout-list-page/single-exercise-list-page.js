@@ -13,6 +13,7 @@ import {
 import { Select } from 'antd';
 import exercises from '../../data/exercises.json'
 import './single-exercise-list-page.css'
+import {chooseExercise} from '../../actions/workout'
 
 const { Option } = Select;
 const { Sider } = Layout;
@@ -47,8 +48,7 @@ const  ExerciseList = exercises.map( ( data) =>{
       </List.Item>
   )
 } );
-
-export default class SingleExerciseListPage extends React.Component {
+class SingleExerciseListPage extends React.Component {
 
     constructor(props){
         super(props);
@@ -61,7 +61,13 @@ export default class SingleExerciseListPage extends React.Component {
         this.setState({ 
           isHidden: isHidden });
     };
-
+    handleClick(e,item){
+      e.preventDefault();
+     
+      console.log(item);
+      this.props.chooseExercise(item);
+      //console.log(this.props);
+    }
     onSwitchWarning = warningsOn =>{
       this.setState({ 
         warningsOn: warningsOn });
@@ -80,6 +86,7 @@ export default class SingleExerciseListPage extends React.Component {
     }
 
     render() {
+      console.log(this.props)
         const { isHidden } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
@@ -104,7 +111,7 @@ export default class SingleExerciseListPage extends React.Component {
                   renderItem={item => (
                     <List.Item key={item.id}>
                       <List.Item.Meta
-                        title={<a href={item.Link}>{item.Name}</a>}
+                        title={<Button onClick={(e)=>this.handleClick(e,item)} >{item.Name}</Button>}
                       />
                     </List.Item>
                   )}
@@ -116,3 +123,19 @@ export default class SingleExerciseListPage extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps=dispatch=>{
+  console.log('IN mapDispatchToProps')
+  return {
+    chooseExercise: (item) => dispatch(chooseExercise(item))
+  }
+}
+const mapStateToProps =state=>{
+  return{
+    exercise: state.exercise
+  };
+}
+SingleExerciseListPage = connect(
+  mapStateToProps,mapDispatchToProps,
+)(SingleExerciseListPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleExerciseListPage)
