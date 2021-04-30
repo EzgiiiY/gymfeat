@@ -129,12 +129,18 @@ class ExercisePage extends React.Component{
     
       handleProgress = state => {
         // We only want to update time slider if we are not currently seeking
-        if (!this.state.seeking) {
-          this.setState(state)
-        }
         console.log('played seconds', state)
         if(this.props.workout.workout.exerciseList[this.state.curExercise].Start + 5 < state.playedSeconds){
-          this.setState({ playing: false } )
+          if(this.state.playing) {
+          this.setState({ playing: false }, function() { 
+            if(this.props.warningsOn){
+              var synth = window.speechSynthesis;
+              var utterThis = new SpeechSynthesisUtterance("It's your turn.");
+              utterThis.voice = this.state.voiceObject;
+              synth.speak(utterThis);
+            }
+           }) }
+
         }
 
  /* 

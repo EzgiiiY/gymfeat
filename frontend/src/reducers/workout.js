@@ -5,10 +5,11 @@ import {
     WORKOUT_CHOOSE_FAIL,
     EXERCISE_CHOOSE_SUCCESS
 } from '../actions/types';
+import workouts from '../data/workouts.json'
 
 const initialState = {
     isWorkoutStarted: false,
-    workout:null,
+    workout:workouts[0],
     exercise:null
 };
 

@@ -39,13 +39,13 @@ const SpeechRecognizerPopup = (props) => {
       <div className="modal_content">
         <Form>
             <Form.Item>
-                <Typography.Title level={4}>If you are ready, click on 'Start' and go to your position</Typography.Title>
+                <Typography.Title level={4}>If you are ready, click on Start and go to your position!</Typography.Title>
             </Form.Item>
             <Form.Item>
                   {warningsOn && 
                   <Button onClick={handleClickStart} style={styleSpeech}>
                     <Speech textAsButton={true} displayText="Start" 
-                    text="Say yes, if you are ready" voice={voice}/>
+                    text="Are you ready?" voice={voice}/>
                     </Button>
                   }
                   {!warningsOn && 
