@@ -67,6 +67,11 @@ class SignUp extends Component {
       workoutGoal: '',
       workoutPastFrequency: '',
       workoutCurrentFrequency: '',
+      weightUnit:"kg",
+      heightUnit:"m",
+      height:0,
+      weight:0,
+      gender:"",
     }
     this.setDate = this.setDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -80,8 +85,22 @@ class SignUp extends Component {
   onSubmit = async formValues => {
     // this.props.register(formValues, "employee");  
     console.log("formvalues onsubmit: ", formValues);
+    console.log(this.state)
+    let values={
+      email: formValues.email,
+      weight: this.state.weight,
+      height: this.state.height,
+      weightUnit: this.state.weightUnit,
+      heightUnit:this.state.heightUnit,
+      gender:this.state.gender,
+      birhday:this.state.birhday,
+      goal:this.state.workoutGoal,
+      freqSoFar:this.state.workoutPastFrequency,
+      freqDesired: this.state.workoutCurrentFrequency
+
+    }
     try {
-      await this.signUp({ username: formValues.username, password: formValues.password, email: formValues.email });
+      await this.signUp(formValues.username,formValues.password, values);
       this.setState({ username: formValues.username, confirmationRequired: true });
     } catch (error) {
       console.log('error signing up:', error);
@@ -91,21 +110,23 @@ class SignUp extends Component {
 
   onConfirmSignUp = async formValues => {
     console.log("formvalues onconfirm: ", formValues);
+    console.log(this.state);
     try {
-      await this.confirmSignUp(this.state.username, formValues.code);
+      await this.props.validate(this.state.username, formValues.code)
     } catch (error) {
       console.log('error confirming sign up', error);
     }
   }
 
-  async signUp({ username, password, email }) {
-    const user = this.props.register(email, password, username)
+  async signUp(username,password,values) {
+    const user = this.props.register(username, password, values)
     return user;
   }
 
-  async confirmSignUp({ username, code }) {
+  async confirmSignUp(username,code) {
+    console.log(username)
     try {
-      this.props.validate(username, code)
+      await this.props.validate(username, code)
     } catch (error) {
       console.log('error confirming sign up', error);
     }
@@ -124,7 +145,7 @@ class SignUp extends Component {
   }
 
   setCurWorkoutFrequency(value) {
-    this.setState({ workoutCurFrequency: value });
+    this.setState({ workoutCurrentFrequency: value });
   }
 
   handleChange = value => {
@@ -239,38 +260,38 @@ class SignUp extends Component {
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item className='job-item'
+            <Form.Item 
               label="Enter your weight:"
               name="weight"
             >
               <Input.Group compact>
-                <Select defaultValue="kg" style={{ width: '20%' }}>
+                <Select onChange={(value)=>this.setState({weightUnit:value})}defaultValue="kg" style={{ width: '20%' }}>
                   <Option value="kg">kg</Option>
                   <Option value="lb">lb</Option>
                 </Select>
                 <Input
                   style={{ width: '70%' }}
-                  placeholder="Weight"
+                  onChange={(e)=>this.setState({weight:e.target.value})}
                 />
               </Input.Group>
             </Form.Item>
-            <Form.Item className='job-item'
+            <Form.Item 
               label="Enter your height:"
               name="height"
             >
               <Input.Group compact>
-                <Select defaultValue="m" style={{ width: '20%' }}>
+                <Select onChange={(value)=>this.setState({heightUnit:value})}defaultValue="m" style={{ width: '20%' }}>
                   <Option value="m">m</Option>
                   <Option value="ft">ft</Option>
                 </Select>
                 <Input
                   style={{ width: '70%' }}
-                  placeholder="Height"
+                  onChange={(e)=>this.setState({height:e.target.value})}
                 />
               </Input.Group>
             </Form.Item>
-            <Form.Item className='job-item' label="Enter your gender:">
-              <Select>
+            <Form.Item label="Enter your gender:">
+              <Select onChange={(value)=>this.setState({gender:value})}>
                 <Option value="male">Male</Option>
                 <Option value="female">Female</Option>
                 <Option value="none">I choose not to disclose.</Option>

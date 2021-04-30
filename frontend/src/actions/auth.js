@@ -42,25 +42,43 @@ export const loadUser = () => async (dispatch, getState) => {
 };
 
 // REGISTER USER
-export const register = (email, password, username) => async dispatch => {
-
+export const register = (username,password,values) => async dispatch => {
+  let email=values.email
+  let weight = values.weight
+  let height = values.height
+  let weightUnit = values.weightUnit
+  let heightUnit =values.heightUnit
+  let gender=values.gender
+  let birhday=values.birhday
+  let goal = values.workoutGoal
+  let freqSoFar=values.workoutPastFrequency
+  let freqDesired=values.workoutCurrentFrequency
   try {
     const res = await Auth.signUp({
       username,
       password,
       attributes: {
-        email
+        email,
+        "custom:weight":weight,
+        "custom:height":height,
+        "custom:weightUnit":weightUnit,
+        "custom:heightUnit":heightUnit,
+        "custom:gender":gender,
+        "custom:birhday":birhday,
+        "custom:goal":goal,
+        "custom:freqSoFar":freqSoFar,
+        "custom:freqDesired":freqDesired
       }
     });
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data
+      payload: res
     });
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL
     });
-    dispatch(stopSubmit('registerForm', err.response.data));
+    dispatch(stopSubmit('registerForm', err));
   }
 };
 //validate registration code
@@ -73,6 +91,7 @@ export const validate = (username, code) => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    console.log(err)
     dispatch({
       type: CONFIRMATION_FAIL
     });
