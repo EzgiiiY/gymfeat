@@ -21,6 +21,8 @@ class WebcamPosenetComponent extends React.Component{
             if(parseInt(server_message) < 0)
             {
                 var score = -parseInt(server_message) // bittiğinde gösterilecek score
+                var message = this.props.exerciseName + " score: " + score + "\n";
+                this.props.addMessage(message);
                 this.props.goForward();
             }
             else

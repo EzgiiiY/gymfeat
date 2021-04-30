@@ -25,8 +25,8 @@ export default class WorkoutListPopup extends React.Component {
     render(){
         const {handleClose} = this.props;
         return(
-            <div className="modal">   
-            <div className="modal_content">
+            <div className="modal-2">   
+            <div className="modal_content_2">
               <Form>
                   <Form.Item>
                       <Typography.Title level={4}>Do you wanna start the workout?</Typography.Title>
