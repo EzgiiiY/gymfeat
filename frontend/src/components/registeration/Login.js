@@ -41,6 +41,7 @@ class LoginForm extends Component {
     if (this.props.isAuthenticated) {
       return <Redirect to='/home' />;
     }
+    
     return (
         <div className='container' style={{ backgroundImage: `url(${background2})` }}>  
          

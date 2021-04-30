@@ -1,38 +1,38 @@
 // frontend/src/actions/auth.js
 
-import axios from 'axios';
 import { stopSubmit } from 'redux-form';
-
+import Amplify, { Auth } from 'aws-amplify';
 import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  CONFIRMATION_SUCCESS,
+  CONFIRMATION_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
 } from '../actions/types';
 
-const backend = "http://127.0.0.1:8000"
 // LOGOUT USER
-export const logout =() => async (dispatch, getState) => {
-    await axios.post(backend+'/api/auth/logout', null, tokenConfig(getState));
-    dispatch({
-      type: LOGOUT_SUCCESS
-    });
+export const logout = () => async (dispatch, getState) => {
+  await Auth.signOut(); //tokenConfig(getState));
+  dispatch({
+    type: LOGOUT_SUCCESS
+  });
 }
-  
+
 
 // LOAD USER
 export const loadUser = () => async (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   try {
-    const res = await axios.get(backend+'/api/auth/user', tokenConfig(getState));
+    const res = await Auth.currentAuthenticatedUser();
     dispatch({
       type: USER_LOADED,
-      payload: res.data
+      payload: res
     });
   } catch (err) {
     dispatch({
@@ -42,75 +42,60 @@ export const loadUser = () => async (dispatch, getState) => {
 };
 
 // REGISTER USER
-export const register = ({company="",email,password,username,first_name,last_name, position=""},type) => async dispatch => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  if(type === "employer"){
-    // Request Body
-    const user = {email,password,username,first_name,last_name};
-    const body = JSON.stringify({company,user});
+export const register = (email, password, username) => async dispatch => {
 
-    try {
-      const res = await axios.post(backend+'/api/auth/register'+type, body, config);
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      });
-    } catch (err) {
-      dispatch({
-        type: REGISTER_FAIL
-      });
-      dispatch(stopSubmit('registerForm', err.response.data));
-    }
-
+  try {
+    const res = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email
+      }
+    });
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: REGISTER_FAIL
+    });
+    dispatch(stopSubmit('registerForm', err.response.data));
   }
-  else if(type === "employee"){
-    const user = {email,password,username,first_name,last_name};
-    const body = JSON.stringify({company,position,user});
-    // Request Body
-    try {
-      const res = await axios.post(backend+'/api/auth/register'+type, body, config);
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      });
-    } catch (err) {
-      dispatch({
-        type: REGISTER_FAIL
-      });
-      dispatch(stopSubmit('registerForm', err.response.data));
-    }
+};
+//validate registration code
+export const validate = (username, code) => async dispatch => {
+
+  try {
+    const res = await Auth.confirmSignUp(username, code);
+    dispatch({
+      type: CONFIRMATION_SUCCESS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: CONFIRMATION_FAIL
+    });
   }
 };
 
 
+
 // LOGIN USER
-export const login = ({ username, password }, type) => async dispatch => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  console.log(type);
-  // Request Body
-  const body = JSON.stringify({ username, password });
+export const login = ({ username, password }) => async dispatch => {
 
   try {
-    const res = await axios.post(backend+'/api/auth/login'+type, body, config);
+    const res = await Auth.signIn(username, password);
+    const user = await Auth.currentAuthenticatedUser();
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data
+      payload: user
     });
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL
     });
-    dispatch(stopSubmit('loginForm', err.response.data));
+    dispatch(stopSubmit('loginForm', err));
   }
 };
 

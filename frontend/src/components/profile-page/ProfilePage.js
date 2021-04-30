@@ -59,24 +59,6 @@ const tailFormItemLayout = {
 };
 
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
 export class ProfilePage extends Component {
   constructor(props) {
     super(props);
@@ -85,35 +67,12 @@ export class ProfilePage extends Component {
     }
   }
 
-  handleChange = info => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
-    }
-  };
-
-
   render() {
-    //const {isAuthenticated, user} = this.props;
-    /*if (!isAuthenticated) {
+    const {isAuthenticated, user} = this.props;
+    if (!isAuthenticated) {
       return <Redirect to='/welcome-page' />;
-    }*/
-
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
-      </div>
-    );
+    }
+   
     return (
       <div>
         <h1 >Profile</h1>
@@ -127,38 +86,18 @@ export class ProfilePage extends Component {
             onFinish={values => this.onSubmit(values)}
             scrollToFirstError
           >
-            <Form.Item
-              name="profilepic"
-              label="Upload/Change Profile Photo"
-            >
-              <br></br>
-              <br></br>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-              >
-                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-              </Upload>
-
-            </Form.Item>
-
             <Form.Item className='job-item'
               label="Enter your nickname:"
               name="name"
             >
-              <Input />
+              <Input defaultValue={user.username}/>
             </Form.Item>
             <Form.Item
               name="email"
               label="Change E-mail Address"
             >
-              <Input placeholder="mail" /> {//{user.email}/>
-              }
+              <Input defaultValue={user.attributes.email}/>
+              
             </Form.Item>
             <Form.Item
               name="password"
@@ -272,9 +211,9 @@ export class ProfilePage extends Component {
   }
 }
 
-/*const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     user: state.auth.user,
     isAuthenticated: state.auth.isAuthenticated,
-});*/
+});
 
-export default ProfilePage;//connect(mapStateToProps)(ProfilePage);
+export default connect(mapStateToProps)(ProfilePage);
