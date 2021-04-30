@@ -110,10 +110,11 @@ class SignUp extends Component {
   onConfirmSignUp = async formValues => {
     try {
       await this.props.validate(this.state.username, formValues.code)
+      history.push('/welcome-page')
     } catch (error) {
       console.log('error confirming sign up', error);
     }
-    history.push('/welcome-page')
+    
   }
 
   async signUp(username,password,values) {
