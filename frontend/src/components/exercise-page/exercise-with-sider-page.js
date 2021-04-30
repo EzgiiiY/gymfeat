@@ -29,6 +29,7 @@ class ExerciseWithSiderPage extends React.Component {
            isExited: false,
            totSetCount: 1,
            totRepetitionCount: 10,
+           analysisMessage: "Here is your score: \n",
         };
     }
 
@@ -66,10 +67,23 @@ class ExerciseWithSiderPage extends React.Component {
         totRepetitionCount: value,
       });
     }
+
+    initializeAnalysisMessage = () => {
+      this.setState({
+        analysisMessage: "Here is your score: \n",
+      });
+    }
+
+    addMessage = (message) => {
+      this.setState({
+        analysisMessage: this.state.analysisMessage + message,
+      });
+    }
     
 
     render() {
-        const { isHidden, muted, warningsOn, isExited, totSetCount, totRepetitionCount } = this.state;
+        const { isHidden, muted, warningsOn, isExited, 
+          totSetCount, totRepetitionCount, analysisMessage } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={isHidden} onCollapse={this.onHide}>
@@ -107,6 +121,7 @@ class ExerciseWithSiderPage extends React.Component {
                     <Menu.Item key="5">
                       <Select defaultValue="10"
                         style={{ width:150 }} onChange={this.handleSetCountChange}>
+                        <Option value="5">Repetition:  5</Option>
                         <Option value="10">Repetition: 10</Option>
                         <Option value="15">Repetition: 15</Option>
                         <Option value="20">Repetition: 20</Option>
@@ -125,10 +140,12 @@ class ExerciseWithSiderPage extends React.Component {
               totSetCount={totSetCount}
               totRepetitionCount={totRepetitionCount}
               exit={this.handleExit}
+              initializeAnalysisMessage={this.initializeAnalysisMessage}
+              addMessage={this.addMessage}
               >
               </ExercisePage>}
               {isExited &&
-              <ExerciseFinishedPage>
+              <ExerciseFinishedPage analysisMessage={analysisMessage}>
               </ExerciseFinishedPage>
               }
             </Layout>

@@ -9,12 +9,13 @@ export default class ExerciseFinishedPage extends React.Component{
 
 
     render(){
+        const {analysisMessage} = this.props;
         return(
             <div className="modal">
                 {<Result
                 icon={<SmileOutlined />}
                 title="Workout Completed!"
-                subTitle="You are doing great."
+                subTitle={"You are doing great. " + analysisMessage}
                 extra={[
                 <Link to='/main-page'>
                     <Button type="primary" key="calendar">

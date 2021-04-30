@@ -49,8 +49,7 @@ class ExercisePage extends React.Component{
             isWorkoutStarted: true,
             playing: true,
         });
-        console.log("Cur exercise: ")
-        console.log(this.props.workout.workout.exerciseList[this.state.curExercise])
+        this.props.initializeAnalysisMessage();
         this.playerRef.current.seekTo(
           this.props.workout.workout.exerciseList[this.state.curExercise].Start);
     };
@@ -208,7 +207,7 @@ class ExercisePage extends React.Component{
 
     render(){
         const {isWorkoutStarted, playing, repetitionCount, curExercise, curSet} = this.state;
-        const {muted, warningsOn} = this.props;
+        const {muted, warningsOn, addMessage} = this.props;
         const {workout} = this.props.workout;
         const {voice, url, handleExit, totSetCount, totRepetitionCount} = this.props;
         console.log(workout)
@@ -236,7 +235,9 @@ class ExercisePage extends React.Component{
                 setRepetitionCount={this.setRepetitionCount}
                 totalRepetitionCount={totRepetitionCount}
                 type={workout.exerciseList[curExercise].Label}
+                exerciseName={workout.exerciseList[curExercise].Name}
                 goForward={this.handleGoForward}
+                addMessage={addMessage}
                 ></WebcamPosenetComponent>}
                 <ReactPlayer ref= {this.playerRef} 
                 className='react-player'
