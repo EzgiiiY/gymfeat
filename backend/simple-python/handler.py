@@ -15,8 +15,12 @@ from sklearn.preprocessing import MinMaxScaler
 
 class Config:
     repetition = 0
+    max_repetition = 0
+    makeSend = 0
     status = 0
     exercise_type = 0
+    total_distance = 0
+    isFinished = False
     threePointExercises = [0,1,2,3,4]
     nameToLabel = {"nose":0, "leftEye":1, "rightEye":2, "leftEar":3, "rightEar":4, "leftShoulder":5, 
     "rightShoulder":6, "leftElbow":7, "rightElbow":8, "leftWrist":9, "rightWrist":10, "leftHip":11, "rightHip":12, 
@@ -27,6 +31,10 @@ class Config:
     3:{"name": "Squat" ,"p1":"leftAnkle", "p2":"leftKnee", "p3":"leftHip","stable_min":150, "stable_max":190 ,"peak_min":40 ,"peak_max":120},
     4:{"name": "Squat" ,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","stable_min":150, "stable_max":190 ,"peak_min":40 ,"peak_max":120},
     5:{"name": "Squat" ,"p1":"nose", "p2":"rightKnee", "p3":"rightAnkle","stable_min":150, "stable_max":190 ,"peak_min":40 ,"peak_max":120},
+    6:{"name": "Squat" ,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","stable_min":165, "stable_max":195 ,"peak_min":40 ,"peak_max":85},
+    7:{"name": "Squat" ,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","stable_min":165, "stable_max":195 ,"peak_min":40 ,"peak_max":85},
+    8:{"name": "Squat" ,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","stable_min":165, "stable_max":195 ,"peak_min":40 ,"peak_max":85},
+    9:{"name": "Squat" ,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","stable_min":165, "stable_max":195 ,"peak_min":40 ,"peak_max":85}
     }
     
     cum_arrays = []
@@ -41,8 +49,9 @@ def threePoint(angle):
     if angle > Config.types[Config.exercise_type]["stable_min"] and angle < Config.types[Config.exercise_type]["stable_max"] and Config.status == 2:
         Config.status = 1
         Config.repetition += 1
+        Config.makeSend = 1
         print(Config.repetition)
-        k = 0
+        tot = 0
         arr = np.load("0.npy")
         Config.cum_arrays = np.asarray(Config.cum_arrays)
         arr = arr.reshape(arr.shape[0], -1)
@@ -55,9 +64,11 @@ def threePoint(angle):
         rang = [0,1,24,25,10,11,28,29]
         for i in rang:
             distance, path = fastdtw(np.asarray(arr)[:,i], Config.cum_arrays[:,i], dist=euclidean)
-            print(distance)
-            k += distance
-        print(k)
+            tot += distance
+        print(tot)
+        if Config.repetition >= Config.max_repetition:
+            Config.isFinished = True
+        Config.total_distance += tot
         Config.cum_arrays = []
     elif angle > Config.types[Config.exercise_type]["stable_min"] and angle < Config.types[Config.exercise_type]["stable_max"]:
         Config.status = 1
@@ -74,7 +85,9 @@ async def time(websocket, path):
 
         #print(pose["keypoints"][0]) # prints the score of pose
         
-        Config.exercise_type = 1   #pose["type"]
+        Config.exercise_type = pose["type"]
+        Config.max_repetition = pose["repetition"]
+        print(Config.max_repetition, Config.exercise_type)
         p_arr = np.zeros((17,2))
         for i in range(len(pose["keypoints"])):
             if pose["keypoints"][i]["score"] > 0.6:
@@ -99,19 +112,25 @@ async def time(websocket, path):
         angle = getAngle(p1,p2,p3)
         #print(angle, p1, p2, p3)
         
+        Config.makeSend = 0
         if Config.exercise_type in Config.threePointExercises:
                 threePoint(angle)
   
+        if Config.makeSend:
+            await websocket.send(str(Config.repetition)) 
+            Config.makeSend = 0
         
-        
-        
-        response = {"hello": "gymfeat"}
+        if Config.isFinished:
+            score_distance = Config.total_distance / Config.max_repetition
+            score = -10
+            await websocket.send(str(score)) 
+        #response = {"hello": "gymfeat"}
         # once the messages are cumulated to a window of 3, send a response
-        if count % 3 == 0:
-            await websocket.send(str(response)) 
-        count += 1
+        #if count % 3 == 0:
+        #    await websocket.send(str(response)) 
+        #count += 1
 
-start_server = websockets.serve(time, '127.0.0.1', 5678)
+start_server = websockets.serve(time, '127.0.0.1', 5679)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 
