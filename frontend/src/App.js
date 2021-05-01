@@ -14,21 +14,28 @@ import SignUp from './components/registeration/SignUp'
 import SingleExerciseListPage from './components/workout-list-page/single-exercise-list-page'
 import WorkoutListPage from './components/workout-list-page/workout-list-page'
 import LoginForm from './components/registeration/Login'
-
+import {loadUser} from "./actions/auth"
 import history from './history';
 
 import './App.css';
 import './styles/css/main.css';
 import { Layout, Menu, Breadcrumb, Button,  Dropdown } from 'antd';
-
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
 const { Header, Content, Footer } = Layout;
+
+
+
+// signUp()
+// confirmSignUp()
 
 class App extends Component {
   
 
   componentDidMount() {
-    //store.dispatch(loadUser()); //uncomment when auth actions is ready
+    store.dispatch(loadUser()); //uncomment when auth actions is ready
   }
   
   render() {

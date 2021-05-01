@@ -8,22 +8,21 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import {
   Form,
   Input,
-  Tooltip,
-  Cascader,
   Select,
   Row,
   Col,
   Checkbox,
   Button,
-  AutoComplete,
+  DatePicker,
+  message
 } from 'antd';
 import history from '../../history'; // added
-
-import { register } from '../../actions/auth';
-import { Upload, message } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import Amplify, { Auth } from 'aws-amplify';
+import { register, validate } from '../../actions/auth';
 import './register.css'
+import '../body-form-page.css'
 
+const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -57,65 +56,124 @@ const tailFormItemLayout = {
 };
 
 
-
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      confirmationRequired: false,
+      username: "",
+      date: '',
+      workoutGoal: '',
+      workoutPastFrequency: '',
+      workoutCurrentFrequency: '',
+      weightUnit:"kg",
+      heightUnit:"m",
+      height:0,
+      weight:0,
+      gender:"",
     }
+    this.setDate = this.setDate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleWorkoutGoalSelect = this.handleWorkoutGoalSelect.bind(this);
+    this.handlePastWorkoutFreqSelect = this.handlePastWorkoutFreqSelect.bind(this);
+    this.handleCurWorkoutFreqSelect = this.handleCurWorkoutFreqSelect.bind(this);
+
   }
 
-  handleChange = info => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
+
+  onSubmit = async formValues => {
+    // this.props.register(formValues, "employee");  
+    console.log("formvalues onsubmit: ", formValues);
+    console.log(this.state)
+    let values={
+      email: formValues.email,
+      weight: this.state.weight,
+      height: this.state.height,
+      weightUnit: this.state.weightUnit,
+      heightUnit:this.state.heightUnit,
+      gender:this.state.gender,
+      birhday:this.state.date,
+      goal:this.state.workoutGoal,
+      freqSoFar:this.state.workoutPastFrequency,
+      freqDesired: this.state.workoutCurrentFrequency
+
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
+    try {
+      await this.signUp(formValues.username,formValues.password, values);
+      this.setState({ username: formValues.username, confirmationRequired: true });
+    } catch (error) {
+      console.log('error signing up:', error);
     }
   };
 
-  onSubmit = formValues => {
-    this.props.register(formValues, "employee");
+  onConfirmSignUp = async formValues => {
+    try {
+      await this.props.validate(this.state.username, formValues.code)
+      history.push('/welcome-page')
+    } catch (error) {
+      console.log('error confirming sign up', error);
+    }
+    
+  }
+
+  async signUp(username,password,values) {
+    const user = this.props.register(username, password, values)
+    return user;
+  }
+
+  setDate(value) {
+    this.setState({ date: value });
+  }
+
+  setWorkoutGoal(value) {
+    this.setState({ workoutGoal: value });
+  }
+
+  setPastWorkoutFrequency(value) {
+    this.setState({ workoutPastFrequency: value });
+  }
+
+  setCurWorkoutFrequency(value) {
+    this.setState({ workoutCurrentFrequency: value });
+  }
+
+  handleChange = value => {
+    message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
+
+    console.log(value)
+    this.setDate(value.format('YYYY-MM-DD'));
+    console.log("Date: " + this.state.date);
   };
 
+  handleWorkoutGoalSelect = value => {
+    message.info(`Selected Workout Goal: ${value}`);
+    this.setWorkoutGoal(value);
+  }
 
+  handlePastWorkoutFreqSelect = value => {
+    message.info(`How often did you exercise: ${value}`);
+    this.setPastWorkoutFrequency(value);
+  }
+
+  handleCurWorkoutFreqSelect = value => {
+    message.info(`How often do you want to exercise: ${value}`);
+    this.setCurWorkoutFrequency(value);
+  }
+
+  onFinish = (fieldsValue) => {
+    const values = {
+      ...fieldsValue,
+      'date-picker': fieldsValue['date-picker'].format('YYYY-MM-DD'),
+    };
+    console.log('Received values of form: ', values);
+  };
 
   render() {
-    /*if (this.props.isAuthenticated) {
-      return <Redirect to='/main-page' />;
-    }*/
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
-      </div>
-    );
+    if (this.props.isAuthenticated) {
+      return <Redirect to='/welcome-page' />;
+    }
+
     return (
       <div>
         <h1 >Sign Up</h1>
@@ -129,23 +187,6 @@ class SignUp extends Component {
             onFinish={values => this.onSubmit(values)}
             scrollToFirstError
           >
-            <Form.Item
-              name="profilepic"
-              label="Profile Photo"
-            >
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-              >
-                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-              </Upload>
-
-            </Form.Item>
 
             <Form.Item
               name="email"
@@ -160,6 +201,14 @@ class SignUp extends Component {
                   message: 'Please input your E-mail!',
                 },
               ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[{ required: true, message: 'Please input your username!' }]}
             >
               <Input />
             </Form.Item>
@@ -201,19 +250,111 @@ class SignUp extends Component {
             >
               <Input.Password />
             </Form.Item>
-
+            <Form.Item 
+              label="Enter your weight:"
+              name="weight"
+            >
+              <Input.Group compact>
+                <Select onChange={(value)=>this.setState({weightUnit:value})}defaultValue="kg" style={{ width: '20%' }}>
+                  <Option value="kg">kg</Option>
+                  <Option value="lb">lb</Option>
+                </Select>
+                <Input
+                  style={{ width: '70%' }}
+                  onChange={(e)=>this.setState({weight:e.target.value})}
+                />
+              </Input.Group>
+            </Form.Item>
+            <Form.Item 
+              label="Enter your height:"
+              name="height"
+            >
+              <Input.Group compact>
+                <Select onChange={(value)=>this.setState({heightUnit:value})}defaultValue="m" style={{ width: '20%' }}>
+                  <Option value="m">m</Option>
+                  <Option value="ft">ft</Option>
+                </Select>
+                <Input
+                  style={{ width: '70%' }}
+                  onChange={(e)=>this.setState({height:e.target.value})}
+                />
+              </Input.Group>
+            </Form.Item>
+            <Form.Item label="Enter your gender:">
+              <Select onChange={(value)=>this.setState({gender:value})}>
+                <Option value="male">Male</Option>
+                <Option value="female">Female</Option>
+                <Option value="none">I choose not to disclose.</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item className="date-picker-checkbox" label="Enter your birthday:">
+              <DatePicker onChange={this.handleChange} />
+            </Form.Item>
+            <Form.Item>
+              <Select
+                placeholder='Choose Your Workout Goal'
+                onChange={this.handleWorkoutGoalSelect}>
+                <Option value="lose weight">Lose Weight</Option>
+                <Option value="strengthen">Strengthen</Option>
+                <Option value="none">Buluruz daha</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item>
+              <Select
+                placeholder='How often do you exercise (until now)?'
+                onChange={this.handlePastWorkoutFreqSelect}>
+                <Option value="almost zero">0 - 1 times a week</Option>
+                <Option value="two three">2 - 3 times a week</Option>
+                <Option value="four five">4 - 5 times a week</Option>
+                <Option value="six or more">6+ times a week</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item>
+              <Select
+                placeholder='How often do you want to exercise?'
+                onChange={this.handleCurWorkoutFreqSelect}>
+                <Option value="almost zero">1 time a week</Option>
+                <Option value="two three">2 - 3 times a week</Option>
+                <Option value="four five">4 - 5 times a week</Option>
+                <Option value="six or more">6+ times a week</Option>
+              </Select>
+            </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button style={{float:"right"}} type="primary" htmlType="submit" onClick={()=>history.push('/body-form-page')}>
-                  Continue
+              <Button style={{ float: "right" }} type="primary" htmlType="submit">
+                Continue
               </Button>
             </Form.Item>
           </Form>
+
+          {this.state.confirmationRequired && <Form
+            style={{ marginRight: "10vh", padding: "5vh 5vh 5vh 5vh" }}
+            {...formItemLayout}
+            name="confirmation"
+            onFinish={values => this.onConfirmSignUp(values)}
+            scrollToFirstError
+          >
+            <Form.Item
+              name="code"
+              label="Confirmation Code"
+              rules={[{ required: true, message: 'Please input your confirmation code!' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item {...tailFormItemLayout}>
+              <Button style={{ float: "right" }} type="primary" htmlType="submit">
+                Confirm
+              </Button>
+            </Form.Item>
+
+          </Form>}
+
         </Col>
       </div>
     );
   }
 }
-/*function mapStateToProps(state) {
+function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated
   };
@@ -221,9 +362,11 @@ class SignUp extends Component {
 
 SignUp = connect(
   mapStateToProps,
-  { register }
+  { register, validate }
 )(SignUp);
-*/
+
 export default reduxForm({
   form: 'registerForm'
 })(SignUp);
+
+

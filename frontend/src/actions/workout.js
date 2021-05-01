@@ -19,7 +19,6 @@ export const endWorkout =() => async (dispatch) => {
 }
 
 export const chooseWorkout =(workout) => async (dispatch) => {
-  console.log(workout);
   dispatch({
     type: WORKOUT_CHOOSE_SUCCESS,
     payload: workout
@@ -27,7 +26,6 @@ export const chooseWorkout =(workout) => async (dispatch) => {
 }
 
 export const chooseExercise=(exercise) => async (dispatch) => {
-  console.log(exercise);
   dispatch({
     type: EXERCISE_CHOOSE_SUCCESS,
     payload: exercise

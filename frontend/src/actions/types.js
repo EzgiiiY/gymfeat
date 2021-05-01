@@ -11,3 +11,9 @@ export const REGISTER_FAIL = 'REGISTER_FAIL'; // added
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'; // added
 export const LOGIN_FAIL = 'LOGIN_FAIL'; // added
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'; // added
+export const CONFIRMATION_FAIL = 'LOGIN_FAIL'; // added
+export const CONFIRMATION_SUCCESS = 'LOGOUT_SUCCESS'; // added
+export const UPDATE_SUCCESS = 'UPDATE_SUCCESS'; // added
+export const UPDATE_FAIL = 'UPDATE_FAIL'; // added
+
+  

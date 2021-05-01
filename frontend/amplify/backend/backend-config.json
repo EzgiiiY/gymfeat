@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "gymfeat97a936d7": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

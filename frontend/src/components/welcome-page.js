@@ -31,9 +31,10 @@ class WelcomePage extends Component {
                     itemLayout="horizontal"
                 >
                     <List.Item font-color='white'>
-                        <Title level={3}>Welcome to GymFeat</Title>
+        <Title level={3}>Welcome to GymFeat {this.props.auth.isAuthenticated&&this.props.auth.user.username}</Title>
                     </List.Item>
-                    <List.Item style={{ color: "whitesmoke" }}>
+                    {!this.props.auth.isAuthenticated&&
+                    <><List.Item style={{ color: "whitesmoke" }}>
                         Want to join us?
                         <Link to='/signUp' className='item'>
                             <Button style={buttonStyle}>Sign Up</Button>
@@ -44,7 +45,9 @@ class WelcomePage extends Component {
                     <Link to='/login' className='item'>
                             <Button style={buttonStyle}>Sign In</Button>
                         </Link>
-                    </List.Item>
+                    </List.Item></>
+                    }
+                    
                     <List.Item >
                         <Link to='/about-us' className='item'>
                             <Button style={buttonStyle}>About Us</Button>

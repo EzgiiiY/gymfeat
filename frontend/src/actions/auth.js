@@ -1,38 +1,41 @@
 // frontend/src/actions/auth.js
 
-import axios from 'axios';
 import { stopSubmit } from 'redux-form';
-
+import Amplify, { Auth } from 'aws-amplify';
 import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  CONFIRMATION_SUCCESS,
+  CONFIRMATION_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
+  UPDATE_SUCCESS,
+  UPDATE_FAIL
 } from '../actions/types';
 
-const backend = "http://127.0.0.1:8000"
 // LOGOUT USER
-export const logout =() => async (dispatch, getState) => {
-    await axios.post(backend+'/api/auth/logout', null, tokenConfig(getState));
-    dispatch({
-      type: LOGOUT_SUCCESS
-    });
+export const logout = () => async (dispatch, getState) => {
+  console.log("logout")
+  await Auth.signOut(); //tokenConfig(getState));
+  dispatch({
+    type: LOGOUT_SUCCESS
+  });
 }
-  
+
 
 // LOAD USER
 export const loadUser = () => async (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   try {
-    const res = await axios.get(backend+'/api/auth/user', tokenConfig(getState));
+    const res = await Auth.currentAuthenticatedUser();
     dispatch({
       type: USER_LOADED,
-      payload: res.data
+      payload: res
     });
   } catch (err) {
     dispatch({
@@ -41,94 +44,144 @@ export const loadUser = () => async (dispatch, getState) => {
   }
 };
 
-// REGISTER USER
-export const register = ({company="",email,password,username,first_name,last_name, position=""},type) => async dispatch => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  if(type === "employer"){
-    // Request Body
-    const user = {email,password,username,first_name,last_name};
-    const body = JSON.stringify({company,user});
+//forgot password
+export const forgotPassword = (username) => async dispatch => {
+  Auth.forgotPassword(username)
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+}
 
-    try {
-      const res = await axios.post(backend+'/api/auth/register'+type, body, config);
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      });
-    } catch (err) {
-      dispatch({
-        type: REGISTER_FAIL
-      });
-      dispatch(stopSubmit('registerForm', err.response.data));
-    }
+//forgot password
+export const forgotPasswordSubmit = (username, code, new_password) => async dispatch => {
+  Auth.forgotPasswordSubmit(username, code, new_password)
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+}
 
-  }
-  else if(type === "employee"){
-    const user = {email,password,username,first_name,last_name};
-    const body = JSON.stringify({company,position,user});
-    // Request Body
-    try {
-      const res = await axios.post(backend+'/api/auth/register'+type, body, config);
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      });
-    } catch (err) {
-      dispatch({
-        type: REGISTER_FAIL
-      });
-      dispatch(stopSubmit('registerForm', err.response.data));
-    }
+export const updateUserInfo = (values) => async dispatch => {
+  let weight = values.weight
+  let height = values.height
+  let weightUnit = values.weightUnit
+  let heightUnit = values.heightUnit
+  let gender = values.gender
+  let birhday = values.birhday
+  let goal = values.goal
+  let freqDesired = values.freqDesired
+  let user = await Auth.currentAuthenticatedUser();
+  try {
+    let result = await Auth.updateUserAttributes(user, {
+      "custom:weight": weight,
+      "custom:height": height,
+      "custom:weightUnit": weightUnit,
+      "custom:heightUnit": heightUnit,
+      "custom:gender": gender,
+      "custom:birhday": birhday,
+      "custom:goal": goal,
+      "custom:freqDesired": freqDesired
+    });
+    dispatch({
+      type: UPDATE_SUCCESS,
+      payload: result
+    });
+  } catch (err) {
+    dispatch({
+      type: UPDATE_FAIL
+    });
   }
 };
 
 
-// LOGIN USER
-export const login = ({ username, password }, type) => async dispatch => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  console.log(type);
-  // Request Body
-  const body = JSON.stringify({ username, password });
+
+//change password
+export const changePassword = (oldPassword, newPassword) => async dispatch => {
+  try {
+    Auth.currentAuthenticatedUser()
+    .then(user => {
+      return Auth.changePassword(user, oldPassword, newPassword);
+    })
+
+    dispatch({
+      type: UPDATE_SUCCESS,
+    });
+  } catch (err) {
+    dispatch({
+      type: UPDATE_FAIL
+    });
+  }
+}
+// REGISTER USER
+export const register = (username, password, values) => async dispatch => {
+  let email = values.email
+  let weight = values.weight
+  let height = values.height
+  let weightUnit = values.weightUnit
+  let heightUnit = values.heightUnit
+  let gender = values.gender
+  let birhday = values.birhday
+  let goal = values.goal
+  let freqSoFar = values.freqSoFar
+  let freqDesired = values.freqDesired
+  try {
+    const res = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email,
+        "custom:weight": weight,
+        "custom:height": height,
+        "custom:weightUnit": weightUnit,
+        "custom:heightUnit": heightUnit,
+        "custom:gender": gender,
+        "custom:birhday": birhday,
+        "custom:goal": goal,
+        "custom:freqSoFar": freqSoFar,
+        "custom:freqDesired": freqDesired
+      }
+    });
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res
+    });
+  } catch (err) {
+    dispatch({
+      type: REGISTER_FAIL
+    });
+    dispatch(stopSubmit('registerForm', err));
+  }
+};
+//validate registration code
+export const validate = (username, code) => async dispatch => {
 
   try {
-    const res = await axios.post(backend+'/api/auth/login'+type, body, config);
+    const res = await Auth.confirmSignUp(username, code);
+    dispatch({
+      type: CONFIRMATION_SUCCESS,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err)
+    dispatch({
+      type: CONFIRMATION_FAIL
+    });
+  }
+};
+
+
+
+// LOGIN USER
+export const login = ({ username, password }) => async dispatch => {
+
+  try {
+    const res = await Auth.signIn(username, password);
+    //const user = await Auth.currentAuthenticatedUser();
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data
+      payload: res
     });
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL
     });
-    dispatch(stopSubmit('loginForm', err.response.data));
+    dispatch(stopSubmit('loginForm', err));
   }
-};
-
-// helper function
-export const tokenConfig = getState => {
-  // Get token
-  const token = getState().auth.token;
-
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  if (token) {
-    config.headers['Authorization'] = `Token ${token}`;
-  }
-
-  return config;
 };
