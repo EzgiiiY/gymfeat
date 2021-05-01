@@ -47,28 +47,36 @@ class CustomTabs extends Component {
     constructor(props){
         super(props);
         this.state={activeKey:"home"}
+        this.tabClick=this.tabClick.bind(this);
     }
+    
     tabClick(key) {
-        if (key == "home")
+        this.setState({activeKey:key})
+
+        if (key == "home"){
             history.push("/welcome-page")
-        else if (key == "exercise")
+        }
+        else if (key == "exercise"){
             history.push("/exercise-page")
-        else if (key == "calendar")
+        }
+        else if (key == "calendar"){
             history.push("/main-page")
-        else if (key == "workoutList")
+        }
+        else if (key == "workoutList"){
             history.push("/workoutList")
+        }
     }
 
     determineActiveKey(page){
         switch (page){
             case "/welcome-page":
-                this.setState({activeKey:"home"});
+                return "home";//this.setState({activeKey:"home"});
             case "/exercise-page":
-                this.setState({activeKey:"exercise"});
+                return "exercise";//this.setState({activeKey:"exercise"});
             case "/main-page":
-                this.setState({activeKey:"calendar"});
+                return "calendar"//this.setState({activeKey:"calendar"});
             case "/workoutList":
-                this.setState({activeKey:"workoutList"});
+                return "workoutList";//this.setState({activeKey:"workoutList"});
         } 
         
     }
@@ -83,6 +91,7 @@ class CustomTabs extends Component {
     
 
     getUserInfo() {
+
         let menu = (
             <Menu>
                 <Menu.Item key="0">
@@ -105,10 +114,10 @@ class CustomTabs extends Component {
     }
 
     render() {
-        console.log(window.location.pathname)
         return (
             <Tabs
-                onTabClick={this.tabClick}
+                activeKey={this.determineActiveKey(window.location.pathname)}
+                onChange={this.tabClick}
                 className='tabs'
                 tabBarExtraContent={<>{this.props.auth.isAuthenticated&&this.getUserInfo()}</>}
             >
