@@ -184,7 +184,7 @@ class SignUp extends Component {
     console.log("all workouts: ", allWorkouts);
 
     // get the workout _id == id. id is the automatically assigned uuid in this case.
-    // this `Queries.getWorkout` only works for fetching via the id, this is rly useful for us.
+    // this `Queries.getWorkout` only works for fetching via the id, this is not rly useful for us.
     // the uuid can be found in dynamodb via awsconsole or get the uuid through querying for all by also filtering
     // const workout = await API.graphql({ query: Queries.getWorkout, variables: { id: "<some uuid>" }});
 
