@@ -13,6 +13,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
+  UPDATE_SUCCESS,
+  UPDATE_FAIL
 } from '../actions/types';
 
 // LOGOUT USER
@@ -42,33 +44,98 @@ export const loadUser = () => async (dispatch, getState) => {
   }
 };
 
-// REGISTER USER
-export const register = (username,password,values) => async dispatch => {
-  let email=values.email
+//forgot password
+export const forgotPassword = (username) => async dispatch => {
+  Auth.forgotPassword(username)
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+}
+
+//forgot password
+export const forgotPasswordSubmit = (username, code, new_password) => async dispatch => {
+  Auth.forgotPasswordSubmit(username, code, new_password)
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+}
+
+export const updateUserInfo = (values) => async dispatch => {
   let weight = values.weight
   let height = values.height
   let weightUnit = values.weightUnit
-  let heightUnit =values.heightUnit
-  let gender=values.gender
-  let birhday=values.birhday
-  let goal = values.workoutGoal
-  let freqSoFar=values.workoutPastFrequency
-  let freqDesired=values.workoutCurrentFrequency
+  let heightUnit = values.heightUnit
+  let gender = values.gender
+  let birhday = values.birhday
+  let goal = values.goal
+  let freqDesired = values.freqDesired
+  let user = await Auth.currentAuthenticatedUser();
+  try {
+    let result = await Auth.updateUserAttributes(user, {
+      "custom:weight": weight,
+      "custom:height": height,
+      "custom:weightUnit": weightUnit,
+      "custom:heightUnit": heightUnit,
+      "custom:gender": gender,
+      "custom:birhday": birhday,
+      "custom:goal": goal,
+      "custom:freqDesired": freqDesired
+    });
+    dispatch({
+      type: UPDATE_SUCCESS,
+      payload: result
+    });
+  } catch (err) {
+    dispatch({
+      type: UPDATE_FAIL
+    });
+  }
+};
+
+
+
+//change password
+export const changePassword = (oldPassword, newPassword) => async dispatch => {
+  try {
+    Auth.currentAuthenticatedUser()
+    .then(user => {
+      return Auth.changePassword(user, oldPassword, newPassword);
+    })
+
+    dispatch({
+      type: UPDATE_SUCCESS,
+    });
+  } catch (err) {
+    dispatch({
+      type: UPDATE_FAIL
+    });
+  }
+}
+// REGISTER USER
+export const register = (username, password, values) => async dispatch => {
+  let email = values.email
+  let weight = values.weight
+  let height = values.height
+  let weightUnit = values.weightUnit
+  let heightUnit = values.heightUnit
+  let gender = values.gender
+  let birhday = values.birhday
+  let goal = values.goal
+  let freqSoFar = values.freqSoFar
+  let freqDesired = values.freqDesired
   try {
     const res = await Auth.signUp({
       username,
       password,
       attributes: {
         email,
-        "custom:weight":weight,
-        "custom:height":height,
-        "custom:weightUnit":weightUnit,
-        "custom:heightUnit":heightUnit,
-        "custom:gender":gender,
-        "custom:birhday":birhday,
-        "custom:goal":goal,
-        "custom:freqSoFar":freqSoFar,
-        "custom:freqDesired":freqDesired
+        "custom:weight": weight,
+        "custom:height": height,
+        "custom:weightUnit": weightUnit,
+        "custom:heightUnit": heightUnit,
+        "custom:gender": gender,
+        "custom:birhday": birhday,
+        "custom:goal": goal,
+        "custom:freqSoFar": freqSoFar,
+        "custom:freqDesired": freqDesired
       }
     });
     dispatch({

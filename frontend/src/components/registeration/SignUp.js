@@ -93,7 +93,7 @@ class SignUp extends Component {
       weightUnit: this.state.weightUnit,
       heightUnit:this.state.heightUnit,
       gender:this.state.gender,
-      birhday:this.state.birhday,
+      birhday:this.state.date,
       goal:this.state.workoutGoal,
       freqSoFar:this.state.workoutPastFrequency,
       freqDesired: this.state.workoutCurrentFrequency

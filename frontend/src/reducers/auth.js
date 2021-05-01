@@ -10,7 +10,9 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   CONFIRMATION_FAIL,
-  CONFIRMATION_SUCCESS
+  CONFIRMATION_SUCCESS,
+  UPDATE_FAIL,
+  UPDATE_SUCCESS
 } from '../actions/types';
 import history from "../history"
 const initialState = {
@@ -33,6 +35,11 @@ export default function (state = initialState, action) {
         isLoading: false,
         isAuthenticated: true,
         user: action.payload
+      };
+      case UPDATE_SUCCESS:
+      console.log(action.payload)
+      return {
+        ...state,
       };
     case LOGIN_SUCCESS:
       console.log(action.payload)
