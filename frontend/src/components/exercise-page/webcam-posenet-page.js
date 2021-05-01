@@ -63,6 +63,11 @@ class WebcamPosenetComponent extends React.Component{
           //if(this.props.prevRepetitionCount != curRepetitionCount){
           //  this.props.setRepetitionCount(curRepetitionCount);
           //}
+          var pose1 = {
+              pose:pose,
+              type:this.props.type,
+              repetition:this.props.totalRepetitionCount
+          }
           if (this.websocket.readyState === WebSocket.OPEN) {
             // if websocket is ready to send, turn the pose object into string and send the corresponding string to the python file
 
@@ -72,7 +77,7 @@ class WebcamPosenetComponent extends React.Component{
 
             this.websocket.send(JSON.stringify(pose)); 
           }
-          this.drawResult(pose, video, videoWidth, videoHeight, this.canvasRef);
+          this.drawResult(pose1, video, videoWidth, videoHeight, this.canvasRef);
         
         }
     };
@@ -101,8 +106,8 @@ class WebcamPosenetComponent extends React.Component{
             const ctx = canvas.current.getContext("2d");
             canvas.current.width = videoWidth;
             canvas.current.height = videoHeight;
-            drawKeypoints(pose["keypoints"], 0.6, ctx);
-            drawSkeleton(pose["keypoints"], 0.7, ctx);
+            drawKeypoints(pose, 0.6, ctx);
+            drawSkeleton(pose, 0.7, ctx);
         }
     };
 
