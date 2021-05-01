@@ -79,9 +79,11 @@ export const updateUserInfo = (values) => async dispatch => {
       "custom:goal": goal,
       "custom:freqDesired": freqDesired
     });
+    let user2 = await Auth.currentAuthenticatedUser();
+
     dispatch({
       type: UPDATE_SUCCESS,
-      payload: result
+      payload: user2
     });
   } catch (err) {
     dispatch({

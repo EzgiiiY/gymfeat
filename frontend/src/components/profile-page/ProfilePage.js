@@ -214,13 +214,14 @@ export class ProfilePage extends Component {
               name="weight"
             >
               <Input.Group compact>
-                <Select defaultValue={attributes["custom:weightUnit"]} style={{ width: '20%' }}>
+                <Select onChange={(value)=>this.setState({weightUnit:value})} defaultValue={attributes["custom:weightUnit"]} style={{ width: '20%' }}>
                   <Option value="kg">kg</Option>
                   <Option value="lb">lb</Option>
                 </Select>
                 <Input
                   style={{ width: '70%' }}
                   defaultValue={attributes["custom:weight"]}
+                  onChange={(e)=>this.setState({weight:e.target.value})}
                 />
               </Input.Group>
             </Form.Item>
@@ -229,25 +230,26 @@ export class ProfilePage extends Component {
               name="height"
             >
               <Input.Group compact>
-                <Select defaultValue={attributes["custom:heightUnit"]} style={{ width: '20%' }}>
+                <Select onChange={(value)=>this.setState({heightUnit:value})} defaultValue={attributes["custom:heightUnit"]} style={{ width: '20%' }}>
                   <Option value="m">m</Option>
                   <Option value="ft">ft</Option>
                 </Select>
                 <Input
                   style={{ width: '70%' }}
                   defaultValue={attributes["custom:height"]}
+                  onChange={(e)=>this.setState({height:e.target.value})}
                 />
               </Input.Group>
             </Form.Item>
             <Form.Item className='job-item' label="Gender:">
-              <Select defaultValue={attributes["custom:gender"]}>
+              <Select onChange={(value)=>this.setState({gender:value})} defaultValue={attributes["custom:gender"]}>
                 <Option value="male">Male</Option>
                 <Option value="female">Female</Option>
                 <Option value="none">I choose not to disclose.</Option>
               </Select>
             </Form.Item>
             <Form.Item className="date-picker-checkbox" label="Birthday:">
-              <DatePicker defaultValue={moment(attributes["custom:birhday"],'YYYY-MM-DD')}  onChange={this.handleChange} />
+              <DatePicker defaultValue={attributes["custom:birhday"]?moment(attributes["custom:birhday"],'YYYY-MM-DD'):moment()}  onChange={this.handleChange} />
             </Form.Item>
             <Form.Item className='job-item' label="Workout Goal:">
               <Select defaultValue={attributes["custom:goal"]} 

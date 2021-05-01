@@ -10,6 +10,8 @@ import {
   } from '@ant-design/icons';
 import { Select } from 'antd';
 import workouts from '../../data/workouts.json'
+import background2 from '../../icons/landing2.jpg'
+
 import './workout-list-page.css';
 import {chooseWorkout} from '../../actions/workout'
 import WorkoutListPopup from './workout-list-popup'
@@ -91,11 +93,14 @@ class WorkoutListPage extends React.Component {
                 </Menu.Item>
               </Menu>
             </Sider>
+            <div style={{ backgroundImage: `url(${background2})` }}>
+
             <div className='container'>
-              <List
+              <List                   
                   dataSource={workouts}
                   grid={{ gutter: 16, column: 3 }}
                   renderItem={item => (
+                    <Card style={{padding:"2%",margin:"2%",background:"#000", borderColor:"#1f1f1f"}}> 
                     <List.Item key={item.id}>
                   <Button onClick={(e)=>this.handleClick(e,item)}>{item.workoutName}</Button>
                       <List
@@ -109,10 +114,13 @@ class WorkoutListPage extends React.Component {
                       )}
                       >
                       </List>
+                      
                     </List.Item>
+                    </Card>
                   )}
                 >
                 </List>
+            </div>
             </div>
 
             </Layout>
