@@ -30,7 +30,7 @@ const SpeechRecognizerPopup = (props) => {
     if(word == "yes"){
       props.startWorkout();
     } else if(word == "no"){
-      return <Redirect to='/main-page'/>;
+      return <Redirect to='/welcome-page'/>;
     } 
   }
   

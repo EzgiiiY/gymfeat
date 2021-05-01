@@ -6,7 +6,7 @@ import '../../App.css'
 import '../../styles/css/main.css';
 import { Layout, Menu, Breadcrumb, Button, Tabs, Dropdown } from 'antd';
 import { DownOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
-import {logout} from '../../actions/auth';
+import { logout, loadUser } from '../../actions/auth';
 
 const { TabPane } = Tabs;
 
@@ -39,26 +39,15 @@ const workoutList = (
         centered="true"
     />
 );
-const menu = (
-    <Menu>
-        <Menu.Item key="0">
-            <Button ghost type="text" onClick={() => history.push("/profile")}><UserOutlined />Profile</Button>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="1">
-            <Button ghost type="text" onClick={() =>logout()}><SettingOutlined />Log out</Button>
-        </Menu.Item>
-    </Menu>
-);
-const userInfo = <Dropdown style={{minWidt:"fit-content"}}overlay={menu} trigger={['click']}>
-    <Button style={{ marginRight: "10px" }}>
-        user
-            <DownOutlined />
-    </Button>
-</Dropdown>
+
+
 
 
 class CustomTabs extends Component {
+    constructor(props){
+        super(props);
+        this.state={activeKey:"home"}
+    }
     tabClick(key) {
         if (key == "home")
             history.push("/welcome-page")
@@ -66,22 +55,69 @@ class CustomTabs extends Component {
             history.push("/exercise-page")
         else if (key == "calendar")
             history.push("/main-page")
-        else if(key == "workoutList")
+        else if (key == "workoutList")
             history.push("/workoutList")
     }
 
+    determineActiveKey(page){
+        switch (page){
+            case "/welcome-page":
+                this.setState({activeKey:"home"});
+            case "/exercise-page":
+                this.setState({activeKey:"exercise"});
+            case "/main-page":
+                this.setState({activeKey:"calendar"});
+            case "/workoutList":
+                this.setState({activeKey:"workoutList"});
+        } 
+        
+    }
+    componentDidMount(){
+        console.log("hello")
+        this.props.loadUser();
+    }
+    componentDidUpdate(prevProps){
+        if(prevProps.user!=this.props.user)
+            console.log("current user: " + this.props.user)
+    }
+
+    
+
+    getUserInfo() {
+        let menu = (
+            <Menu>
+                <Menu.Item key="0">
+                    <Button ghost type="text" onClick={() => history.push("/profile")}><UserOutlined />Profile</Button>
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item key="1">
+                    <Button ghost type="text" onClick={() => this.props.logout()}><SettingOutlined />Log out</Button>
+                </Menu.Item>
+            </Menu>
+        );
+        console.log(this.props.auth.isAuthenticated)
+        return (<Dropdown style={{ minWidt: "fit-content" }} overlay={menu} trigger={['click']}>
+            <Button style={{ marginRight: "10px" }}>
+                {this.props.auth.user?this.props.auth.user.username:"user"}
+
+                <DownOutlined />
+            </Button>
+        </Dropdown>);
+    }
+
     render() {
+        console.log(window.location.pathname)
         return (
-            <Tabs 
+            <Tabs
                 onTabClick={this.tabClick}
                 className='tabs'
-                tabBarExtraContent={userInfo}
+                tabBarExtraContent={<>{this.props.auth.isAuthenticated&&this.getUserInfo()}</>}
             >
                 {welcomePage}
-                {calendarViewLink}
-                {workoutList}
-                {startTodaysWorkout}
-                
+                {this.props.auth.isAuthenticated&&calendarViewLink}
+                {this.props.auth.isAuthenticated&&workoutList}
+                {this.props.auth.isAuthenticated&&startTodaysWorkout}
+
             </Tabs>
         )
     }
@@ -90,4 +126,4 @@ class CustomTabs extends Component {
 const mapStateToProps = state => ({
     auth: state.auth
 });
-export default (connect(mapStateToProps,{logout}))(CustomTabs);
+export default (connect(mapStateToProps, { logout,loadUser }))(CustomTabs);

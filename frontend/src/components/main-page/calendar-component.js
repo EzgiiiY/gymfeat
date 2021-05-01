@@ -57,7 +57,6 @@ class CalendarComponent extends React.Component {
   dateCellRender = value => {
     const listData = getListData(value)
     const dateValues = new Array();
-    console.log(value.format("DD.MM.YYYY"))
     listData.map(item => (
       dateValues.push(
       <li key={value.format("DD.MM.YYYY")}>
