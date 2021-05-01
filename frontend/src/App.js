@@ -14,7 +14,7 @@ import SignUp from './components/registeration/SignUp'
 import SingleExerciseListPage from './components/workout-list-page/single-exercise-list-page'
 import WorkoutListPage from './components/workout-list-page/workout-list-page'
 import LoginForm from './components/registeration/Login'
-
+import {loadUser} from "./actions/auth"
 import history from './history';
 
 import './App.css';
@@ -35,7 +35,7 @@ class App extends Component {
   
 
   componentDidMount() {
-    //store.dispatch(loadUser()); //uncomment when auth actions is ready
+    store.dispatch(loadUser()); //uncomment when auth actions is ready
   }
   
   render() {

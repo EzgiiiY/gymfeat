@@ -19,7 +19,6 @@ import {
 } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import './profile-page.css'
-import {loadUser,getBackendResource} from "../../actions/auth"
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -62,10 +61,6 @@ export class ProfilePage extends Component {
     this.state = {
       loading: false
     }
-  }
-
-  componentDidMount(){
-    this.props.loadUser();
   }
   
 
@@ -218,4 +213,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps,{loadUser})(ProfilePage);
+export default connect(mapStateToProps)(ProfilePage);

@@ -6,7 +6,7 @@ import '../../App.css'
 import '../../styles/css/main.css';
 import { Layout, Menu, Breadcrumb, Button, Tabs, Dropdown } from 'antd';
 import { DownOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
-import { logout, loadUser } from '../../actions/auth';
+import { logout } from '../../actions/auth';
 
 const { TabPane } = Tabs;
 
@@ -74,7 +74,6 @@ class CustomTabs extends Component {
     }
     componentDidMount(){
         console.log("hello")
-        this.props.loadUser();
     }
     componentDidUpdate(prevProps){
         if(prevProps.user!=this.props.user)
@@ -126,4 +125,4 @@ class CustomTabs extends Component {
 const mapStateToProps = state => ({
     auth: state.auth
 });
-export default (connect(mapStateToProps, { logout,loadUser }))(CustomTabs);
+export default (connect(mapStateToProps, { logout }))(CustomTabs);

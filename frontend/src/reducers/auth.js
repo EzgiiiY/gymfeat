@@ -12,7 +12,7 @@ import {
   CONFIRMATION_FAIL,
   CONFIRMATION_SUCCESS
 } from '../actions/types';
-
+import history from "../history"
 const initialState = {
   isLoading: false,
   isAuthenticated: null,
@@ -55,6 +55,7 @@ export default function (state = initialState, action) {
         user: null,
       };
     case LOGOUT_SUCCESS: // added
+      history.push("/welcome-page");
       return {
         ...state,
         isLoading: false,
