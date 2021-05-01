@@ -183,7 +183,9 @@ class SignUp extends Component {
     const allWorkouts = await API.graphql({ query: Queries.listWorkouts });
     console.log("all workouts: ", allWorkouts);
 
-    // get the workout _id == id. Not applicable in our case because we dont define their IDs
+    // get the workout _id == id. id is the automatically assigned uuid in this case.
+    // this `Queries.getWorkout` only works for fetching via the id, this is rly useful for us.
+    // the uuid can be found in dynamodb via awsconsole or get the uuid through querying for all by also filtering
     // const workout = await API.graphql({ query: Queries.getWorkout, variables: { id: "<some uuid>" }});
 
     // refer to: https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/js#filtered-and-paginated-queries for filters
@@ -194,6 +196,7 @@ class SignUp extends Component {
     };
 
     // list all workouts whose _username == username
+    // this is better for us because we can filter by anything and not only by the uuid as it was above 
     const workouts = await API.graphql({ query: Queries.listWorkouts, variables: {filter: filter}});
     console.log("filtered workouts: ", workouts);
 
