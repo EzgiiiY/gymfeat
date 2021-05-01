@@ -25,7 +25,6 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import './register.css'
 import * as Mutation from '../../graphql/mutations';
 import * as Queries from '../../graphql/queries';
-import * as Model from '../../models/index';
 
 const formItemLayout = {
   labelCol: {
@@ -201,25 +200,21 @@ class SignUp extends Component {
   }
 
   async updateInDB() {
-    // const uuid = "7fab4ed0-5cc3-4148-b131-4c94557986e4";
-    // let workout = await API.graphql({ query: Queries.getWorkout, variables: { id: uuid }});
-    // console.log("prev workout: ", workout);
-    // let prevDate = workout.data.getWorkout.date;
-    // let prevUsername = workout.data.getWorkout.username;
-    // let prevWorkoutId = workout.data.getWorkout.workout_id;
-    // console.log("prev workout's date: ", prevDate);
+    const uuid = "7fab4ed0-5cc3-4148-b131-4c94557986e4";
+    let workout = await API.graphql({ query: Queries.getWorkout, variables: { id: uuid }});
+    console.log("prev workout: ", workout);
+    let prevDate = workout.data.getWorkout.date;
+    console.log("prev workout's date: ", prevDate);
 
-    // const workoutDetails = {
-    //   id: uuid,
-    //   username: prevUsername,
-    //   date: prevDate,
-    //   workout_id: prevWorkoutId
-    // };
-    // const updatedWorkout = await API.graphql({ query: Mutation.updateWorkout, variables: {input: workoutDetails}});
+    const workoutDetails = {
+      id: uuid,
+      date: prevDate + " updated",
+    };
+    const updatedWorkout = await API.graphql({ query: Mutation.updateWorkout, variables: {input: workoutDetails}});
 
-    // workout = await API.graphql({ query: Queries.getWorkout, variables: { id: uuid }});
-    // console.log("current workout: ", workout);
-    // console.log("current workout's date: ", workout.data.getWorkout.date);
+    workout = await API.graphql({ query: Queries.getWorkout, variables: { id: uuid }});
+    console.log("current workout: ", workout);
+    console.log("current workout's date: ", workout.data.getWorkout.date);
   }
 
   async deleteInDB() {
