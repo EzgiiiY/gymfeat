@@ -24,7 +24,8 @@ import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import './register.css'
 import * as Mutation from '../../graphql/mutations';
-
+import * as Queries from '../../graphql/queries';
+import * as Model from '../../models/index';
 
 const formItemLayout = {
   labelCol: {
@@ -162,12 +163,71 @@ class SignUp extends Component {
   }
 
   async addtoDB() {
-    const todo = { name: "My first todo", description: "Hello world!" };
+    // const todo = { name: "My first todo", description: "Hello world!" };
+    // const workout = new Model.Workout({id: "15", username: "talha", date: "todaysdate", workout_id: 15});
+    const workout = {
+      username: "deneme",
+      date: "tomorrowsdate",
+      workout_id: 1
+    }
     try {
-      await API.graphql(graphqlOperation(Mutation.createTodo, {input: todo}));
+      await API.graphql(graphqlOperation(Mutation.createWorkout, {input: workout}));
     } catch (e) {
       console.log("error adding to db: ", e);
     }
+  }
+
+  async getFromDB() {
+    
+
+    // get all
+    const allWorkouts = await API.graphql({ query: Queries.listWorkouts });
+    console.log("all workouts: ", allWorkouts);
+
+    // get the workout _id == id. Not applicable in our case because we dont define their IDs
+    // const workout = await API.graphql({ query: Queries.getWorkout, variables: { id: "<some uuid>" }});
+
+    // refer to: https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/js#filtered-and-paginated-queries for filters
+    let filter = {
+      username: {
+          eq: "talha"
+      }
+    };
+
+    // list all workouts whose _username == username
+    const workouts = await API.graphql({ query: Queries.listWorkouts, variables: {filter: filter}});
+    console.log("filtered workouts: ", workouts);
+
+  }
+
+  async updateInDB() {
+    // const uuid = "7fab4ed0-5cc3-4148-b131-4c94557986e4";
+    // let workout = await API.graphql({ query: Queries.getWorkout, variables: { id: uuid }});
+    // console.log("prev workout: ", workout);
+    // let prevDate = workout.data.getWorkout.date;
+    // let prevUsername = workout.data.getWorkout.username;
+    // let prevWorkoutId = workout.data.getWorkout.workout_id;
+    // console.log("prev workout's date: ", prevDate);
+
+    // const workoutDetails = {
+    //   id: uuid,
+    //   username: prevUsername,
+    //   date: prevDate,
+    //   workout_id: prevWorkoutId
+    // };
+    // const updatedWorkout = await API.graphql({ query: Mutation.updateWorkout, variables: {input: workoutDetails}});
+
+    // workout = await API.graphql({ query: Queries.getWorkout, variables: { id: uuid }});
+    // console.log("current workout: ", workout);
+    // console.log("current workout's date: ", workout.data.getWorkout.date);
+  }
+
+  async deleteInDB() {
+    const uuid = "<some uuid>";
+    const workoutDetails = {
+      id: uuid
+    };
+    const deletedWorkout = await API.graphql({ query: Mutation.deleteWorkout, variables: {input: workoutDetails}});
   }
 
   render() {
@@ -318,6 +378,18 @@ class SignUp extends Component {
 
           <Button style={{float:"right"}} type="primary" onClick={(e) => this.addtoDB()}>
                 add sth to db
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.getFromDB()}>
+                get from db
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.updateInDB()}>
+                update in db
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.deleteInDB()}>
+                delete in db
           </Button>
         </Col>
       </div>
