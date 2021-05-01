@@ -17,6 +17,7 @@ import {
 
 // LOGOUT USER
 export const logout = () => async (dispatch, getState) => {
+  console.log("logout")
   await Auth.signOut(); //tokenConfig(getState));
   dispatch({
     type: LOGOUT_SUCCESS
@@ -105,10 +106,10 @@ export const login = ({ username, password }) => async dispatch => {
 
   try {
     const res = await Auth.signIn(username, password);
-    const user = await Auth.currentAuthenticatedUser();
+    //const user = await Auth.currentAuthenticatedUser();
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: user
+      payload: res
     });
   } catch (err) {
     dispatch({
@@ -116,23 +117,4 @@ export const login = ({ username, password }) => async dispatch => {
     });
     dispatch(stopSubmit('loginForm', err));
   }
-};
-
-// helper function
-export const tokenConfig = getState => {
-  // Get token
-  const token = getState().auth.token;
-
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  if (token) {
-    config.headers['Authorization'] = `Token ${token}`;
-  }
-
-  return config;
 };

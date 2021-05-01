@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { QuestionCircleOutlined } from '@ant-design/icons';
 import {
   Form,
   Input,
@@ -18,11 +17,9 @@ import {
   AutoComplete,
   DatePicker
 } from 'antd';
-
-
-import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import './profile-page.css'
+import {loadUser,getBackendResource} from "../../actions/auth"
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -66,6 +63,11 @@ export class ProfilePage extends Component {
       loading: false
     }
   }
+
+  componentDidMount(){
+    this.props.loadUser();
+  }
+  
 
   render() {
     const {isAuthenticated, user} = this.props;
@@ -216,4 +218,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(ProfilePage);
+export default connect(mapStateToProps,{loadUser})(ProfilePage);
