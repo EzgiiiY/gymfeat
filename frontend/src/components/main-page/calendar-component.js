@@ -48,13 +48,14 @@ class CalendarComponent extends React.Component {
     let dateValues = new Array();
     for(let i = 0; i<listData.length;i++){
       var item = listData[i];
+      var today = moment().format("YYYY.MM.DD")
       var val = value.format("YYYY.MM.DD")
       if(val===item.date){
         for(let j = 0 ; j < item.workout.length;j++){
           let exercise = item.workout[j];
           dateValues.push(
             <li key={value.format("DD.MM.YYYY")}>
-              <Badge status="success" text={exercise.workoutName} />
+              <Badge status={item.date<=today?"success":"warning"} text={exercise.workoutName} />
             </li>
           );
         }
