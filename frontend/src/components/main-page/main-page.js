@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'; // added
 import { connect } from 'react-redux'; // added
-import { Menu, List, Row, Col, Card, Button, Drawer, Typography } from 'antd';
+import { Menu, List, Row, Col, Card, Button, Drawer, Typography,Progress } from 'antd';
 import CalendarComponent from './calendar-component';
 import background2 from '../../icons/landing2.jpg'
 import { chooseWorkout } from "../../actions/workout";
@@ -16,6 +16,7 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading:false,
             visible: false,
             selectedDate: "",
             drawerContent: "",
@@ -100,14 +101,13 @@ class MainPage extends Component {
         // updated
         return (
             <div style={{ backgroundImage: `url(${background2})` }}>
-                <Button onClick={() => { this.props.createRoutine(this.props.auth.user) }}>addtodb</Button>
-                <Button onClick={() => this.props.getUserWorkouts()}>getUserWorkouts</Button>
-                <Button onClick={() => this.props.deleteUserWorkouts()}>deleteUserWorkout</Button>
+                <Button type="primary" onClick={() => {this.props.createRoutine(this.props.auth.user)}}>Create a Routine For Me!</Button>
+                <Button style={{float:"right"}}type="primary" onClick={() => {this.props.deleteUserWorkouts()}}>Clear History</Button>
 
                 <div className='site-calendar-customize-header-wrapper'>
                     <Typography.Title level={4}>Your Calendar</Typography.Title>
                     <Col className='site-calendar'>
-                        <CalendarComponent
+                       <CalendarComponent
                             onClick={this.showDrawer}
                             getDate={this.setDrawerHeader}
                         />

@@ -164,11 +164,7 @@ export const validate = (username, code,password) => async dispatch => {
 
   try {
     const res = await Auth.confirmSignUp(username, code);
-    const result = await Auth.signIn(username, password);
-    const user = await Auth.currentUserInfo();
-
-    dispatch(createRoutine(user))
-    await Auth.signOut(); //tokenConfig(getState));
+    
     dispatch({
       type: CONFIRMATION_SUCCESS,
       payload: res.data
