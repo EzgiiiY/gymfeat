@@ -4,8 +4,8 @@ import {
   CALENDAR_UPDATE_FAIL,
   CALENDAR_UPDATE_SUCCESS
 } from './types';
-import * as Mutation from '../../../graphql/mutations';
-import * as Queries from '../../../graphql/queries';
+import * as Mutation from '../graphql/mutations';
+import * as Queries from '../graphql/queries';
 
 export const addtoDB = (date, workoutId) => async dispatch => {
     // const todo = { name: "My first todo", description: "Hello world!" };
@@ -53,7 +53,13 @@ export const addtoDB = (date, workoutId) => async dispatch => {
     // list all workouts whose _username == username
     // this is better for us because we can filter by anything and not only by the uuid as it was above 
     const workouts = await API.graphql({ query: Queries.listWorkouts, variables: {filter: filter}});
-    console.log("filtered workouts: ", workouts);
+    console.log("filtered workouts: ", workouts.data.listWorkouts.items);
+    dispatch({
+        type: CALENDAR_UPDATE_SUCCESS,
+        payload:workouts.data.listWorkouts.items
+      });
+    
+
 
   }
 
@@ -75,8 +81,8 @@ export const addtoDB = (date, workoutId) => async dispatch => {
     console.log("current workout's date: ", workout.data.getWorkout.date);
   }
 
-  export const deleteUserWorkout = () => async dispatch => {
-    const uuid = "<some uuid>";
+  export const deleteUserWorkout = (id) => async dispatch => {
+    const uuid = id;
     const workoutDetails = {
       id: uuid
     };

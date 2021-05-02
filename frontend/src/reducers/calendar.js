@@ -1,12 +1,13 @@
 import {
     CALENDAR_UPDATE_SUCCESS,
-    CALENDAR_UPDATE_FAIL
+    CALENDAR_UPDATE_FAIL,
+    WORKOUT_END_SUCCESS
 } from '../actions/types';
 
 const initialState = {
-    isWorkoutCompleted: false,
     currentDate:"",
-    exercise:null
+    exercise:null,
+    calendarWorkouts:[]
 };
 
 export default function(state = initialState, action) {
@@ -14,11 +15,17 @@ export default function(state = initialState, action) {
         case CALENDAR_UPDATE_SUCCESS:
             return {
                 ...state,
+                calendarWorkouts:action.payload
+
             };
         case CALENDAR_UPDATE_FAIL:
         return {
             ...state,
         };
+        /*case WORKOUT_END_SUCCESS:
+            return{
+                dispatch
+            }*/
         default:
           return state;
     }
