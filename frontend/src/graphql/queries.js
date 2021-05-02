@@ -8,6 +8,7 @@ export const getWorkout = /* GraphQL */ `
       username
       workout_id
       date
+      is_completed
       createdAt
       updatedAt
     }
@@ -25,6 +26,7 @@ export const listWorkouts = /* GraphQL */ `
         username
         workout_id
         date
+        is_completed
         createdAt
         updatedAt
       }
