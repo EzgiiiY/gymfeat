@@ -7,6 +7,7 @@ import { startWorkout, endWorkout } from '../../actions/workout';
 import SpeechRecognizerPopup from './speech'
 import ReactPlayer from "react-player"
 import TopExercisePanel from "./top-exercise-panel"
+import VideoPointsCanvas from './video-points-canvas'
 import './webcam-page.css';
 
 class ExercisePage extends React.Component{
@@ -225,7 +226,7 @@ class ExercisePage extends React.Component{
                 warningsOn = {warningsOn}/> 
                 }
                 {isWorkoutStarted &&  
-                  <TopExercisePanel exerciseName = {workout.workoutName}
+                  <TopExercisePanel exerciseName = {workout.exerciseList[curExercise].Name}
                   repetitionCount = {repetitionCount}
                   setCount = {curSet}
                   isPlaying = {playing}
@@ -245,24 +246,28 @@ class ExercisePage extends React.Component{
                 goForward={this.handleGoForward}
                 addMessage={addMessage}
                 ></WebcamPosenetComponent>}
-                <ReactPlayer ref= {this.playerRef} 
-                className='react-player'
-                playing={playing}
-                width='28%'
-                height='28%'
-                muted = {muted}
-                onReady={() => console.log('onReady')}
-                onStart={() => console.log('onStart')}
-                onPlay={this.handlePlay}
-                onPause={this.handlePause}
-                onBuffer={() => console.log('onBuffer')}
-                onSeek={e => console.log('onSeek', e)}
-                onEnded={this.handleEnded}
-                onError={e => console.log('onError', e)}
-                onProgress={this.handleProgress}
-                onDuration={this.handleDuration}
-                controls={false}
-                url={workout.exerciseList[curExercise].Link}/>  
+                <div className='react-player'>
+                  <ReactPlayer ref= {this.playerRef} 
+                  playing={playing}
+                  muted = {muted}
+                  width='100%'
+                  height='100%'
+                  onReady={() => console.log('onReady')}
+                  onStart={() => console.log('onStart')}
+                  onPlay={this.handlePlay}
+                  onPause={this.handlePause}
+                  onBuffer={() => console.log('onBuffer')}
+                  onSeek={e => console.log('onSeek', e)}
+                  onEnded={this.handleEnded}
+                  onError={e => console.log('onError', e)}
+                  onProgress={this.handleProgress}
+                  onDuration={this.handleDuration}
+                  controls={false}
+                  url={workout.exerciseList[curExercise].Link}/>  
+                  {isWorkoutStarted && 
+                    <VideoPointsCanvas exerciseLabel = {workout.exerciseList[curExercise].Label}>
+                    </VideoPointsCanvas>}
+                </div>
             </div>
         );
     }
