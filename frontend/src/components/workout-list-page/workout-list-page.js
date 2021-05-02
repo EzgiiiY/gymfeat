@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../../reducers/workout';
+import { Link, Redirect } from 'react-router-dom'; // added
+
 import { Layout, Menu, Switch, Divider, Dropdown, Button } from 'antd';
 import {NavLink} from 'react-router-dom'
 import { Card, List, message, Avatar, Spin } from 'antd';
@@ -10,6 +12,8 @@ import {
   } from '@ant-design/icons';
 import { Select } from 'antd';
 import workouts from '../../data/workouts.json'
+import background2 from '../../icons/landing2.jpg'
+
 import './workout-list-page.css';
 import {chooseWorkout} from '../../actions/workout'
 import WorkoutListPopup from './workout-list-popup'
@@ -70,7 +74,9 @@ class WorkoutListPage extends React.Component {
       
       console.log(this.props)
         const { isHidden, isPopupVisible } = this.state;
-
+        if (!this.props.auth.isAuthenticated) {
+          return <Redirect to='/welcome-page' />;
+        }
         return (
             <Layout style={{ minHeight: '100vh' }}>
             {isPopupVisible && 
@@ -91,11 +97,14 @@ class WorkoutListPage extends React.Component {
                 </Menu.Item>
               </Menu>
             </Sider>
+            <div style={{ backgroundImage: `url(${background2})` }}>
+
             <div className='container'>
-              <List
+              <List                   
                   dataSource={workouts}
                   grid={{ gutter: 16, column: 3 }}
                   renderItem={item => (
+                    <Card style={{padding:"2%",margin:"2%",background:"#000", borderColor:"#1f1f1f"}}> 
                     <List.Item key={item.id}>
                   <Button onClick={(e)=>this.handleClick(e,item)}>{item.workoutName}</Button>
                       <List
@@ -109,10 +118,13 @@ class WorkoutListPage extends React.Component {
                       )}
                       >
                       </List>
+                      
                     </List.Item>
+                    </Card>
                   )}
                 >
                 </List>
+            </div>
             </div>
 
             </Layout>
@@ -128,10 +140,9 @@ const mapDispatchToProps=dispatch=>{
 }
 const mapStateToProps =state=>{
   return{
-    workout: state.workout
+    workout: state.workout,
+    auth: state.auth
   };
 }
-WorkoutListPage = connect(
-  mapStateToProps,mapDispatchToProps,
-)(WorkoutListPage);
+
 export default connect(mapStateToProps, mapDispatchToProps)(WorkoutListPage)

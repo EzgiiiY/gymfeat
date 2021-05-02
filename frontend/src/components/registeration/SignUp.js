@@ -1,24 +1,23 @@
 // frontend/src/components/auth/RegisterForm.js
 
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { reduxForm } from 'redux-form';
 import {
   Form,
   Input,
   Select,
-  Row,
   Col,
-  Checkbox,
   Button,
   DatePicker,
   message
 } from 'antd';
 import history from '../../history'; // added
-import Amplify, { Auth } from 'aws-amplify';
-import { register, validate } from '../../actions/auth';
+import { API, graphqlOperation } from 'aws-amplify';
+import { register,validate } from '../../actions/auth';
+import * as Mutation from '../../graphql/mutations';
+import * as Queries from '../../graphql/queries';
 import './register.css'
 import '../body-form-page.css'
 
@@ -72,6 +71,7 @@ class SignUp extends Component {
       height:0,
       weight:0,
       gender:"",
+      password:""
     }
     this.setDate = this.setDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -101,7 +101,7 @@ class SignUp extends Component {
     }
     try {
       await this.signUp(formValues.username,formValues.password, values);
-      this.setState({ username: formValues.username, confirmationRequired: true });
+      this.setState({ username: formValues.username, password: formValues.password,confirmationRequired: true });
     } catch (error) {
       console.log('error signing up:', error);
     }
@@ -109,7 +109,7 @@ class SignUp extends Component {
 
   onConfirmSignUp = async formValues => {
     try {
-      await this.props.validate(this.state.username, formValues.code)
+      await this.props.validate(this.state.username, formValues.code,this.state.password)
       history.push('/welcome-page')
     } catch (error) {
       console.log('error confirming sign up', error);
@@ -327,7 +327,7 @@ class SignUp extends Component {
           </Form>
 
           {this.state.confirmationRequired && <Form
-            style={{ marginRight: "10vh", padding: "5vh 5vh 5vh 5vh" }}
+            style={{ marginRight: "10vh", padding: "1vh 5vh 5vh 5vh" }}
             {...formItemLayout}
             name="confirmation"
             onFinish={values => this.onConfirmSignUp(values)}
@@ -348,6 +348,23 @@ class SignUp extends Component {
             </Form.Item>
 
           </Form>}
+          
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.addtoDB()}>
+                add sth to db
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.getFromDB()}>
+                get from db
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.updateInDB()}>
+                update in db
+          </Button>
+
+          <Button style={{float:"right"}} type="primary" onClick={(e) => this.deleteInDB()}>
+                delete in db
+          </Button>
 
         </Col>
       </div>

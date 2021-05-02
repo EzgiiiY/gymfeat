@@ -240,7 +240,7 @@ class ExercisePage extends React.Component{
                 prevRepetitionCount={repetitionCount}
                 setRepetitionCount={this.setRepetitionCount}
                 totalRepetitionCount={totRepetitionCount}
-                type={workout.exerciseList[curExercise].Label}
+                type={workout.exerciseList[curExercise]}
                 exerciseName={workout.exerciseList[curExercise].Name}
                 goForward={this.handleGoForward}
                 addMessage={addMessage}

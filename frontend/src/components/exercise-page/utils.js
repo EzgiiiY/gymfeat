@@ -18,6 +18,7 @@ import * as posenet from "@tensorflow-models/posenet";
 import * as tf from "@tensorflow/tfjs";
 
 const color = "aqua";
+const colorImportant = "red";
 const boundingBoxColor = "red";
 const lineWidth = 2;
 
@@ -102,27 +103,38 @@ export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
 /**
  * Draws a pose skeleton by looking up all adjacent keypoints/joints
  */
-export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
+export function drawSkeleton(pose, minConfidence, ctx, scale = 1) {
+  var keypoints = pose.pose["keypoints"];
   const adjacentKeyPoints = posenet.getAdjacentKeyPoints(
     keypoints,
     minConfidence
   );
-
   adjacentKeyPoints.forEach((keypoints) => {
-    drawSegment(
-      toTuple(keypoints[0].position),
-      toTuple(keypoints[1].position),
-      color,
-      scale,
-      ctx
-    );
+    
+    if((keypoints[1].part==pose.type.p1&&keypoints[0].part==pose.type.p2)||(keypoints[1].part==pose.type.p2&&keypoints[0].part==pose.type.p3))
+      drawSegment(
+            toTuple(keypoints[0].position),
+            toTuple(keypoints[1].position),
+            colorImportant,
+            scale,
+            ctx
+          );
+    else
+      drawSegment(
+        toTuple(keypoints[0].position),
+        toTuple(keypoints[1].position),
+        color,
+        scale,
+        ctx
+      );
   });
 }
 
 /**
  * Draw pose keypoints onto a canvas
  */
-export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+export function drawKeypoints(pose, minConfidence, ctx, scale = 1) {
+  let keypoints=pose.pose["keypoints"];
   for (let i = 0; i < keypoints.length; i++) {
     const keypoint = keypoints[i];
 
@@ -131,7 +143,11 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     }
 
     const { y, x } = keypoint.position;
-    drawPoint(ctx, y * scale, x * scale, 3, color);
+    if(keypoint.part==pose.type.p1||keypoint.part==pose.type.p2||keypoint.part==pose.type.p3)
+      drawPoint(ctx, y * scale, x * scale, 3, colorImportant);
+    else
+      drawPoint(ctx, y * scale, x * scale, 3, color);
+
   }
 }
 

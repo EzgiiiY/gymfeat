@@ -15,5 +15,5 @@ export const CONFIRMATION_FAIL = 'LOGIN_FAIL'; // added
 export const CONFIRMATION_SUCCESS = 'LOGOUT_SUCCESS'; // added
 export const UPDATE_SUCCESS = 'UPDATE_SUCCESS'; // added
 export const UPDATE_FAIL = 'UPDATE_FAIL'; // added
-
-  
+export const CALENDAR_UPDATE_SUCCESS = 'CALENDAR_UPDATE_SUCCESS'; // added
+export const CALENDAR_UPDATE_FAIL = 'CALENDAR_UPDATE_FAIL'; // added

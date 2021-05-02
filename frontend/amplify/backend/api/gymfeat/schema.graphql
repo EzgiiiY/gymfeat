@@ -1,0 +1,6 @@
+type Workout @model {
+  id: ID!
+  username: String!
+  workout_id: Int!
+  date: String!
+}

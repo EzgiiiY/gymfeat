@@ -40,6 +40,7 @@ export default function (state = initialState, action) {
       console.log(action.payload)
       return {
         ...state,
+        user:action.payload
       };
     case LOGIN_SUCCESS:
       console.log(action.payload)
