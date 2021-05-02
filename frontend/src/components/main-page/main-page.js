@@ -20,27 +20,30 @@ class MainPage extends Component {
     }
 
     showDrawer = value => {
-        let lists = new Array();
-        let content = new Array()
-        for(let i = 0 ; i < value[0].length;i++){
-            for(let j= 0;j<value[0][i].exerciseList.length;j++){
-                let list = value[0][i].exerciseList;
-                content.push(
-                    <List.Item>
-                        <List.Item.Meta title={list[j].Name}/>
-                    </List.Item>
-                
-                )
+        if(value[0]){
+            let lists = new Array();
+            let content = new Array()
+            for(let i = 0 ; i < value[0].length;i++){
+                for(let j= 0;j<value[0][i].exerciseList.length;j++){
+                    let list = value[0][i].exerciseList;
+                    content.push(
+                        <List.Item>
+                            <List.Item.Meta title={list[j].Name}/>
+                        </List.Item>
+                    
+                    )
+                }
+                lists.push(<List header={<h3>{value[0][i].workoutName}</h3>}>{content}</List>);
+                content = new Array();
             }
-            lists.push(<List header={<h3>{value[0][i].workoutName}</h3>}>{content}</List>);
-            content = new Array();
-        }
-        
-        console.log(value)
+            console.log(value)
         this.setState({
             visible: true,
             drawerContent:lists
         });
+        }
+        
+        
     };
 
     onClose = () => {
