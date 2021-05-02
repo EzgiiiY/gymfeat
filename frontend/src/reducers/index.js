@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import {reducer as formReducer} from 'redux-form';
 import auth from './auth';
 import workout from './workout';
+import calendar from "./calendar"
 // export default combineReducers({
 //   form: formReducer,
 //   todos,
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   form: formReducer,
   auth,
   workout,
+  calendar
 });
 
 const rootReducer = (state, action) => {
