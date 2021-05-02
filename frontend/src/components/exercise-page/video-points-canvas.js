@@ -12,17 +12,17 @@ export default class VideoPointsCanvas extends React.Component{
     }
 
     componentDidMount(){
-        const {exerciseLabel} = this.props;
+        const {exerciseLabel, animationPlayRate} = this.props;
         if(exerciseLabel == 0){
             var i = 0;
             setInterval(() => {
                 i = this.drawResult(pose0, this.canvasRef, i);
-            }, 500);
+            }, animationPlayRate);
         } else if(exerciseLabel == 1){
             var i = 0;
             setInterval(() => {
                 i = this.drawResult(pose1, this.canvasRef, i);
-            }, 500);
+            }, animationPlayRate);
         }
     }
 

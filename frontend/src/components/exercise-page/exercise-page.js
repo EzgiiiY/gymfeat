@@ -214,7 +214,7 @@ class ExercisePage extends React.Component{
 
     render(){
         const {isWorkoutStarted, playing, repetitionCount, curExercise, curSet} = this.state;
-        const {muted, warningsOn, addMessage} = this.props;
+        const {muted, warningsOn, addMessage, animationPlayRate} = this.props;
         const {workout} = this.props.workout;
         const {voice, url, handleExit, totSetCount, totRepetitionCount} = this.props;
         console.log(workout)
@@ -264,8 +264,10 @@ class ExercisePage extends React.Component{
                   onDuration={this.handleDuration}
                   controls={false}
                   url={workout.exerciseList[curExercise].Link}/>  
-                  {isWorkoutStarted && 
-                    <VideoPointsCanvas exerciseLabel = {workout.exerciseList[curExercise].Label}>
+                  {isWorkoutStarted && !playing &&
+                    <VideoPointsCanvas 
+                    exerciseLabel = {workout.exerciseList[curExercise].Label}
+                    animationPlayRate = {animationPlayRate}>
                     </VideoPointsCanvas>}
                 </div>
             </div>
