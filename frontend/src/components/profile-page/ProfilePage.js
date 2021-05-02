@@ -256,7 +256,7 @@ export class ProfilePage extends Component {
                 onChange={this.handleWorkoutGoalSelect}>
                 <Option value="lose weight">Lose Weight</Option>
                 <Option value="strengthen">Strengthen</Option>
-                <Option value="none">Buluruz daha</Option>
+                <Option value="Stay Fit">Stay Fit</Option>
               </Select>
             </Form.Item>
             <Form.Item className='job-item' label="Exercise Frequency:">

@@ -36,9 +36,10 @@ class WebcamPosenetComponent extends React.Component{
         this.runPosenet(); 
     }
 
+    /*
     componentDidUnmount() {
         this.webcamRef.stream.active = false;
-    }
+    } */
 
     detectWebcamFeed = async (posenet_model) => {
         if (
@@ -57,12 +58,6 @@ class WebcamPosenetComponent extends React.Component{
           // Make Estimation
           const pose = await posenet_model.estimateSinglePose(video);
           console.log("pose: ", pose);
-          //this is just a random number
-          //var curRepetitionCount = 1;
-          //avoid calling the set repetition method all the time
-          //if(this.props.prevRepetitionCount != curRepetitionCount){
-          //  this.props.setRepetitionCount(curRepetitionCount);
-          //}
           var pose1 = {
               pose:pose,
               type:this.props.type,
@@ -112,7 +107,6 @@ class WebcamPosenetComponent extends React.Component{
     };
 
     render(){
-        console.log('hello');
         return(
             <div>
                 <Webcam

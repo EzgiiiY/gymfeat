@@ -10,3 +10,9 @@
     right: 0px;
     position: fixed;
 }
+
+.canvas-container{
+    z-index: 3;
+    right: 0px;
+    position: fixed;
+}

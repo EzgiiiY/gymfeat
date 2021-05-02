@@ -91,10 +91,19 @@ export function drawPoint(ctx, y, x, r, color) {
 /**
  * Draws a line on a canvas, i.e. a joint
  */
-export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+export function drawSegment([ay, ax], [by, bx], color, scale = 1, ctx) {
   ctx.beginPath();
   ctx.moveTo(ax * scale, ay * scale);
   ctx.lineTo(bx * scale, by * scale);
+  ctx.lineWidth = lineWidth;
+  ctx.strokeStyle = color;
+  ctx.stroke();
+}
+
+export function drawVideoSegment([ay, ax], [by, bx], color, ctx, x_scale, y_scale) {
+  ctx.beginPath();
+  ctx.moveTo(ax * x_scale, ay * y_scale);
+  ctx.lineTo(bx * x_scale, by * y_scale);
   ctx.lineWidth = lineWidth;
   ctx.strokeStyle = color;
   ctx.stroke();
@@ -130,6 +139,37 @@ export function drawSkeleton(pose, minConfidence, ctx, scale = 1) {
   });
 }
 
+export function drawVideoSkeleton(pose, minConfidence, ctx, can_width, can_height) {
+  var keypoints = pose["keypoints"];
+  const adjacentKeyPoints = posenet.getAdjacentKeyPoints(
+    keypoints,
+    minConfidence
+  );
+  const x_scale = can_width / 640;
+  const y_scale = can_height / 480;
+  adjacentKeyPoints.forEach((keypoints) => {
+    
+    if((keypoints[1].part==pose.type.p1&&keypoints[0].part==pose.type.p2)||(keypoints[1].part==pose.type.p2&&keypoints[0].part==pose.type.p3))
+      drawVideoSegment(
+            toTuple(keypoints[0].position),
+            toTuple(keypoints[1].position),
+            colorImportant,
+            ctx,
+            x_scale,
+            y_scale,
+          );
+    else
+      drawVideoSegment(
+        toTuple(keypoints[0].position),
+        toTuple(keypoints[1].position),
+        color,
+        ctx,
+        x_scale,
+        y_scale,
+      );
+  });
+}
+
 /**
  * Draw pose keypoints onto a canvas
  */
@@ -147,6 +187,26 @@ export function drawKeypoints(pose, minConfidence, ctx, scale = 1) {
       drawPoint(ctx, y * scale, x * scale, 3, colorImportant);
     else
       drawPoint(ctx, y * scale, x * scale, 3, color);
+
+  }
+}
+
+export function drawVideoKeypoints(pose, minConfidence, ctx, can_width, can_height) {
+  let keypoints=pose["keypoints"];
+  for (let i = 0; i < keypoints.length; i++) {
+    const keypoint = keypoints[i];
+
+    if (keypoint.score < minConfidence) {
+      continue;
+    }
+
+    const { y, x } = keypoint.position;
+    const x_scale = x * can_width / 640;
+    const y_scale = y * can_height / 480;
+    if(keypoint.part==pose.type.p1||keypoint.part==pose.type.p2||keypoint.part==pose.type.p3)
+      drawPoint(ctx, y_scale, x_scale, 3, colorImportant);
+    else
+      drawPoint(ctx, y_scale, x_scale, 3, color);
 
   }
 }
