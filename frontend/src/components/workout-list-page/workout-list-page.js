@@ -73,8 +73,8 @@ class WorkoutListPage extends React.Component {
     render() {
       
       console.log(this.props)
-        const { isHidden, isPopupVisible,isAuthenticated } = this.state;
-        if (!isAuthenticated) {
+        const { isHidden, isPopupVisible } = this.state;
+        if (!this.props.auth.isAuthenticated) {
           return <Redirect to='/welcome-page' />;
         }
         return (
