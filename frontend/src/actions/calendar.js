@@ -60,7 +60,8 @@ export const addtoDB = (date, workoutId) => async dispatch => {
     var today = moment().format(format); //gives today in format
     let offdayPerWeek = (28-(4*count))/4;
     let smh = Math.floor(7 / offdayPerWeek);
-    for(let i=0;i<28;i++){ //total workouts in routine
+    let i = 0;
+    while(routine.length<count*4){//(let i=0;i<28;i++){ //total workouts in routine
       
       for(let j = 0; j<smh;j++){//week counter
       
@@ -72,10 +73,10 @@ export const addtoDB = (date, workoutId) => async dispatch => {
         i++
         
       }
-      i = i+getRandomInt(offdayPerWeek)+1;
+      i = i+getRandomInt(offdayPerWeek);
       if(routine.length ==count*4)
         break;
-     
+      i++
     }
     const workout = {
       username: user.username,
