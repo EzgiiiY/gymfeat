@@ -1,20 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../../reducers/workout';
-import { Layout, Menu, Switch, Divider } from 'antd';
+import { Layout, Menu, Switch, Divider, Dropdown, Button } from 'antd';
 import ExercisePage from './exercise-page';
 import {NavLink} from 'react-router-dom'
+import ExerciseFinishedPage from './exercise-finished-page'
 import {
     WarningOutlined,
     UserOutlined,
     AudioMutedOutlined,
     SettingOutlined,
   } from '@ant-design/icons';
+import { Select } from 'antd';
+import workout from '../../reducers/workout';
 
+const { Option } = Select;
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default class ExerciseWithSiderPage extends React.Component {
+class ExerciseWithSiderPage extends React.Component {
 
     constructor(props){
         super(props);
@@ -22,6 +26,10 @@ export default class ExerciseWithSiderPage extends React.Component {
            isHidden : false,
            muted: false,
            warningsOn: true,
+           isExited: false,
+           totSetCount: 1,
+           totRepetitionCount: 10,
+           analysisMessage: "Here is your score: \n",
         };
     }
 
@@ -40,15 +48,50 @@ export default class ExerciseWithSiderPage extends React.Component {
         muted: muted, 
       });
     };
+
+    handleExit = () => {
+      this.setState({
+        isExited: true,
+      });
+    }
+
+    handleSetCountChange = (value) => {
+      console.log(`selected ${value}`);
+      this.setState({
+        totSetCount: value,
+      });
+    }
+
+    handleRepetitionCountChange = (value) => {
+      this.setState({
+        totRepetitionCount: value,
+      });
+    }
+
+    initializeAnalysisMessage = () => {
+      this.setState({
+        analysisMessage: "Here is your score: \n",
+      });
+    }
+
+    addMessage = (message) => {
+      this.setState({
+        analysisMessage: this.state.analysisMessage + message,
+      });
+    }
     
 
     render() {
-        const { isHidden, muted, warningsOn } = this.state;
+        const { isHidden, muted, warningsOn, isExited, 
+          totSetCount, totRepetitionCount, analysisMessage } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={isHidden} onCollapse={this.onHide}>
               <div className="logo" />
               <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                <Menu.Item key="0">
+                  {this.props.workout.workout.workoutName}
+                </Menu.Item>
                 <Menu.Item key="1" icon={<WarningOutlined />}>
                     AI Warnings 
                     <Divider type="vertical" />
@@ -65,16 +108,46 @@ export default class ExerciseWithSiderPage extends React.Component {
                   </NavLink>
                 </Menu.Item>
                 <SubMenu key="sub1" icon={<SettingOutlined />} title="Workout Settings">
-                    <Menu.Item key="4">Set Count</Menu.Item>
-                    <Menu.Item key="5">Repetition Count</Menu.Item>
+                    <Menu.Item key="4">
+                      <Select defaultValue="1"
+                        style={{ width:150 }} onChange={this.handleSetCountChange}>
+                        <Option value="1">Set Count: 1</Option>
+                        <Option value="2">Set Count: 2</Option>
+                        <Option value="3">Set Count: 3</Option>
+                        <Option value="4">Set Count: 4</Option>
+                        <Option value="5">Set Count: 5</Option>
+                      </Select>
+                    </Menu.Item>
+                    <Menu.Item key="5">
+                      <Select defaultValue="10"
+                        style={{ width:150 }} onChange={this.handleSetCountChange}>
+                        <Option value="5">Repetition:  5</Option>
+                        <Option value="10">Repetition: 10</Option>
+                        <Option value="15">Repetition: 15</Option>
+                        <Option value="20">Repetition: 20</Option>
+                        <Option value="25">Repetition: 25</Option>
+                      </Select>
+                    </Menu.Item>
                 </SubMenu>
               </Menu>
             </Sider>
-            <ExercisePage 
-            voice = 'Google UK English Male'
-            muted={muted}
-            warningsOn={warningsOn}>
-            </ExercisePage>
+              {!isExited &&
+              <ExercisePage 
+              voice = 'Google UK English Male'
+              muted={muted}
+              warningsOn={warningsOn}
+              handleExit={this.handleExit}
+              totSetCount={totSetCount}
+              totRepetitionCount={totRepetitionCount}
+              exit={this.handleExit}
+              initializeAnalysisMessage={this.initializeAnalysisMessage}
+              addMessage={this.addMessage}
+              >
+              </ExercisePage>}
+              {isExited &&
+              <ExerciseFinishedPage analysisMessage={analysisMessage}>
+              </ExerciseFinishedPage>
+              }
             </Layout>
         );
     }
@@ -82,6 +155,16 @@ export default class ExerciseWithSiderPage extends React.Component {
 
 }
 
+const mapStateToProps =state=>{
+  return{
+    workout: state.workout
+  };
+}
+
+ExerciseWithSiderPage = connect(
+  mapStateToProps,
+)(ExerciseWithSiderPage);
+export default connect(mapStateToProps)(ExerciseWithSiderPage)
 /*
 <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
                   <Menu.Item key="6">Team 1</Menu.Item>

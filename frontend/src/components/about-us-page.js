@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Col, Row, Button, List } from 'antd';
 import {GithubOutlined, LinkedinOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom'
+import gonca from '../icons/our_pics/IMG_2224.png'
 import './about-us-page.css'
 
 export default class AboutUsPage extends Component {
@@ -20,9 +21,9 @@ export default class AboutUsPage extends Component {
                     />
                     }
                     actions={[
-                        <Button href='https://github.com/talhaburakc' 
+                        <Button onClick={()=>window.open('', '_blank')}
                         icon={<GithubOutlined/>}/>,
-                        <Button href='https://www.linkedin.com/in/mcagrigungor/' 
+                        <Button onClick={()=>window.open('' , '_blank')}
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
@@ -39,9 +40,9 @@ export default class AboutUsPage extends Component {
                     />
                     } 
                     actions={[
-                        <Button href='https://github.com/talhaburakc' 
+                        <Button  onClick={()=>window.open('https://github.com/talhaburakc', '_blank')}
                         icon={<GithubOutlined/>}/>,
-                        <Button href='https://linkedin.com/in/talhaburakc/' 
+                        <Button onClick={()=>window.open('https://linkedin.com/in/talhaburakc/', '_blank')} 
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
@@ -54,13 +55,13 @@ export default class AboutUsPage extends Component {
                     <Card title="Mustafa Çağrı Güngör" cover={
                     <img
                         alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        src="https://media-exp1.licdn.com/dms/image/C4D03AQG471LXqsanyQ/profile-displayphoto-shrink_800_800/0/1606351914800?e=1625097600&v=beta&t=mTAqx5lUPDv7bIjBtfRMth6PIT2mTLzbCYqHRwkss2w"
                     />
                     }
                     actions={[
-                        <Button href='https://github.com/cagrigungor' 
+                        <Button onClick={()=>window.open('https://github.com/cagrigungor' , '_blank')}
                         icon={<GithubOutlined/>}/>,
-                        <Button href='https://linkedin.com/in/mcagrigungor/'
+                        <Button onClick={()=>window.open('https://linkedin.com/in/mcagrigungor/' , '_blank')}
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
@@ -73,13 +74,13 @@ export default class AboutUsPage extends Component {
                     <Card title="Ezgi Yavuz" cover={
                     <img
                         alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        src="https://media-exp1.licdn.com/dms/image/C4D03AQF1FMM_1ksHyg/profile-displayphoto-shrink_800_800/0/1599822638402?e=1625097600&v=beta&t=GPxCeChgiSIZnigxF-XbWC6zsO4MxOo4_CLQovUnsZ8"
                     />
                     }
                     actions={[
-                        <Button href='https://github.com/EzgiiiY' 
+                        <Button onClick={()=>window.open('https://github.com/EzgiiiY'  , '_blank')}
                         icon={<GithubOutlined/>}/>,
-                        <Button href='https://linkedin.com/in/ezgi-yavuz-024b89b6/' 
+                        <Button onClick={()=>window.open('https://linkedin.com/in/ezgi-yavuz-024b89b6/'  , '_blank')}
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
@@ -92,18 +93,18 @@ export default class AboutUsPage extends Component {
                     <Card title="Gonca Yılmaz" cover={
                     <img
                         alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        src={gonca}
                     />
                     }
                     actions={[
-                        <Button href='https://github.com/goncayilmaz' 
+                        <Button onClick={()=>window.open('https://github.com/goncayilmaz' , '_blank')}
                         icon={<GithubOutlined/>}/>,
-                        <Button href='https://linkedin.com/in/goncayilmaz/' 
+                        <Button onClick={()=>window.open('https://linkedin.com/in/goncayilmaz/' , '_blank')}
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
-                    Hello! I took part in .... 
-                    I love ...
+                    Hi! I took part in the frontend and ML part of the project.
+                    I love coding.
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
@@ -121,3 +122,4 @@ export default class AboutUsPage extends Component {
         );
     }
 }
+

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'; // added
 import { connect } from 'react-redux'; // added
 import { Menu, Dropdown, Row, Col, Card, Button, Drawer, Typography } from 'antd';
 import CalendarComponent from './calendar-component';
+import background2 from '../../icons/landing2.jpg'
 
 import './main-page.css'
 
@@ -66,6 +67,7 @@ class MainPage extends Component {
 
         // updated
         return (
+            <div style={{ backgroundImage: `url(${background2})` }}>
             <div className='site-calendar-customize-header-wrapper'>
                 <Typography.Title level={4}>Your Calendar</Typography.Title>
                 <Col className='site-calendar'>
@@ -79,6 +81,7 @@ class MainPage extends Component {
                 </Col>
                 
 
+            </div>
             </div>
         );
     }

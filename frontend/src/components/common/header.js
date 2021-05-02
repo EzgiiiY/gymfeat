@@ -3,8 +3,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'; // added
 import { connect } from 'react-redux'; // added
-import { Menu, Dropdown, Row, Col, Card, Button } from 'antd';
-import { Input, Tabs, Typography } from 'antd';
+import { Row, Col, Card, Button } from 'antd';
+import { Input, Tabs, Typography, Image } from 'antd';
+import home_icon from "../../icons/logo.png"
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -47,7 +48,15 @@ class HeaderMain extends Component {
 
     // updated
     return (
-      <Title>GymFeat</Title>
+      <div className='header-container'>
+      <Row>
+      <Col span={1}><Image
+        width={30}
+        src={home_icon}
+      /></Col>
+      <Col className='title-container' span={23}><Title level={2}>GymFeat: Your Home Workout Buddy</Title></Col>
+    </Row>
+      </div>
     );
   }
 }

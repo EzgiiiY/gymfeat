@@ -11,6 +11,10 @@ import AboutUsPage from './components/about-us-page'
 import CustomTabs from './components/common/CustomTabs'
 import ProfilePage from './components/profile-page/ProfilePage'
 import SignUp from './components/registeration/SignUp'
+import SingleExerciseListPage from './components/workout-list-page/single-exercise-list-page'
+import WorkoutListPage from './components/workout-list-page/workout-list-page'
+import LoginForm from './components/registeration/Login'
+import {loadUser} from "./actions/auth"
 import history from './history';
 
 import './App.css';
@@ -27,7 +31,7 @@ class App extends Component {
   
 
   componentDidMount() {
-    //store.dispatch(loadUser()); //uncomment when auth actions is ready
+    store.dispatch(loadUser()); //uncomment when auth actions is ready
   }
   
   render() {
@@ -58,6 +62,15 @@ class App extends Component {
               </Route>
               <Route path="/signUp">
                   <SignUp/>
+              </Route>
+              <Route path="/login">
+                  <LoginForm/>
+              </Route>
+              <Route path="/exerciseList">
+                <SingleExerciseListPage/>
+              </Route>
+              <Route path="/workoutList">
+                <WorkoutListPage/>
               </Route>
               <Redirect to="/welcome-page"/>
             </Switch>
