@@ -17,7 +17,8 @@ export const addtoDB = (date, workoutId) => async dispatch => {
     const workout = {
       username: user.username,
       date: date,
-      workout_id: workoutId
+      workout_id: workoutId,
+      is_completed: false
     }
     try {
       await API.graphql(graphqlOperation(Mutation.createWorkout, {input: workout}));
@@ -68,7 +69,9 @@ export const addtoDB = (date, workoutId) => async dispatch => {
         routine.push({
           username:user.username, 
           date:moment(today).add(i,"days").format(format),
-          workout_id:getRandomInt(5)+1
+          workout_id:getRandomInt(5)+1,
+          is_completed: false
+
         })
         i++
         
