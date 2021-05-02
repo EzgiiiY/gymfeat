@@ -8,6 +8,7 @@ export const onCreateWorkout = /* GraphQL */ `
       username
       workout_id
       date
+      is_completed
       createdAt
       updatedAt
     }
@@ -20,6 +21,7 @@ export const onUpdateWorkout = /* GraphQL */ `
       username
       workout_id
       date
+      is_completed
       createdAt
       updatedAt
     }
@@ -32,6 +34,7 @@ export const onDeleteWorkout = /* GraphQL */ `
       username
       workout_id
       date
+      is_completed
       createdAt
       updatedAt
     }

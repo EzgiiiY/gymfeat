@@ -3,4 +3,5 @@ type Workout @model {
   username: String!
   workout_id: Int!
   date: String!
+  is_completed: Boolean!
 }
