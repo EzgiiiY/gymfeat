@@ -1,0 +1,13 @@
+.header-container{
+    max-height: 20px;
+    width:100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    top: 50%;
+}
+
+.title-container{
+    margin-top: 20px;
+}

@@ -49,15 +49,18 @@ function getListData(value) {
 }
 
 class CalendarComponent extends React.Component {
-  state = {
-    currentContent: "",
-    dateValues:[]
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      currentContent: "",
+      dateValues:[]
+    };
+  }
+  
   
   dateCellRender = value => {
     const listData = getListData(value)
     const dateValues = new Array();
-    console.log(value.format("DD.MM.YYYY"))
     listData.map(item => (
       dateValues.push(
       <li key={value.format("DD.MM.YYYY")}>
@@ -96,6 +99,7 @@ class CalendarComponent extends React.Component {
     );
   }
 }
+
 
 
 export default(CalendarComponent);

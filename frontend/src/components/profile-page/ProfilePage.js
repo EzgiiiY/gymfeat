@@ -4,12 +4,13 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import moment from 'moment';
+
 import {
   Form,
   Input,
   Tooltip,
-  Cascader,
+  Modal,
   Select,
   Row,
   Col,
@@ -18,11 +19,10 @@ import {
   AutoComplete,
   DatePicker
 } from 'antd';
-
-
-import { Upload, message } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import './profile-page.css'
+import { changePassword,updateUserInfo } from "../../actions/auth"
+import { DownOutlined } from '@ant-design/icons';
+
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -59,61 +59,121 @@ const tailFormItemLayout = {
 };
 
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
 export class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      modalVisible: false,
+      loading:false,
+      oldPassword:"",
+      newPassword:"",
+      username: "",
+      date: this.props.user.attributes["custom:birhday"],
+      workoutGoal: this.props.user.attributes["custom:goal"],
+      workoutCurrentFrequency: this.props.user.attributes["custom:freqDesired"],
+      weightUnit:this.props.user.attributes["custom:weightUnit"],
+      heightUnit:this.props.user.attributes["custom:heightUnit"],
+      height:this.props.user.attributes["custom:height"],
+      weight:this.props.user.attributes["custom:weight"],
+      gender:this.props.user.attributes["custom:gender"],
     }
+    this.handleChangePassword=this.handleChangePassword.bind(this);
+    this.handleOk = this.handleOk.bind(this);
+    this.setDate = this.setDate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleWorkoutGoalSelect = this.handleWorkoutGoalSelect.bind(this);
+    this.handleCurWorkoutFreqSelect = this.handleCurWorkoutFreqSelect.bind(this);
   }
 
-  handleChange = info => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
+  onSubmit = async formValues => {
+    console.log("formvalues onsubmit: ", formValues);
+    console.log(this.state)
+    let values={
+      weight: this.state.weight,
+      height: this.state.height,
+      weightUnit: this.state.weightUnit,
+      heightUnit:this.state.heightUnit,
+      gender:this.state.gender,
+      birhday:this.state.date,
+      goal:this.state.workoutGoal,
+      freqSoFar:this.state.workoutPastFrequency,
+      freqDesired: this.state.workoutCurrentFrequency
+
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
+    try {
+      this.props.updateUserInfo(values);
+    } catch (error) {
+      console.log('error updating:', error);
     }
   };
 
+  setDate(value) {
+    this.setState({ date: value });
+  }
+
+  setWorkoutGoal(value) {
+    this.setState({ workoutGoal: value });
+  }
+
+  setCurWorkoutFrequency(value) {
+    this.setState({ workoutCurrentFrequency: value });
+  }
+
+  handleChange = value => {
+    console.log(value)
+    this.setDate(value.format('YYYY-MM-DD'));
+    console.log("Date: " + this.state.date);
+  };
+
+  handleWorkoutGoalSelect = value => {
+    this.setWorkoutGoal(value);
+  }
+
+  handleCurWorkoutFreqSelect = value => {
+    this.setCurWorkoutFrequency(value);
+  }
+
+
+  handleOk(){
+    this.setState({loading:true})
+    this.props.changePassword(this.state.oldPassword,this.state.newPassword)
+    this.setState({modalVisible:false,loading:false,newPassword:"",oldPassword:""})
+  }
+  renderModal(){
+    return(
+    <Modal
+        title="Change Password"
+        visible={this.state.modalVisible}
+        onOk={this.handleOk}
+        okButtonProps={{loading:this.state.loading}}
+        confirmLoading={this.state.loading}
+        onCancel={()=>    this.setState({modalVisible:false,loading:false,newPassword:"",oldPassword:""})}
+      >
+        <Row gutter={[8,32]}>
+        <Input.Password onChange={(e)=>{this.setState({oldPassword:e.target.value})}} addonBefore="Old Password"/>
+        <br></br>
+        </Row>
+        <Row>
+        <Input.Password onChange={(e)=>{this.setState({newPassword:e.target.value})}} addonBefore="New Password"/>
+
+        </Row>
+      </Modal>);
+  }
+
+  handleChangePassword() {
+    this.setState({modalVisible:true})
+  }
+
 
   render() {
-    //const {isAuthenticated, user} = this.props;
-    /*if (!isAuthenticated) {
-      return <Redirect to='/welcome-page' />;
-    }*/
+    const { isAuthenticated, user } = this.props;
 
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
-      </div>
-    );
+    if (!isAuthenticated) {
+      return <Redirect to='/welcome-page' />;
+    }
+    const { attributes } = user
+    console.log(attributes)
     return (
       <div>
         <h1 >Profile</h1>
@@ -127,127 +187,80 @@ export class ProfilePage extends Component {
             onFinish={values => this.onSubmit(values)}
             scrollToFirstError
           >
-            <Form.Item
-              name="profilepic"
-              label="Upload/Change Profile Photo"
-            >
-              <br></br>
-              <br></br>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-              >
-                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-              </Upload>
-
-            </Form.Item>
-
             <Form.Item className='job-item'
-              label="Enter your nickname:"
+              label="Username:"
               name="name"
             >
-              <Input />
+              <Input defaultValue={user.username} />
             </Form.Item>
             <Form.Item
               name="email"
-              label="Change E-mail Address"
+              label="E-mail:"
             >
-              <Input placeholder="mail" /> {//{user.email}/>
-              }
+              <Input disabled defaultValue={user.attributes.email} />
+
             </Form.Item>
             <Form.Item
               name="password"
-              label="Change Password"
+              label="Password"
               hasFeedback
             >
-              <Input.Password />
+              <Input.Password defaultValue="aaaa" disabled style={{ maxWidth: "50%" }} />
+              <Button onClick={this.handleChangePassword} type="link">Change Password</Button>
             </Form.Item>
 
-            <Form.Item
-              name="confirm"
-              label="Confirm Password"
-              dependencies={['password']}
-              hasFeedback
-              rules={[
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject('The two passwords that you entered do not match!');
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
             <Form.Item className='job-item'
-              label="Enter your weight:"
+              label="Weight:"
               name="weight"
             >
               <Input.Group compact>
-                <Select defaultValue="kg" style={{ width: '20%' }}>
+                <Select onChange={(value)=>this.setState({weightUnit:value})} defaultValue={attributes["custom:weightUnit"]} style={{ width: '20%' }}>
                   <Option value="kg">kg</Option>
                   <Option value="lb">lb</Option>
                 </Select>
                 <Input
                   style={{ width: '70%' }}
-                  placeholder="Weight"
+                  defaultValue={attributes["custom:weight"]}
+                  onChange={(e)=>this.setState({weight:e.target.value})}
                 />
               </Input.Group>
             </Form.Item>
             <Form.Item className='job-item'
-              label="Enter your height:"
+              label="Height:"
               name="height"
             >
               <Input.Group compact>
-                <Select defaultValue="m" style={{ width: '20%' }}>
+                <Select onChange={(value)=>this.setState({heightUnit:value})} defaultValue={attributes["custom:heightUnit"]} style={{ width: '20%' }}>
                   <Option value="m">m</Option>
                   <Option value="ft">ft</Option>
                 </Select>
                 <Input
                   style={{ width: '70%' }}
-                  placeholder="Height"
+                  defaultValue={attributes["custom:height"]}
+                  onChange={(e)=>this.setState({height:e.target.value})}
                 />
               </Input.Group>
             </Form.Item>
-            <Form.Item className='job-item' label="Enter your gender:">
-              <Select>
+            <Form.Item className='job-item' label="Gender:">
+              <Select onChange={(value)=>this.setState({gender:value})} defaultValue={attributes["custom:gender"]}>
                 <Option value="male">Male</Option>
                 <Option value="female">Female</Option>
                 <Option value="none">I choose not to disclose.</Option>
               </Select>
             </Form.Item>
-            <Form.Item className="date-picker-checkbox" label="Enter your birthday:">
-              <DatePicker onChange={this.handleChange} />
+            <Form.Item className="date-picker-checkbox" label="Birthday:">
+              <DatePicker defaultValue={attributes["custom:birhday"]?moment(attributes["custom:birhday"],'YYYY-MM-DD'):moment()}  onChange={this.handleChange} />
             </Form.Item>
-            <Form.Item>
-              <Select
-                placeholder='Choose Your Workout Goal'
+            <Form.Item className='job-item' label="Workout Goal:">
+              <Select defaultValue={attributes["custom:goal"]} 
                 onChange={this.handleWorkoutGoalSelect}>
                 <Option value="lose weight">Lose Weight</Option>
                 <Option value="strengthen">Strengthen</Option>
                 <Option value="none">Buluruz daha</Option>
               </Select>
             </Form.Item>
-            <Form.Item>
-              <Select
-                placeholder='How often do you exercise (until now)?'
-                onChange={this.handlePastWorkoutFreqSelect}>
-                <Option value="almost zero">0 - 1 times a week</Option>
-                <Option value="two three">2 - 3 times a week</Option>
-                <Option value="four five">4 - 5 times a week</Option>
-                <Option value="six or more">6+ times a week</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item>
-              <Select
-                placeholder='How often do you want to exercise?'
+            <Form.Item className='job-item' label="Exercise Frequency:">
+              <Select defaultValue={attributes["custom:freqDesired"]} 
                 onChange={this.handleCurWorkoutFreqSelect}>
                 <Option value="almost zero">1 time a week</Option>
                 <Option value="two three">2 - 3 times a week</Option>
@@ -255,11 +268,6 @@ export class ProfilePage extends Component {
                 <Option value="six or more">6+ times a week</Option>
               </Select>
             </Form.Item>
-            <Form.Item className="checkbox">
-              <Checkbox>Would you like to get e-mails from us?</Checkbox>
-            </Form.Item>
-       
-           
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit">
                 Update Profile
@@ -267,14 +275,15 @@ export class ProfilePage extends Component {
             </Form.Item>
           </Form>
         </Col>
+        {this.renderModal()}
       </div>
     );
   }
 }
 
-/*const mapStateToProps = state => ({
-    user: state.auth.user,
-    isAuthenticated: state.auth.isAuthenticated,
-});*/
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
-export default ProfilePage;//connect(mapStateToProps)(ProfilePage);
+export default connect(mapStateToProps, { changePassword,updateUserInfo })(ProfilePage);

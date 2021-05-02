@@ -1,7 +1,11 @@
 // frontend/src/reducers/index.js
 
+import { LOGOUT_SUCCESS } from '../actions/types'; // added
 import { combineReducers } from 'redux';
 import {reducer as formReducer} from 'redux-form';
+import auth from './auth';
+import workout from './workout';
+import calendar from "./calendar"
 // export default combineReducers({
 //   form: formReducer,
 //   todos,
@@ -10,12 +14,15 @@ import {reducer as formReducer} from 'redux-form';
 
 const appReducer = combineReducers({
   form: formReducer,
+  auth,
+  workout,
+  calendar
 });
 
 const rootReducer = (state, action) => {
- /* if (action.type === LOGOUT_SUCCESS) {
+  if (action.type === LOGOUT_SUCCESS) {
     state = undefined;
-  }*/
+  }
   return appReducer(state, action);
 };
 
