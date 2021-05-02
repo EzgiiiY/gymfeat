@@ -2,7 +2,7 @@
 
 import { stopSubmit } from 'redux-form';
 import Amplify, { Auth, formContainer } from 'aws-amplify';
-import {createRoutine} from "./calendar";
+import {createRoutine,deleteUserWorkouts} from "./calendar";
 import {
   USER_LOADING,
   USER_LOADED,
@@ -81,7 +81,14 @@ export const updateUserInfo = (values) => async dispatch => {
       "custom:freqDesired": freqDesired
     });
     let user2 = await Auth.currentAuthenticatedUser();
+    if(user.attributes["custom:freqDesired"]!=values.freqDesired)
+    {
+      dispatch(deleteUserWorkouts())
+      
 
+      dispatch(createRoutine(user2))
+
+    }
     dispatch({
       type: UPDATE_SUCCESS,
       payload: user2

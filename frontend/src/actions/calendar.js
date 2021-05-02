@@ -2,7 +2,8 @@ import { stopSubmit } from 'redux-form';
 import Amplify, { Auth, API, graphqlOperation  } from 'aws-amplify';
 import {
   CALENDAR_UPDATE_FAIL,
-  CALENDAR_UPDATE_SUCCESS
+  CALENDAR_UPDATE_SUCCESS,
+
 } from './types';
 import moment from 'moment';
 import * as Mutation from '../graphql/mutations';
@@ -178,5 +179,8 @@ export const addtoDB = (date, workoutId) => async dispatch => {
       const deletedWorkout = await API.graphql({ query: Mutation.deleteWorkout, variables: {input: {id:workouts.data.listWorkouts.items[i].id}}});
 
     }
+    dispatch({
+      type: CALENDAR_UPDATE_SUCCESS,
+    });
  
   }

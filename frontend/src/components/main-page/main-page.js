@@ -4,6 +4,9 @@ import { connect } from 'react-redux'; // added
 import { Menu, List,Row, Col, Card, Button, Drawer, Typography } from 'antd';
 import CalendarComponent from './calendar-component';
 import background2 from '../../icons/landing2.jpg'
+import {chooseWorkout} from "../../actions/workout";
+import history from '../../history'; // added
+
 import {addtoDB,getUserWorkouts,deleteUserWorkouts,createRoutine} from "../../actions/calendar";
 import moment from 'moment';
 
@@ -18,9 +21,10 @@ class MainPage extends Component {
             drawerContent:"",
         }
     }
-
+    
     showDrawer = value => {
         if(value[0]){
+            
             let lists = new Array();
             let content = new Array()
             for(let i = 0 ; i < value[0].length;i++){
@@ -33,7 +37,12 @@ class MainPage extends Component {
                     
                     )
                 }
-                lists.push(<List header={<h3>{value[0][i].workoutName}</h3>}>{content}</List>);
+                let drawerButton = (
+                
+                    <Button onClick={(e)=>{this.props.chooseWorkout(value[0][i]);history.push("/exercise-page")}}>Start Exercise</Button>
+                    
+                );
+                lists.push(<List header={<><h3>{value[0][i].workoutName}</h3>{drawerButton}</>}>{content}</List>);
                 content = new Array();
             }
             console.log(value)
@@ -62,16 +71,12 @@ class MainPage extends Component {
   
 
     renderDrawer() {
-        const drawerButton = (
-            <Link to='/exercise-page' className='item'>
-                <Button>Start Exercise</Button>
-            </Link>
-        );
+        
         return (
             <div className="site-drawer-render-in-current-wrapper">
                 <Drawer
-                    title={"Exercises on " + this.state.selectedDate}
-                    placement="bottom"
+                    title={"Workouts on " + this.state.selectedDate}
+                    placement="left"
                     closable={true}
                     onClose={this.onClose}
                     visible={this.state.visible}
@@ -79,7 +84,6 @@ class MainPage extends Component {
                     destroyOnClose={true}
                 >
                     {this.state.drawerContent}
-                    {drawerButton}
                 </Drawer>
             </div>
         );
@@ -120,4 +124,4 @@ function mapStateToProps(state) {
         auth: state.auth,
     };
 }
-export default connect(mapStateToProps,{addtoDB,getUserWorkouts,deleteUserWorkouts,createRoutine})(MainPage);
+export default connect(mapStateToProps,{chooseWorkout,addtoDB,getUserWorkouts,deleteUserWorkouts,createRoutine})(MainPage);
