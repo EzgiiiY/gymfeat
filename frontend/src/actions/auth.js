@@ -1,7 +1,8 @@
 // frontend/src/actions/auth.js
 
 import { stopSubmit } from 'redux-form';
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { Auth, formContainer } from 'aws-amplify';
+import {createRoutine} from "./calendar";
 import {
   USER_LOADING,
   USER_LOADED,
@@ -140,9 +141,9 @@ export const register = (username, password, values) => async dispatch => {
         "custom:freqDesired": freqDesired
       }
     });
+   
     dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res
+      type: REGISTER_SUCCESS
     });
   } catch (err) {
     dispatch({
@@ -152,10 +153,15 @@ export const register = (username, password, values) => async dispatch => {
   }
 };
 //validate registration code
-export const validate = (username, code) => async dispatch => {
+export const validate = (username, code,password) => async dispatch => {
 
   try {
     const res = await Auth.confirmSignUp(username, code);
+    const result = await Auth.signIn(username, password);
+    const user = await Auth.currentUserInfo();
+
+    dispatch(createRoutine(user))
+    await Auth.signOut(); //tokenConfig(getState));
     dispatch({
       type: CONFIRMATION_SUCCESS,
       payload: res.data

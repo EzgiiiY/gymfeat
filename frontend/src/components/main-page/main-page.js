@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'; // added
+import { Link, Redirect } from 'react-router-dom'; // added
 import { connect } from 'react-redux'; // added
 import { Menu, List,Row, Col, Card, Button, Drawer, Typography } from 'antd';
 import CalendarComponent from './calendar-component';
 import background2 from '../../icons/landing2.jpg'
-import {addtoDB,getUserWorkouts,deleteUserWorkout} from "../../actions/calendar";
+import {addtoDB,getUserWorkouts,deleteUserWorkouts,createRoutine} from "../../actions/calendar";
+import moment from 'moment';
 
 import './main-page.css'
 
@@ -81,15 +82,17 @@ class MainPage extends Component {
         );
     }
     render() {
-        //const { user, isAuthenticated } = this.props.auth; // added
+        const { isAuthenticated } = this.props.auth; // added
 
-
+        if (!isAuthenticated) {
+            return <Redirect to='/welcome-page' />;
+          }
         // updated
         return (
             <div style={{ backgroundImage: `url(${background2})` }}>
-                <Button onClick={()=>this.props.addtoDB("2021.05.01",1)}>addtodb</Button>
+                <Button onClick={()=>{this.props.createRoutine(this.props.auth.user)}}>addtodb</Button>
                 <Button onClick={()=>this.props.getUserWorkouts()}>getUserWorkouts</Button>
-                <Button onClick={()=>this.props.deleteUserWorkout("587c6a50-7190-4e97-8368-634a797951ee")}>deleteUserWorkout</Button>
+                <Button onClick={()=>this.props.deleteUserWorkouts()}>deleteUserWorkout</Button>
 
             <div className='site-calendar-customize-header-wrapper'>
                 <Typography.Title level={4}>Your Calendar</Typography.Title>
@@ -109,5 +112,9 @@ class MainPage extends Component {
         );
     }
 }
-
-export default connect("",{addtoDB,getUserWorkouts,deleteUserWorkout})(MainPage);
+function mapStateToProps(state) {
+    return {
+        auth: state.auth,
+    };
+}
+export default connect(mapStateToProps,{addtoDB,getUserWorkouts,deleteUserWorkouts,createRoutine})(MainPage);

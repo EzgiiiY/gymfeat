@@ -71,6 +71,7 @@ class SignUp extends Component {
       height:0,
       weight:0,
       gender:"",
+      password:""
     }
     this.setDate = this.setDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -100,7 +101,7 @@ class SignUp extends Component {
     }
     try {
       await this.signUp(formValues.username,formValues.password, values);
-      this.setState({ username: formValues.username, confirmationRequired: true });
+      this.setState({ username: formValues.username, password: formValues.password,confirmationRequired: true });
     } catch (error) {
       console.log('error signing up:', error);
     }
@@ -108,7 +109,7 @@ class SignUp extends Component {
 
   onConfirmSignUp = async formValues => {
     try {
-      await this.props.validate(this.state.username, formValues.code)
+      await this.props.validate(this.state.username, formValues.code,this.state.password)
       history.push('/welcome-page')
     } catch (error) {
       console.log('error confirming sign up', error);

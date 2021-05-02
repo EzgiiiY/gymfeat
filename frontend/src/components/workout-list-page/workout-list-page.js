@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../../reducers/workout';
+import { Link, Redirect } from 'react-router-dom'; // added
+
 import { Layout, Menu, Switch, Divider, Dropdown, Button } from 'antd';
 import {NavLink} from 'react-router-dom'
 import { Card, List, message, Avatar, Spin } from 'antd';
@@ -71,8 +73,10 @@ class WorkoutListPage extends React.Component {
     render() {
       
       console.log(this.props)
-        const { isHidden, isPopupVisible } = this.state;
-
+        const { isHidden, isPopupVisible,isAuthenticated } = this.state;
+        if (!isAuthenticated) {
+          return <Redirect to='/welcome-page' />;
+        }
         return (
             <Layout style={{ minHeight: '100vh' }}>
             {isPopupVisible && 
@@ -136,10 +140,9 @@ const mapDispatchToProps=dispatch=>{
 }
 const mapStateToProps =state=>{
   return{
-    workout: state.workout
+    workout: state.workout,
+    auth: state.auth
   };
 }
-WorkoutListPage = connect(
-  mapStateToProps,mapDispatchToProps,
-)(WorkoutListPage);
+
 export default connect(mapStateToProps, mapDispatchToProps)(WorkoutListPage)
