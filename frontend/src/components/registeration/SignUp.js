@@ -348,24 +348,6 @@ class SignUp extends Component {
             </Form.Item>
 
           </Form>}
-          
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.addtoDB()}>
-                add sth to db
-          </Button>
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.getFromDB()}>
-                get from db
-          </Button>
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.updateInDB()}>
-                update in db
-          </Button>
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.deleteInDB()}>
-                delete in db
-          </Button>
-
         </Col>
       </div>
     );
