@@ -90,7 +90,7 @@ async def time(websocket, path):
             Config.isFinished = False
             await websocket.send(str(Config.repetition)) 
             Config.makeSend = 0
-        Config.max_repetition = 5#pose["repetition"]
+        Config.max_repetition = pose["repetition"]
         print(Config.max_repetition, Config.exercise_type)
         p_arr = np.zeros((17,2))
         for i in range(len(pose["keypoints"])):

@@ -217,7 +217,7 @@ class ExercisePage extends React.Component{
         const {muted, warningsOn, addMessage, animationPlayRate} = this.props;
         const {workout} = this.props.workout;
         const {voice, url, handleExit, totSetCount, totRepetitionCount} = this.props;
-        console.log(workout)
+        console.log("repetition " + totRepetitionCount)
         return(
             <div className='webcam-container'>
                 {!isWorkoutStarted && <SpeechRecognizerPopup 

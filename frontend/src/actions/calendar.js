@@ -93,7 +93,7 @@ export const addtoDB = (date, workoutId) => async dispatch => {
       }
       Promise.all(routinePromise).then(setTimeout(function(){
         window.location.reload();
-    },5000))
+    },10000))
       
       console.log("await finished");
 
@@ -192,7 +192,7 @@ export const addtoDB = (date, workoutId) => async dispatch => {
     }
     Promise.all(deletedWorkouts).then(setTimeout(function(){
       window.location.reload();
-  },5000))
+  },10000))
   
 
 
