@@ -114,7 +114,7 @@ async def time(websocket, path):
         p3 = p_arr[Config.nameToLabel[Config.types[Config.exercise_type]["p3"]]]
 
         angle = getAngle(p1,p2,p3)
-        await websocket.send(str(angle))
+        #await websocket.send(str(angle))
         #print(angle, p1, p2, p3)
         
         Config.makeSend = 0
@@ -135,7 +135,7 @@ async def time(websocket, path):
         #    await websocket.send(str(response)) 
         #count += 1
 
-start_server = websockets.serve(time, '127.0.0.1', 5678)
+start_server = websockets.serve(time, '127.0.0.1', 5679)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 

@@ -108,8 +108,8 @@ class ExerciseWithSiderPage extends React.Component {
 
     initializeAnalysisMessage = () => {
       this.setState({
-        analysisMessage: ["You're doing great. Here is your score:", 
-        'Squat 5/5', 'Right Side Lunge 5/5', 'If you don\'t see the full list, you didn\'t complete the workout.'],
+        analysisMessage: ["Here is your score:", 
+        'Squat 3/3', 'Right Side Lunge 3/3', 'If you don\'t see the full list, you didn\'t complete the workout.'],
       });
     }
 
@@ -162,6 +162,7 @@ class ExerciseWithSiderPage extends React.Component {
                     <Menu.Item key="5">
                       <Select defaultValue={totRepetitionCountStr}
                         style={{ width:150 }} onChange={this.handleSetCountChange}>
+                        <Option value="3">Repetition:  3</Option>
                         <Option value="5">Repetition:  5</Option>
                         <Option value="10">Repetition: 10</Option>
                         <Option value="15">Repetition: 15</Option>

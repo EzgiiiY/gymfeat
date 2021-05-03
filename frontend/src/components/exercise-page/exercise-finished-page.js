@@ -10,31 +10,50 @@ import moment from 'moment';
 class ExerciseFinishedPage extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            showResults: false,
+         };
+         this.handleClickTrue = this.handleClickTrue.bind(this);
+         this.handleClickFalse = this.handleClickFalse.bind(this);
     }
+    
 
     componentDidMount()
     {
         this.props.addtoDB(moment().format("YYYY.MM.DD"),this.props.workout.workout.id)
     }
 
+    handleClickTrue(){
+        this.setState({
+            showResults: true,
+        });
+    }
+    handleClickFalse(){
+        this.setState({
+            showResults: false,
+        });
+    }
+    
+
     render(){
         console.log(this.props.workout)
         const {analysisMessage} = this.props;
+        const {showResults} = this.state;
         console.log(analysisMessage)
+        console.log('show resuls ' + showResults)
         return(
             <div className="modal">
                 {<Result
                 icon={<SmileOutlined />}
                 title="Workout Completed!"
-                subTitle={<List
-                className='list_content'
-                dataSource={analysisMessage}
-                renderItem={item => (
-                    <List.Item>
-                     {item}
-                    </List.Item>
-                )}/>}
+                subTitle='You are doing great!'
                 extra={[
+                <Button type="primary" key="resultsTrue" disabled={showResults} onClick={this.handleClickTrue}>
+                    See Results
+                </Button>,
+                <Button type="primary" key="resultsTrue" disabled={!showResults} onClick={this.handleClickFalse}>
+                    Hide Results
+                </Button>,
                 <Link to='/main-page'>
                     <Button type="primary" key="calendar">
                         Go back to Calendar!
@@ -42,6 +61,14 @@ class ExerciseFinishedPage extends React.Component{
                 </Link>,
                 ]}
                 />}
+                {showResults && <List
+                className='list_content'
+                dataSource={analysisMessage}
+                renderItem={item => (
+                    <List.Item>
+                     {item}
+                    </List.Item>
+                )}/>}
             </div>
         );
     }
