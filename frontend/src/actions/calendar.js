@@ -86,10 +86,17 @@ export const addtoDB = (date, workoutId) => async dispatch => {
      // date: date,
       //workout_id: workoutId
     }
+    let routinePromise = new Array();
     try {
       for(let i = 0; i<routine.length;i++){
-        await API.graphql(graphqlOperation(Mutation.createWorkout, {input: routine[i]}));
+        routinePromise.push(API.graphql(graphqlOperation(Mutation.createWorkout, {input: routine[i]})));
       }
+      Promise.all(routinePromise).then(setTimeout(function(){
+        window.location.reload();
+    },5000))
+      
+      console.log("await finished");
+
       dispatch({
         type: CALENDAR_UPDATE_SUCCESS,
       });
@@ -179,10 +186,16 @@ export const addtoDB = (date, workoutId) => async dispatch => {
     // list all workouts whose _username == username
     // this is better for us because we can filter by anything and not only by the uuid as it was above 
     const workouts = await API.graphql({ query: Queries.listWorkouts, variables: {filter: filter}});
+    let deletedWorkouts = new Array();
     for(let i = 0; i < workouts.data.listWorkouts.items.length;i++){
-      const deletedWorkout = await API.graphql({ query: Mutation.deleteWorkout, variables: {input: {id:workouts.data.listWorkouts.items[i].id}}});
-
+      deletedWorkouts.push(API.graphql({ query: Mutation.deleteWorkout, variables: {input: {id:workouts.data.listWorkouts.items[i].id}}}));
     }
+    Promise.all(deletedWorkouts).then(setTimeout(function(){
+      window.location.reload();
+  },5000))
+  
+
+
     dispatch({
       type: CALENDAR_UPDATE_SUCCESS,
     });
