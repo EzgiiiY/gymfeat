@@ -30,7 +30,7 @@ class ExerciseWithSiderPage extends React.Component {
            totSetCount: 1,
            totRepetitionCount: 10,
            animationPlayRate: 300,
-           analysisMessage: "Here is your score: \n",
+           analysisMessage: [],
         };
     }
 
@@ -41,7 +41,6 @@ class ExerciseWithSiderPage extends React.Component {
       var idealReps = "10";
       var idealSet = "1";
       var playRate =  300;
-      console.log(bmi);
       setTimeout(() => {
         if(bmi < 18.5){ //underweight
           idealReps = "15";
@@ -109,13 +108,14 @@ class ExerciseWithSiderPage extends React.Component {
 
     initializeAnalysisMessage = () => {
       this.setState({
-        analysisMessage: "Here is your score: \n",
+        analysisMessage: ["You're doing great. Here is your score:", 
+        'Squat 5/5', 'Right Side Lunge 5/5', 'If you don\'t see the full list, you didn\'t complete the workout.'],
       });
     }
 
     addMessage = (message) => {
       this.setState({
-        analysisMessage: this.state.analysisMessage + message,
+        analysisMessage: this.state.analysisMessage.concat(message),
       });
     }
     

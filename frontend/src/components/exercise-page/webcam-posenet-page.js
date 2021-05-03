@@ -57,7 +57,6 @@ class WebcamPosenetComponent extends React.Component{
 
           // Make Estimation
           const pose = await posenet_model.estimateSinglePose(video);
-          console.log("pose: ", pose);
           var pose1 = {
               pose:pose,
               type:this.props.type,

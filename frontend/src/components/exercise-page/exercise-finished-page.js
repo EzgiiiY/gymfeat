@@ -1,4 +1,4 @@
-import { Result, Button } from 'antd';
+import { Result, Button, List, Typography } from 'antd';
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { SmileOutlined } from '@ant-design/icons';
@@ -17,16 +17,23 @@ class ExerciseFinishedPage extends React.Component{
         this.props.addtoDB(moment().format("YYYY.MM.DD"),this.props.workout.workout.id)
     }
 
-
     render(){
         console.log(this.props.workout)
         const {analysisMessage} = this.props;
+        console.log(analysisMessage)
         return(
             <div className="modal">
                 {<Result
                 icon={<SmileOutlined />}
                 title="Workout Completed!"
-                subTitle={"You are doing great. " + analysisMessage}
+                subTitle={<List
+                className='list_content'
+                dataSource={analysisMessage}
+                renderItem={item => (
+                    <List.Item>
+                     {item}
+                    </List.Item>
+                )}/>}
                 extra={[
                 <Link to='/main-page'>
                     <Button type="primary" key="calendar">
