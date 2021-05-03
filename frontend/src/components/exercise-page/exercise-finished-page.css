@@ -14,3 +14,12 @@
     padding: 20px;
     border-radius: 5px;
   }
+
+  .list_content {
+    background-color: rgba(0, 0, 0, 0.562);
+    position: fixed;
+    left: 30%;
+    width: 40%;
+    padding: 20px;
+    border-radius: 5px;
+  }

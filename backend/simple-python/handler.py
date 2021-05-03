@@ -90,7 +90,7 @@ async def time(websocket, path):
             Config.isFinished = False
             await websocket.send(str(Config.repetition)) 
             Config.makeSend = 0
-        Config.max_repetition = 5#pose["repetition"]
+        Config.max_repetition = pose["repetition"]
         print(Config.max_repetition, Config.exercise_type)
         p_arr = np.zeros((17,2))
         for i in range(len(pose["keypoints"])):
@@ -114,7 +114,7 @@ async def time(websocket, path):
         p3 = p_arr[Config.nameToLabel[Config.types[Config.exercise_type]["p3"]]]
 
         angle = getAngle(p1,p2,p3)
-        await websocket.send(str(angle))
+        #await websocket.send(str(angle))
         #print(angle, p1, p2, p3)
         
         Config.makeSend = 0
@@ -135,7 +135,7 @@ async def time(websocket, path):
         #    await websocket.send(str(response)) 
         #count += 1
 
-start_server = websockets.serve(time, '127.0.0.1', 5678)
+start_server = websockets.serve(time, '127.0.0.1', 5679)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 

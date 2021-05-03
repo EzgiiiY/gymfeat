@@ -24,7 +24,6 @@ class MainPage extends Component {
     }
 
     showDrawer = value => {
-        console.log(value)
         if (value) {
 
             let lists = new Array();

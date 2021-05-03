@@ -90,9 +90,10 @@ class LoginForm extends Component {
           >
             <Input.Password />
           </Form.Item>
-          <Button style={{color: "#fff"}} type="text" >
+          {/*<Button style={{color: "#fff"}} type="text" >
               Forgot password?
           </Button>
+          */}
           <Form.Item {...tailLayout}>
           
             <Button style={{ float: "right" }} type="primary" htmlType="submit" loading={this.state.loading}>

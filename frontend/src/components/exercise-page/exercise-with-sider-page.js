@@ -28,9 +28,41 @@ class ExerciseWithSiderPage extends React.Component {
            warningsOn: true,
            isExited: false,
            totSetCount: 1,
-           totRepetitionCount: 10,
-           analysisMessage: "Here is your score: \n",
+           totRepetitionCount: 3,
+           animationPlayRate: 300,
+           analysisMessage: [],
         };
+    }
+
+    componentDidMount = () => {
+      const height = this.props.user.attributes["custom:height"];
+      const weight = this.props.user.attributes["custom:weight"];
+      const bmi = ( weight / height / height ) * 10000;
+      var idealReps = "10";
+      var idealSet = "1";
+      var playRate =  300;
+      setTimeout(() => {
+        if(bmi < 18.5){ //underweight
+          idealReps = "15";
+          idealSet = "2";
+          playRate =  400;
+        } else if(bmi < 25){ //normal
+          idealReps = "15";
+          idealSet = "3";
+          playRate =  250;
+        } else if(bmi < 30) { //overweight
+          idealReps = "10";
+          idealSet = "4";
+          playRate =  400;
+        } else{ //obese
+          idealReps = "5";
+          idealSet = "5";
+          playRate =  500;
+        }
+        this.handleRepetitionCountChange(idealReps);
+        this.handleSetCountChange(idealSet);
+        this.handleAnimationRateChange(playRate);
+      }, 50);
     }
 
     onHide = isHidden => {
@@ -55,35 +87,44 @@ class ExerciseWithSiderPage extends React.Component {
       });
     }
 
+    handleAnimationRateChange = (value) => {
+      this.setState({
+        animationPlayRate: value,
+      });
+    }
+
     handleSetCountChange = (value) => {
       console.log(`selected ${value}`);
       this.setState({
-        totSetCount: value,
+        totSetCount: parseInt(value),
       });
     }
 
     handleRepetitionCountChange = (value) => {
       this.setState({
-        totRepetitionCount: value,
+        totRepetitionCount: parseInt(value),
       });
     }
 
     initializeAnalysisMessage = () => {
       this.setState({
-        analysisMessage: "Here is your score: \n",
+        analysisMessage: ["Here is your score:", 
+        'Squat 5/5', 'Right Side Lunge 5/5', 'If you don\'t see the full list, you didn\'t complete the workout.'],
       });
     }
 
     addMessage = (message) => {
       this.setState({
-        analysisMessage: this.state.analysisMessage + message,
+        analysisMessage: this.state.analysisMessage.concat(message),
       });
     }
     
 
     render() {
         const { isHidden, muted, warningsOn, isExited, 
-          totSetCount, totRepetitionCount, analysisMessage } = this.state;
+          totSetCount, totRepetitionCount, analysisMessage, animationPlayRate } = this.state;
+        const totRepetitionCountStr = "" + totRepetitionCount;
+        const totSetCountStr = "" + totSetCount;
         return (
             <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={isHidden} onCollapse={this.onHide}>
@@ -109,7 +150,7 @@ class ExerciseWithSiderPage extends React.Component {
                 </Menu.Item>
                 <SubMenu key="sub1" icon={<SettingOutlined />} title="Workout Settings">
                     <Menu.Item key="4">
-                      <Select defaultValue="1"
+                      <Select defaultValue={totSetCountStr}
                         style={{ width:150 }} onChange={this.handleSetCountChange}>
                         <Option value="1">Set Count: 1</Option>
                         <Option value="2">Set Count: 2</Option>
@@ -119,8 +160,9 @@ class ExerciseWithSiderPage extends React.Component {
                       </Select>
                     </Menu.Item>
                     <Menu.Item key="5">
-                      <Select defaultValue="10"
-                        style={{ width:150 }} onChange={this.handleSetCountChange}>
+                      <Select defaultValue={totRepetitionCountStr}
+                        style={{ width:150 }} onChange={this.handleRepetitionCountChange}>
+                        <Option value="3">Repetition:  3</Option>
                         <Option value="5">Repetition:  5</Option>
                         <Option value="10">Repetition: 10</Option>
                         <Option value="15">Repetition: 15</Option>
@@ -142,6 +184,7 @@ class ExerciseWithSiderPage extends React.Component {
               exit={this.handleExit}
               initializeAnalysisMessage={this.initializeAnalysisMessage}
               addMessage={this.addMessage}
+              animationPlayRate={animationPlayRate}
               >
               </ExercisePage>}
               {isExited &&
@@ -157,7 +200,8 @@ class ExerciseWithSiderPage extends React.Component {
 
 const mapStateToProps =state=>{
   return{
-    workout: state.workout
+    workout: state.workout,
+    user: state.auth.user,
   };
 }
 

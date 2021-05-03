@@ -118,9 +118,9 @@ export function drawSkeleton(pose, minConfidence, ctx, scale = 1) {
     keypoints,
     minConfidence
   );
+  
   adjacentKeyPoints.forEach((keypoints) => {
-    
-    if((keypoints[1].part==pose.type.p1&&keypoints[0].part==pose.type.p2)||(keypoints[1].part==pose.type.p2&&keypoints[0].part==pose.type.p3))
+    if((keypoints[1].part==pose.type.p1&&keypoints[0].part==pose.type.p2))
       drawSegment(
             toTuple(keypoints[0].position),
             toTuple(keypoints[1].position),
@@ -128,6 +128,33 @@ export function drawSkeleton(pose, minConfidence, ctx, scale = 1) {
             scale,
             ctx
           );
+    else if((keypoints[0].part==pose.type.p1&&keypoints[1].part==pose.type.p2)){
+      drawSegment(
+        toTuple(keypoints[0].position),
+        toTuple(keypoints[1].position),
+        colorImportant,
+        scale,
+        ctx
+      );
+    }
+    else if((keypoints[0].part==pose.type.p2&&keypoints[1].part==pose.type.p3)){
+      drawSegment(
+        toTuple(keypoints[0].position),
+        toTuple(keypoints[1].position),
+        colorImportant,
+        scale,
+        ctx
+      );
+    }
+    else if((keypoints[1].part==pose.type.p2&&keypoints[0].part==pose.type.p3)){
+      drawSegment(
+        toTuple(keypoints[0].position),
+        toTuple(keypoints[1].position),
+        colorImportant,
+        scale,
+        ctx
+      );
+    }
     else
       drawSegment(
         toTuple(keypoints[0].position),

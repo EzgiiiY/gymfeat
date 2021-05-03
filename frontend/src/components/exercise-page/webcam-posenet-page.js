@@ -22,7 +22,7 @@ class WebcamPosenetComponent extends React.Component{
             {
                 var score = -parseInt(server_message) // bittiğinde gösterilecek score
                 var message = this.props.exerciseName + " score: " + score + "\n";
-                this.props.addMessage(message);
+                //this.props.addMessage(message);
                 this.props.goForward();
             }
             else
@@ -57,7 +57,7 @@ class WebcamPosenetComponent extends React.Component{
 
           // Make Estimation
           const pose = await posenet_model.estimateSinglePose(video);
-          console.log("pose: ", pose);
+          console.log('type')
           var pose1 = {
               pose:pose,
               type:this.props.type,
@@ -66,7 +66,7 @@ class WebcamPosenetComponent extends React.Component{
           if (this.websocket.readyState === WebSocket.OPEN) {
             // if websocket is ready to send, turn the pose object into string and send the corresponding string to the python file
 
-            pose["type"] = this.props.type
+            pose["type"] = this.props.type['Label']
             pose["repetition"] = this.props.totalRepetitionCount
 
 

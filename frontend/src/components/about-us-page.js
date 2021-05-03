@@ -3,6 +3,7 @@ import { Card, Col, Row, Button, List } from 'antd';
 import {GithubOutlined, LinkedinOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 import gonca from '../icons/our_pics/IMG_2224.png'
+import talha from '../icons/our_pics/talha.jpeg'
 import './about-us-page.css'
 
 export default class AboutUsPage extends Component {
@@ -13,30 +14,11 @@ export default class AboutUsPage extends Component {
             <List>
                 <List.Item>
                 <Row justify="space-around">
-                <Col span={4}>
-                    <Card title="Ravan Aliyev" cover={
-                    <img
-                        alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                    />
-                    }
-                    actions={[
-                        <Button onClick={()=>window.open('', '_blank')}
-                        icon={<GithubOutlined/>}/>,
-                        <Button onClick={()=>window.open('' , '_blank')}
-                        icon={<LinkedinOutlined/>}/>,
-                    ]}
-                    bordered={false}>
-                    Hello! I took part in .... 
-                    I love ...
-                    You can add me on Github, or Linkedin.
-                    </Card>
-                </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Talha Burak Çuhadar" cover={
                     <img
                         alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        src={talha}
                     />
                     } 
                     actions={[
@@ -46,12 +28,12 @@ export default class AboutUsPage extends Component {
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
-                    Hello! I took part in .... 
-                    I love ...
+                    Hello! I was responsible for the backend.
+                    I enjoy building backend server and overall coding.
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Mustafa Çağrı Güngör" cover={
                     <img
                         alt="example"
@@ -65,12 +47,12 @@ export default class AboutUsPage extends Component {
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
-                    Hello! I took part in .... 
-                    I love ...
+                    Hello! I took part in the ML part of the project.
+                    I am interested in Computer Vision topics.
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Ezgi Yavuz" cover={
                     <img
                         alt="example"
@@ -84,12 +66,12 @@ export default class AboutUsPage extends Component {
                         icon={<LinkedinOutlined/>}/>,
                     ]}
                     bordered={false}>
-                    Hello! I took part in .... 
-                    I love ...
+                    Hello! I took part in the frontend part of the project.
+                    I love coding with React js.
                     You can add me on Github, or Linkedin.
                     </Card>
                 </Col>
-                <Col span={4}>
+                <Col span={5}>
                     <Card title="Gonca Yılmaz" cover={
                     <img
                         alt="example"

@@ -6,7 +6,7 @@
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Leg Lunges","Start":120,"Finish":123,"Label":1,"p1":"rightAnkle", "p2":"rightKnee", "p3":"rightHip","angle":90},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Left Leg Lunges","Start":136,"Finish":140,"Label":2,"p1":"leftHip", "p2":"leftKnee", "p3":"leftAnkle","angle":90},
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Twist","Start":396,"Finish":402,"Label":8,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
-      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":70},
+      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":100},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Side Lunges","Start":301,"Finish":306,"Label":3,"p1":"leftAnkle", "p2":"leftKnee", "p3":"leftHip","angle":110},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Left Side Lunges","Start":269,"Finish":273,"Label":4,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Regular Crunch","Start":55,"Finish":61,"Label":5,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
@@ -25,7 +25,7 @@
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Side Lunges","Start":301,"Finish":306,"Label":3,"p1":"leftAnkle", "p2":"leftKnee", "p3":"leftHip","angle":110},
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Leg Raise Crunch","Start":117,"Finish":121,"Label":6,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Leg Lift","Start":249,"Finish":258,"Label":7,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
-      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":70},
+      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":100},
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Twist","Start":396,"Finish":402,"Label":8,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110}
     ]
   },
@@ -33,7 +33,7 @@
     "length": 9,
     "id":3,
     "exerciseList": [
-      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":70},
+      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":100},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Leg Lunges","Start":120,"Finish":123,"Label":1,"p1":"rightAnkle", "p2":"rightKnee", "p3":"rightHip","angle":90},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Left Leg Lunges","Start":136,"Finish":140,"Label":2,"p1":"leftHip", "p2":"leftKnee", "p3":"leftAnkle","angle":90},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Side Lunges","Start":301,"Finish":306,"Label":3,"p1":"leftAnkle", "p2":"leftKnee", "p3":"leftHip","angle":110},
@@ -54,7 +54,7 @@
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Leg Raise Crunch","Start":117,"Finish":121,"Label":6,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Leg Lift","Start":249,"Finish":258,"Label":7,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
       {"Link":"https:\/\/www.youtube.com\/watch?v=svdPTfOpAyQ","Name":"Twist","Start":396,"Finish":402,"Label":8,"p1":"rightHip", "p2":"rightKnee", "p3":"rightAnkle","angle":110},
-      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":70},
+      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":100},
     {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Leg Lunges","Start":120,"Finish":123,"Label":1,"p1":"rightAnkle", "p2":"rightKnee", "p3":"rightHip","angle":90},
     {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Left Leg Lunges","Start":136,"Finish":140,"Label":2,"p1":"leftHip", "p2":"leftKnee", "p3":"leftAnkle","angle":90}
     ]
@@ -63,7 +63,7 @@
     "length": 9,
     "id":5,    
     "exerciseList": [
-      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":70},
+      {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Squat","Start":86,"Finish":90,"Label":0,"p1":"rightShoulder", "p2":"rightHip", "p3":"rightKnee","angle":100},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Leg Lunges","Start":120,"Finish":123,"Label":1,"p1":"rightAnkle", "p2":"rightKnee", "p3":"rightHip","angle":90},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Left Leg Lunges","Start":136,"Finish":140,"Label":2,"p1":"leftHip", "p2":"leftKnee", "p3":"leftAnkle","angle":90},
       {"Link":"https:\/\/www.youtube.com\/watch?v=zbt1g9WX6bA","Name":"Right Side Lunges","Start":301,"Finish":306,"Label":3,"p1":"leftAnkle", "p2":"leftKnee", "p3":"leftHip","angle":110},

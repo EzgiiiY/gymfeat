@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import moment from 'moment';
+
 import {
   Form,
   Input,
@@ -11,7 +13,7 @@ import {
   Col,
   Button,
   DatePicker,
-  message
+  message,Modal
 } from 'antd';
 import history from '../../history'; // added
 import { API, graphqlOperation } from 'aws-amplify';
@@ -71,7 +73,7 @@ class SignUp extends Component {
       height:0,
       weight:0,
       gender:"",
-      password:""
+      password:"",
     }
     this.setDate = this.setDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -80,7 +82,6 @@ class SignUp extends Component {
     this.handleCurWorkoutFreqSelect = this.handleCurWorkoutFreqSelect.bind(this);
 
   }
-
 
   onSubmit = async formValues => {
     // this.props.register(formValues, "employee");  
@@ -142,6 +143,20 @@ class SignUp extends Component {
     message.info(`Selected Date: ${value ? value.format('YYYY-MM-DD') : 'None'}`);
 
     console.log(value)
+    let now = moment().format("YYYY");
+
+    console.log(parseInt(now));
+    let age = now - parseInt(value.format("YYYY"))
+    if(age<18||age>65){
+      Modal.warning({
+        title: "Caution!",
+        content: "Body Mass Index (BMI) is calculated based on adults. Seek your doctor's advice before using.",
+        onOk() {
+            Modal.destroyAll();
+        },
+      });
+    }
+    console.log(age);
     this.setDate(value.format('YYYY-MM-DD'));
     console.log("Date: " + this.state.date);
   };
@@ -348,24 +363,6 @@ class SignUp extends Component {
             </Form.Item>
 
           </Form>}
-          
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.addtoDB()}>
-                add sth to db
-          </Button>
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.getFromDB()}>
-                get from db
-          </Button>
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.updateInDB()}>
-                update in db
-          </Button>
-
-          <Button style={{float:"right"}} type="primary" onClick={(e) => this.deleteInDB()}>
-                delete in db
-          </Button>
-
         </Col>
       </div>
     );
